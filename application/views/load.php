@@ -34,10 +34,8 @@
                                     <thead class="bg-primary">
                                         <tr><th>Sr.</th>  
                                             <th>Load Name</th>
-                                            <th>Route</th>
                                             <th>Consignor Name</th>
-                                            <th>Distance</th>
-                                            <th>Freight</th>
+                                            <th>action</th>
                                         </tr>
                                     </thead>
                                     
@@ -60,40 +58,6 @@
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="load">Load name</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input type="text" name="load_name" class="form-control" autofocus="autofocus">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="route">Route</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <select class="c-select form-control" name="route_id">
-                                                    <option selected>select route</option>
-                                                      <?php 
-                                                        $route= fetch_route($this);
-                                                        foreach ($route as $value) {
-                                                            echo'
-                                                                <option value="'.$value->route_id.'">'.$value->route_origin.'-'.$value->route_destination.'</option>
-                                                            ';
-                                                        }
-                                                      ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                       
-                                        <div class="col-md-2">
-                                            <div class="form-group">
                                                 <label for="consignor">consignor</label>
                                             </div>
                                         </div>
@@ -112,18 +76,39 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    
-                                       
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="freight">Freight</label>
+                                                <label for="load">Load name</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                 <input type="text" name="freight" class="form-control" autofocus="autofocus">
+                                                <input type="text" name="load_name" class="form-control" autofocus="autofocus">
                                             </div>
                                         </div>
+                                        <!-- <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="route">Route</label>
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select class="c-select form-control" name="route_id">
+                                                    <option selected>select route</option>
+                                                      <?php /*
+                                                        $route= fetch_route($this);
+                                                        foreach ($route as $value) {
+                                                            echo'
+                                                                <option value="'.$value->route_id.'">'.$value->route_origin.'-'.$value->route_destination.'</option>
+                                                            ';
+                                                        }*/
+                                                      ?>
+                                                </select>
+                                            </div>
+                                        </div> -->
+                                    
+                                       
+                                        
                                     </div>
                                     
                                     

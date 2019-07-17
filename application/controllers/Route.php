@@ -17,7 +17,7 @@ class Route extends CI_Controller {
 					<td>'.$value->route_distance.' Km</td>
 					
 					<td>
-                     <a href="#modal-id" data-toggle="modal" class="btn btn-danger fa fa-trash" id="update_freight_btn" value="'.$value->route_id.'"></a>
+                     <a class="btn btn-danger fa fa-trash" id="delete_route_btn" value="'.$value->route_id.'"></a>
                     </td>
 				</tr>
 			';
@@ -25,6 +25,17 @@ class Route extends CI_Controller {
 	}
 
 
+	public function delete_route()
+	{
+		$route = $this->input->get('route_id');
+		if ($this->routes_model->delete_route($route)) {
+			echo 1;
+		}else{
+			echo 0;
+		}
+	}
+
+	
 	public function add_route(){
 		$post = $this->input->post();
 		

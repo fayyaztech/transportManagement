@@ -47,11 +47,8 @@
                                  <th>Sr No.</th>
                                 <th>Name</th>
                                 <th>Status</th>
-                                <th>Latest Trip</th>
-                                <th>Trip Duration</th>
-                                <th>Truck Name</th>
-                                <th>Total Trips</th>
-                                <th>Last Incentive</th>
+                                <th>Contact</th>
+                                <th>Address</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>

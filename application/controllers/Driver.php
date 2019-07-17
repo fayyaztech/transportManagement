@@ -8,41 +8,22 @@ class Driver extends CI_Controller {
 		$count=1;
 		$driver_data = $this->driver_model->driverManagement();
 		foreach ($driver_data as $value) {
-			$driverData = $this->driver_model->get_driver_records($value->driver_id);
-			// print_r($driverData);
-			$trip_duration = "";
-			$route = "";
-			// $trip_incentive = 0;
-			if (!empty($driverData->vehicle_number)) {
-				$vehicleNum = $driverData->vehicle_number;
-				$route = $driverData->route_origin."->".$driverData->route_destination;
-			}else{
-				$vehicleNum = "";
-			}
-
-			if (!empty($driverData->trip_stop_date)) {
-				$trip_duration = dateDifferenceInDay($driverData->trip_start_date,$driverData->trip_stop_date);
-				// $trip_intensive = 
-			}
 			if ($value->driver_running_status == 1) {
 				$status = '<span class="label label-danger">On Trip</span>';
 			}else{
 				$status = '<span class="label label-success">Available</span>';
 			}
 
-			$total_trips = $this->driver_model->driver_trip_count($value->driver_id);
 			echo '<tr>
 			 <td>'.$count++.'</td>
                                 <td>'.$value->driver_name.'</td>
                                 <td>'.$status.'</td>
-                                <td>'.$route.'</td>
-                                <td>'.$trip_duration.'</td>
-                                <td>'.$vehicleNum.'</td>
-                                <td>'.$total_trips.'</td>
-                                <td>'.$driverData->incentive.'</td>
+                                <td>'.$value->driver_number.'</td>
+                                <td>'.$value->driver_residential_address.'</td>
+
                                 <td value="'.$value->driver_id.'">
-                                    <button id="update_driver1" class="btn btn-info
-                                    fa fa-edit" ></button>
+                                <button id="update_driver1" class="btn btn-info fa fa-user" ></button>
+                                    <button id="update_driver1" class="btn btn-info fa fa-edit" ></button>
                                     <button class="btn btn-success fa fa-money"></button>
                                     <button class="btn btn-danger fa fa-trash" href="#del_user" data-toggle="modal"></button>
                                 </td>

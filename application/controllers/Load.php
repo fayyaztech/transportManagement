@@ -12,10 +12,9 @@ class Load extends CI_Controller {
 				<tr>
 					<td>'.$count++.'</td>
 					<td>'.$value->load_name.'</td>
-					<td>'.$value->route_origin.'-'.$value->route_destination.'</td>
 					<td>'.$value->consignor_name.'</td>
-					<td>'.$value->route_distance.' Km</td>
-					<td>'.$value->freight.'</a>
+					<td>
+						<span class="btn btn-danger fa fa-trash"></span>
                     </td>
 				</tr>
 			';
@@ -27,10 +26,7 @@ class Load extends CI_Controller {
 		
 		$validation = array(
 			array('field'=>"load_name", 'rules'=>'required'),
-			array('field'=>"consignor_id", 'rules'=>'required'),
-			array('field'=>"route_id", 'rules'=>'required'),
-			array('field'=>"freight", 'rules'=>'required'),
-
+			array('field'=>"consignor_id", 'rules'=>'required')
 		);
 		$this->load->library('form_validation', $validation);
 		

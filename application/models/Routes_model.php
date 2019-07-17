@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Routes_model extends CI_Model {
 
+	public function delete_route($id)
+	{
+		$this->db->where('route_id', $id);
+		if ($this->db->delete('routes')) {
+			return true;
+		}
+	}
+
 		public function add_route($data){
 		
 		if($this->db->insert('routes',['route_origin'=>$data['route_origin'],'route_destination'=>$data['route_destination'],'route_distance'=>$data['route_distance']])){

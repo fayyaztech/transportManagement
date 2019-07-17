@@ -25,15 +25,19 @@ $("#add_route").click(function(event) {
     })
 });
 
-$(document).on('click',"#update_freight_btn",function(event) {
-	var route_id = $(this).attr('value');
-    $.ajax({
-        url: url + "route/fetch_update_freight_form?route_id="+route_id,
-        method: "POST",
-        success: function(data) {
-            $('#route').html(data);
-        }
-    })
+$(document).on('click',"#delete_route_btn",function(event) {
+    var conf = confirm("Do you really want to delete this route ??");
+    if (conf == true) {
+	   var route_id = $(this).attr('value');
+        $.get(url+'route/delete_route?route_id='+route_id, function(data) {
+            if (data == "1") {
+                location.reload();
+            }else{
+                alert("failed to delete route");
+            }
+        });
+    }
+   
 });
 
 // $(document).on('change','#client_id',function(event){
