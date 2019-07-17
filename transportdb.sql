@@ -1,10 +1,9 @@
--- database updated 1.5
 -- phpMyAdmin SQL Dump
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 12, 2019 at 12:24 PM
+-- Generation Time: Jul 17, 2019 at 09:44 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.2.12
 
@@ -32,6 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `advances` (
   `advance_id` int(11) NOT NULL,
   `trip_id` int(11) NOT NULL,
+  `advance_date` date NOT NULL,
   `advance_amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -231,36 +231,15 @@ INSERT INTO `expenses_type` (`ep_id`, `ep_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `freight_rate`
+-- Table structure for table `freights`
 --
 
-CREATE TABLE `freight_rate` (
+CREATE TABLE `freights` (
   `freight_id` int(11) NOT NULL,
-  `route_id` int(11) NOT NULL,
-  `freight_affect_date` date NOT NULL,
-  `freight_rate` int(11) NOT NULL,
-  `freight_cmvr` int(11) NOT NULL,
-  `freight_status` int(11) NOT NULL DEFAULT '1',
-  `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `load_id` int(11) NOT NULL,
+  `freight_effected_date` date DEFAULT NULL,
+  `freight` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `freight_rate`
---
-
-INSERT INTO `freight_rate` (`freight_id`, `route_id`, `freight_affect_date`, `freight_rate`, `freight_cmvr`, `freight_status`, `time_stamp`) VALUES
-(1, 1, '2019-03-04', 34, 45, 0, '2019-03-04 11:55:39'),
-(2, 1, '2019-03-05', 20, 45, 0, '2019-03-05 06:20:25'),
-(3, 2, '2019-03-04', 45, 65, 0, '2019-03-05 06:32:35'),
-(4, 2, '2019-03-04', 43, 65, 1, '2019-03-05 06:32:53'),
-(5, 1, '2019-03-04', 41, 65, 1, '2019-03-05 06:33:26'),
-(6, 3, '2019-03-06', 43, 52, 0, '2019-03-06 06:58:40'),
-(7, 3, '2019-03-15', 40, 50, 0, '2019-03-06 07:53:29'),
-(8, 3, '2019-03-12', 40, 50, 0, '2019-03-12 09:17:52'),
-(9, 3, '2019-03-03', 43, 50, 1, '2019-03-12 09:23:38'),
-(10, 4, '2019-03-19', 46, 47, 0, '2019-03-19 10:06:15'),
-(11, 4, '2019-03-19', 47, 47, 1, '2019-03-19 10:14:09'),
-(12, 6, '0000-00-00', 0, 0, 1, '2019-07-04 08:16:54');
 
 -- --------------------------------------------------------
 
@@ -293,8 +272,7 @@ CREATE TABLE `load_type` (
   `load_id` int(11) NOT NULL,
   `load_name` varchar(10) NOT NULL,
   `route_id` int(11) NOT NULL,
-  `consignor_id` int(11) NOT NULL,
-  `frieght` double NOT NULL
+  `consignor_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -598,11 +576,10 @@ ALTER TABLE `expenses_type`
   ADD PRIMARY KEY (`ep_id`);
 
 --
--- Indexes for table `freight_rate`
+-- Indexes for table `freights`
 --
-ALTER TABLE `freight_rate`
-  ADD PRIMARY KEY (`freight_id`),
-  ADD KEY `route_id` (`route_id`);
+ALTER TABLE `freights`
+  ADD PRIMARY KEY (`freight_id`);
 
 --
 -- Indexes for table `identity_doc`
@@ -721,10 +698,10 @@ ALTER TABLE `expenses_type`
   MODIFY `ep_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `freight_rate`
+-- AUTO_INCREMENT for table `freights`
 --
-ALTER TABLE `freight_rate`
-  MODIFY `freight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+ALTER TABLE `freights`
+  MODIFY `freight_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `identity_doc`
