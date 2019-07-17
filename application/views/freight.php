@@ -14,44 +14,44 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active">
-                        <a href="#load_list" aria-controls="home" role="tab" data-toggle="tab">Freights</a>
+                        <a href="#freight_list" aria-controls="home" role="tab" data-toggle="tab">Freights</a>
                     </li>
                     <li role="presentation">
-                        <a href="#add_load" aria-controls="tab" role="tab" data-toggle="tab">Add Freight Add/upload</a>
+                        <a href="#add_freight" aria-controls="tab" role="tab" data-toggle="tab">Add Freight Add/upfreight</a>
                     </li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="load_list">
+                    <div role="tabpanel" class="tab-pane active" id="freight_list">
                         
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead class="bg-primary">
                                         <tr><th>Sr.</th>  
-                                            <th>Load</th>
+                                            <th>freight</th>
                                             <th>Consignor Name</th>
                                             <th>route</th>
                                             <th>current Rate</th>
                                         </tr>
                                     </thead>
                                     
-                                    <tbody id="load_info">
+                                    <tbody id="freight_info">
                                         
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="add_load" >
-                    <form action="javascript:void();" method="Post" id="add_load_submit"accept-charset="utf-8">
+                    <div role="tabpanel" class="tab-pane" id="add_freight" >
+                    <form action="javascript:void();" method="Post" id="add_freight_submit"accept-charset="utf-8">
                             <div class="panel">
                                 <div class="panel-heading bg-primary">
-                                    <h3 class="text-center">Add Load</h3>
+                                    <h3 class="text-center">Add freight</h3>
                                 </div>
                                 <div class="panel-body">
                                     
-                                   
+                                   <a href="<?php echo base_url(); ?>freight/download_excel_sample"> Download Sample Excle</a>
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="form-group">
@@ -75,37 +75,14 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label for="load">Load name</label>
+                                                <label for="freight">freight name</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input type="text" name="load_name" class="form-control" autofocus="autofocus">
+                                                <input type="text" name="freight_name" class="form-control" autofocus="autofocus">
                                             </div>
-                                        </div>
-                                        <!-- <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="route">Route</label>
-                                            </div>
-                                        </div> -->
-                                        <!-- <div class="col-md-4">
-                                            <div class="form-group">
-                                                <select class="c-select form-control" name="route_id">
-                                                    <option selected>select route</option>
-                                                      <?php /*
-                                                        $route= fetch_route($this);
-                                                        foreach ($route as $value) {
-                                                            echo'
-                                                                <option value="'.$value->route_id.'">'.$value->route_origin.'-'.$value->route_destination.'</option>
-                                                            ';
-                                                        }*/
-                                                      ?>
-                                                </select>
-                                            </div>
-                                        </div> -->
-                                    
-                                       
-                                        
+                                        </div>                                        
                                     </div>
                                     
                                     
