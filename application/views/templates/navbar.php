@@ -124,13 +124,19 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php echo base_url('operations/route_management'); ?>"><i class="fa fa-edit fa-fw"></i> Routes Management</a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url('operations/load_management'); ?>">
                                 <i class="fa fa-edit fa-fw"></i> 
                                 Load Management
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/route_management'); ?>"><i class="fa fa-edit fa-fw"></i> Routes Management</a>
+                            <a href="<?php echo base_url('operations/freight_management'); ?>">
+                                <i class="fa fa-edit fa-fw"></i> 
+                                Freight Management
+                            </a>
                         </li>
 
                         <li>
