@@ -16,3 +16,6 @@ this is transport management system
 4. route management
 	1. add route
 	2. route operations(edit/delete)
+5. load management
+	1. add load
+	2. manage Loads
