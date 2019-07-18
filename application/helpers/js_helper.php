@@ -16,6 +16,9 @@ function load_js($page)
 		case 'driver':
 			make_js($page,1.0);
 			break;
+		case 'freight':
+			make_js($page,1.0);
+			break;
 		case 'maintenance':
 			make_js($page,1.0);
 			break;
