@@ -13,3 +13,6 @@ this is transport management system
 3. vehicle maintainance 
 	1. tire maintance 
 	2. oil maintainince 
+4. route management
+	1. add route
+	2. route operations(edit/delete)
