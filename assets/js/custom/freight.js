@@ -14,3 +14,4 @@ $("#submit_btn").click(function(event) {
 	$("#download_link").trigger('click');
 
 });
+
