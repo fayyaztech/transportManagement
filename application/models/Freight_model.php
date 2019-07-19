@@ -28,9 +28,18 @@ class Freight_model extends CI_Model
     {
         $data = ['route_origin' => $origin, "route_destination" => $destination, "route_distance" => $km];
         $this->db->where($data);
-        $id = $this->db->get('routes')->row()->route_id;
+        
+        $query = $this->db->get('routes');
+
+        if ($query->num_rows() == 0) {
+            $id = "";
+        } else {
+            $id = $query->row()->route_id;
+        }
+
         if (empty($id)) {
             $this->db->insert('routes', $data);
+            echo custom_log("new route added ".implode(" ", $data));
             return $this->db->insert_id();
         } else {
             return $id;
@@ -62,12 +71,17 @@ class Freight_model extends CI_Model
 
     public function insert_new_load($new_freights)
     {
-        echo $date = date("d-m-Y", strtotime($new_freights['freight_effected_date']));
-        // $query = "INSERT IGNORE INTO freights (load_routes_id,freight_effected_date,freight) VALUE (" . $new_freights['load_routes_id'] . "," . $date . "," . $new_freights['freight'] . ")";
-        $query = $this->db->insert_string('freights', $new_freights);
-        $query = str_replace('INSERT INTO', 'INSERT IGNORE INTO', $query);
-        echo $query;
-        $this->db->query($query);
+    
+        $this->db->where($new_freights);
+        if ($this->db->get('freights')->num_rows() == 0) {
+            $query = $this->db->insert('freights', $new_freights);
+               $status = "new freight rate updated for ";
+        }else{
+            $status = "freight alreday exist for same date and value ";
+        }
+
+        custom_log($status.implode(" ",$new_freights));
+        
     }
 
 }
