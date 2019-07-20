@@ -129,8 +129,6 @@ foreach ($consignor as $value) {
 
 
                         </div>
-                        <a href="<?php echo base_url(); ?>freight/download_excel_sample" id="link"> Download Sample
-                            Excle</a>
                     </div>
 
                 </div>
