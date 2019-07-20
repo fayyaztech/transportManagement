@@ -125,15 +125,15 @@
                 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
-                            <thead class="bg-primary">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead class="bg-primary text-center">
                                 <tr>
-                                    <th>Vehicle</th>
-                                    <th>Vehicle status</th>
-                                    <th>Current Km</th>
-                                    <th>Route</th>
-                                    <th>Driver</th>
-                                    <th>Action</th>
+                                    <th class="text-center">Vehicle</th>
+                                    <th class="text-center">Vehicle status</th>
+                                    <th class="text-center">completed Kms</th>
+                                    <th class="text-center">Route</th>
+                                    <th class="text-center">Driver</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             
@@ -145,8 +145,8 @@
                                 $route = "--";
                                 $driver = "--";
                                 $last_trip = "--";
-                                // print_r($exra_data);
-                                if ($value->vehicle_status == 2) {
+                                
+                                if (!empty($exra_data) && $value->vehicle_status == 2) {
                                         $status = '<span class="label label-danger">On Trip</span>';
                                         $route = $exra_data->route_origin." to ".$exra_data->route_destination;
                                         $driver = $exra_data->driver_name;

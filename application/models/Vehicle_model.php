@@ -20,6 +20,7 @@ class Vehicle_model extends CI_Model {
 	public function get_vehicle_details()
 	{
 		$this->db->select('vehicle.vehicle_id,vehicle.vehicle_number,vehicle.vehicle_current_reading,vehicle.vehicle_status');
+		$this->db->where('vehicle_status<>', 0);
 		$query = $this->db->get('vehicle');
 		return $query->result();
 	}

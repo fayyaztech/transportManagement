@@ -125,7 +125,7 @@
 		$ctx->db->select('trip.*');
 	    // 
 		 $ctx->db->select('route.route_id,route.route_origin,route.route_destination,route.route_distance');
-		 $ctx->db->select('load_type.load_name,trip_details.route_id,trip_details.trip_id,trip_details.trip_start_date,trip_details.trip_status,trip_details.trip_detail_freight,trip_detail_freight,consignee_name,trip_stop_date');
+		 $ctx->db->select('loads.load_name,trip_details.route_id,trip_details.trip_id,trip_details.trip_start_date,trip_details.trip_status,trip_details.trip_detail_freight,consignee_name,trip_stop_date');
 			$ctx->db->select('driver.driver_name');
 		 	 $ctx->db->select('consignors.consignor_name');
 		 	 $ctx->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
@@ -133,7 +133,7 @@
 			 $ctx->db->join('routes as route', 'trip_details.route_id = route.route_id', 'left');
 			 $ctx->db->join('consignors','trip.consignor_id =consignors.consignor_id');
 			 $ctx->db->join('vehicle', 'trip.vehicle_id= vehicle.vehicle_id', 'left');
-			 $ctx->db->join("load_type",'trip_details.load_id = load_type.load_id','left');
+			 $ctx->db->join("loads",'trip_details.load_id = loads.load_id','left');
 			 $ctx->db->join('driver','trip_details.driver_id = driver.driver_id');
 			 $ctx->db->join('consignees','trip.consignee_id = consignees.consignee_id','left');
 	    	 $ctx->db->from('trip');
@@ -159,7 +159,7 @@
 
 	function fetch_load($ctx){
 		
-		$query = $ctx->db->get('load_type');
+		$query = $ctx->db->get('loads');
 		return $query->result();
 	}
 

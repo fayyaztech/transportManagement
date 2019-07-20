@@ -147,6 +147,7 @@
                                                    <option value="">select truck</option>
 
                                                     <?php   
+                                                    print_r(fetch_vehicle_list($this));
                                                     if(!empty(fetch_vehicle_list($this)))
                                                     {
                                                     foreach (fetch_vehicle_list($this) as $value)
@@ -173,7 +174,7 @@
                                                     <?php
                                                     // $data = fetch_driver($this,0);
                                                     // print_r($data);
-                                                    foreach (fetch_driver($this,0) as $value)
+                                                    foreach (fetch_driver($this,1) as $value)
                                                     {
                                                     echo '<option value="'.$value->driver_id.'">'.$value->driver_name.'</option>';
                                                     }
@@ -239,7 +240,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <input type="text" name="freight" class="form-control" placeholder="freight"  autofocus="autofocus">
+                                                       <input type="text" name="trip_detail_freight" class="form-control" placeholder="freight"  autofocus="autofocus">
                                                     </div>
                                                 </div>
                                             </div>

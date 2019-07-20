@@ -222,7 +222,7 @@ $(document).on('click',"#step_trip",function(event) {
                     {
                         alert(resp.msg);
                         $('#modal-id').modal('hide');
-                        load_trip_data();
+                        location.reload();
                     }
                     else
                     {
