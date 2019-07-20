@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Freight_model extends CI_Model
 {
+    public function getConsignorNameById($consignor_id)
 
     public function get_loads($consignor_id)
     {
