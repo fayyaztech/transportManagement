@@ -618,14 +618,14 @@ CREATE TABLE `trip_details` (
   `trip_status` int(11) NOT NULL,
   `trip_start_date` date NOT NULL,
   `trip_stop_date` date NOT NULL,
-  `trip_detail_frieght` double NOT NULL
+  `trip_detail_freight` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_details`
 --
 
-INSERT INTO `trip_details` (`trip_details_id`, `trip_id`, `load_id`, `driver_id`, `route_id`, `trip_status`, `trip_start_date`, `trip_stop_date`, `trip_detail_frieght`) VALUES
+INSERT INTO `trip_details` (`trip_details_id`, `trip_id`, `load_id`, `driver_id`, `route_id`, `trip_status`, `trip_start_date`, `trip_stop_date`, `trip_detail_freight`) VALUES
 (3, 4, 1, 2, 1, 2, '2019-07-01', '0000-00-00', 0),
 (5, 4, 0, 2, 8, 0, '2019-07-10', '0000-00-00', 0),
 (6, 6, 2, 3, 4, 2, '2019-03-13', '0000-00-00', 0);
