@@ -69,8 +69,7 @@ $consignor = fetch_consignor($this);
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <select class="c-select form-control" name="consignor_id" required=""
-                                                    id="consignor">
+                                                <select class="c-select form-control" name="consignor_id" required="">
                                                     <option value="">select Consignor</option>
                                                     <?php
 foreach ($consignor as $value) {
@@ -97,7 +96,7 @@ foreach ($consignor as $value) {
 
                             <!-- download file form ------------------------------------------------ -->
                             <div class="panel-body">
-                                <form action="javascript:void();" method="Post" id="add_freight_submit"
+                                <form action="<?php echo base_url()?>freight/download_excel_sample" method="get" id="add_freight_submit"
                                     accept-charset="utf-8">
                                     <h3>Download data file</h3>
                                     <div class="row">
@@ -109,8 +108,8 @@ foreach ($consignor as $value) {
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <select class="c-select form-control" name="consignor_id" required=""
-                                                    id="consignor">
-                                                    <option selected>select Consignor</option>
+                                                    id="consignor_id">
+                                                    <option value="">select Consignor</option>
                                                     <?php
 foreach ($consignor as $value) {
     echo '
