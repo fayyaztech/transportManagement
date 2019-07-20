@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 17, 2019 at 09:44 AM
+-- Generation Time: Jul 20, 2019 at 09:52 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.2.12
 
@@ -69,7 +69,8 @@ CREATE TABLE `consignees` (
 --
 
 INSERT INTO `consignees` (`consignee_id`, `consignor_id`, `consignee_name`, `consignee_contact`, `consignee_address`, `consignee_pin_code`, `consignee_city`, `consignee_state`) VALUES
-(1, 1, 'bajaj consignee', '89875874389', '7837248327hji', 554637, 'HUH', 'U');
+(1, 1, 'bajaj consignee', '89875874389', '7837248327hji', 554637, 'HUH', 'U'),
+(2, 2, 'salman Shaikh', '94262525261', 'Mumbai', 431001, 'mumbai', 'Maharashtra');
 
 -- --------------------------------------------------------
 
@@ -92,7 +93,8 @@ CREATE TABLE `consignors` (
 --
 
 INSERT INTO `consignors` (`consignor_id`, `consignor_name`, `consignor_contact`, `consignor_address`, `consignor_pin_code`, `consignor_city`, `consignor_state`) VALUES
-(1, 'bajaj Auto', '78743875', 'aurangabad', 10024, 'aurangabad', 'aurangabad');
+(1, 'bajaj Auto', '78743875', 'aurangabad', 10024, 'aurangabad', 'aurangabad'),
+(2, 'Sublime technologies', '855286242', 'Aurangabad', 431005, 'Aurangabad', 'Maharashtra');
 
 -- --------------------------------------------------------
 
@@ -236,10 +238,140 @@ INSERT INTO `expenses_type` (`ep_id`, `ep_name`) VALUES
 
 CREATE TABLE `freights` (
   `freight_id` int(11) NOT NULL,
-  `load_id` int(11) NOT NULL,
+  `load_routes_id` int(11) NOT NULL,
   `freight_effected_date` date DEFAULT NULL,
   `freight` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `freights`
+--
+
+INSERT INTO `freights` (`freight_id`, `load_routes_id`, `freight_effected_date`, `freight`) VALUES
+(310, 15, '2019-07-17', 90000),
+(311, 16, '2019-07-17', 60000),
+(312, 17, '2018-07-17', 120000),
+(313, 18, '2018-07-17', 80000),
+(314, 19, '2017-07-17', 105000),
+(315, 20, '2017-07-17', 70000),
+(316, 21, '2016-07-17', 90000),
+(317, 22, '2016-07-17', 60000),
+(318, 23, '2015-07-17', 120000),
+(319, 24, '2015-07-17', 80000),
+(320, 25, '2014-07-17', 102000),
+(321, 26, '2014-07-17', 68000),
+(322, 15, '2019-07-17', 90000),
+(323, 15, '2019-07-17', 90000),
+(324, 15, '2019-07-17', 90000),
+(325, 16, '2019-07-17', 60000),
+(326, 17, '2018-07-17', 120000),
+(327, 18, '2018-07-17', 80000),
+(328, 19, '2017-07-17', 105000),
+(329, 20, '2017-07-17', 70000),
+(330, 21, '2016-07-17', 90000),
+(331, 22, '2016-07-17', 60000),
+(332, 23, '2015-07-17', 120000),
+(333, 24, '2015-07-17', 80000),
+(334, 25, '2014-07-17', 102000),
+(335, 26, '2014-07-17', 68000),
+(336, 15, '2019-07-17', 90000),
+(337, 16, '2019-07-17', 60000),
+(338, 17, '2018-07-17', 120000),
+(339, 18, '2018-07-17', 80000),
+(340, 19, '2017-07-17', 105000),
+(341, 20, '2017-07-17', 70000),
+(342, 21, '2016-07-17', 90000),
+(343, 22, '2016-07-17', 60000),
+(344, 23, '2015-07-17', 120000),
+(345, 24, '2015-07-17', 80000),
+(346, 25, '2014-07-17', 102000),
+(347, 26, '2014-07-17', 68000),
+(348, 15, '2019-07-17', 90000),
+(349, 15, '2019-07-17', 90000),
+(350, 15, '2019-07-17', 90000),
+(351, 16, '2019-07-17', 60000),
+(352, 17, '2018-07-17', 120000),
+(353, 18, '2018-07-17', 80000),
+(354, 19, '2017-07-17', 105000),
+(355, 20, '2017-07-17', 70000),
+(356, 21, '2016-07-17', 90000),
+(357, 22, '2016-07-17', 60000),
+(358, 23, '2015-07-17', 120000),
+(359, 24, '2015-07-17', 80000),
+(360, 25, '2014-07-17', 102000),
+(361, 26, '2014-07-17', 68000),
+(362, 27, '2019-07-18', 200000),
+(363, 28, '2019-07-18', 170000),
+(364, 15, '2019-07-17', 90000),
+(365, 16, '2019-07-17', 60000),
+(366, 17, '2018-07-17', 120000),
+(367, 18, '2018-07-17', 80000),
+(368, 19, '2017-07-17', 105000),
+(369, 20, '2017-07-17', 70000),
+(370, 21, '2016-07-17', 90000),
+(371, 22, '2016-07-17', 60000),
+(372, 23, '2015-07-17', 120000),
+(373, 24, '2015-07-17', 80000),
+(374, 25, '2014-07-17', 102000),
+(375, 26, '2014-07-17', 68000),
+(376, 27, '2019-07-18', 200000),
+(377, 28, '2019-07-18', 170000),
+(378, 15, '2019-07-17', 90000),
+(379, 16, '2019-07-17', 60000),
+(380, 17, '2018-07-17', 120000),
+(381, 18, '2018-07-17', 80000),
+(382, 19, '2017-07-17', 105000),
+(383, 20, '2017-07-17', 70000),
+(384, 21, '2016-07-17', 90000),
+(385, 22, '2016-07-17', 60000),
+(386, 23, '2015-07-17', 120000),
+(387, 24, '2015-07-17', 80000),
+(388, 25, '2014-07-17', 102000),
+(389, 26, '2014-07-17', 68000),
+(390, 27, '2019-07-18', 200000),
+(391, 28, '2019-07-18', 170000),
+(392, 29, '2019-07-18', 200000),
+(393, 30, '2019-07-18', 170000),
+(394, 15, '2019-07-17', 90000),
+(395, 16, '2019-07-17', 60000),
+(396, 17, '2018-07-17', 120000),
+(397, 18, '2018-07-17', 80000),
+(398, 19, '2017-07-17', 105000),
+(399, 20, '2017-07-17', 70000),
+(400, 21, '2016-07-17', 90000),
+(401, 22, '2016-07-17', 60000),
+(402, 23, '2015-07-17', 120000),
+(403, 24, '2015-07-17', 80000),
+(404, 25, '2014-07-17', 102000),
+(405, 26, '2014-07-17', 68000),
+(406, 27, '2019-07-18', 200000),
+(407, 28, '2019-07-18', 170000),
+(408, 29, '2019-07-18', 200000),
+(409, 30, '2019-07-18', 170000),
+(410, 31, '2019-07-18', 200000),
+(411, 32, '2019-07-18', 150000),
+(412, 15, '2019-07-17', 90000),
+(413, 16, '2019-07-17', 60000),
+(414, 17, '2018-07-17', 120000),
+(415, 18, '2018-07-17', 80000),
+(416, 19, '2017-07-17', 105000),
+(417, 20, '2017-07-17', 70000),
+(418, 21, '2016-07-17', 90000),
+(419, 22, '2016-07-17', 60000),
+(420, 23, '2015-07-17', 120000),
+(421, 24, '2015-07-17', 80000),
+(422, 25, '2014-07-17', 102000),
+(423, 26, '2014-07-17', 68000),
+(424, 27, '2019-07-18', 200000),
+(425, 28, '2019-07-18', 170000),
+(426, 29, '2019-07-18', 200000),
+(427, 30, '2019-07-18', 170000),
+(428, 31, '2019-07-18', 200000),
+(429, 32, '2019-07-18', 150000),
+(430, 33, '2019-07-18', 200000),
+(431, 34, '2019-07-18', 150000),
+(432, 35, '2019-07-18', 20000),
+(433, 36, '2019-07-18', 15000);
 
 -- --------------------------------------------------------
 
@@ -265,15 +397,64 @@ INSERT INTO `identity_doc` (`identity_id`, `id_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `load_type`
+-- Table structure for table `loads`
 --
 
-CREATE TABLE `load_type` (
+CREATE TABLE `loads` (
   `load_id` int(11) NOT NULL,
   `load_name` varchar(10) NOT NULL,
-  `route_id` int(11) NOT NULL,
-  `consignor_id` int(11) NOT NULL
+  `consignor_id` int(11) NOT NULL,
+  `load_status` int(11) NOT NULL COMMENT 'if deleted make is 1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `loads`
+--
+
+INSERT INTO `loads` (`load_id`, `load_name`, `consignor_id`, `load_status`) VALUES
+(1, 'Auto30', 1, 0),
+(2, 'Software10', 2, 0),
+(3, 'Bike52', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `load_routes`
+--
+
+CREATE TABLE `load_routes` (
+  `load_routes_id` int(11) NOT NULL,
+  `load_id` int(11) NOT NULL,
+  `route_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `load_routes`
+--
+
+INSERT INTO `load_routes` (`load_routes_id`, `load_id`, `route_id`) VALUES
+(15, 1, 9),
+(16, 3, 9),
+(17, 1, 10),
+(18, 3, 10),
+(19, 1, 11),
+(20, 3, 11),
+(21, 1, 12),
+(22, 3, 12),
+(23, 1, 13),
+(24, 3, 13),
+(25, 1, 14),
+(26, 3, 14),
+(27, 1, 15),
+(28, 3, 15),
+(29, 1, 16),
+(30, 3, 16),
+(31, 1, 17),
+(32, 3, 17),
+(33, 1, 18),
+(34, 3, 18),
+(35, 1, 19),
+(36, 3, 19);
 
 -- --------------------------------------------------------
 
@@ -325,7 +506,6 @@ CREATE TABLE `routes` (
   `route_id` int(11) NOT NULL,
   `route_origin` varchar(225) NOT NULL,
   `route_destination` varchar(225) NOT NULL,
-  `route_state` varchar(225) NOT NULL,
   `route_distance` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -333,12 +513,18 @@ CREATE TABLE `routes` (
 -- Dumping data for table `routes`
 --
 
-INSERT INTO `routes` (`route_id`, `route_origin`, `route_destination`, `route_state`, `route_distance`) VALUES
-(9, 'waluj', 'chakan', 'Maharashtra', 300),
-(10, 'waluj', 'mumbai', 'Maharashtra', 400),
-(11, 'waluj', 'nasik', 'Maharashtra', 350),
-(12, 'chakan', 'mumbai', 'Maharashtra', 300),
-(13, 'aurangabad (MH)', 'mumbai', '', 400);
+INSERT INTO `routes` (`route_id`, `route_origin`, `route_destination`, `route_distance`) VALUES
+(9, 'waluj', 'chakan', 300),
+(10, 'waluj', 'mumbai', 400),
+(11, 'waluj', 'nasik', 350),
+(12, 'chakan', 'mumbai', 300),
+(13, 'aurangabad (MH)', 'mumbai', 400),
+(14, 'waluj', 'Nagpur', 340),
+(15, 'Buldhana', 'mumbai', 500),
+(16, 'Rajur', 'mumbai', 500),
+(17, 'Jalna', 'mumbai', 500),
+(18, 'Jalna', 'Nagpur', 400),
+(19, 'Jalna', 'Buldhana', 150);
 
 -- --------------------------------------------------------
 
@@ -588,10 +774,16 @@ ALTER TABLE `identity_doc`
   ADD PRIMARY KEY (`identity_id`);
 
 --
--- Indexes for table `load_type`
+-- Indexes for table `loads`
 --
-ALTER TABLE `load_type`
+ALTER TABLE `loads`
   ADD PRIMARY KEY (`load_id`);
+
+--
+-- Indexes for table `load_routes`
+--
+ALTER TABLE `load_routes`
+  ADD PRIMARY KEY (`load_routes_id`);
 
 --
 -- Indexes for table `product_purchase`
@@ -665,13 +857,13 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `consignees`
 --
 ALTER TABLE `consignees`
-  MODIFY `consignee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `consignee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `consignors`
 --
 ALTER TABLE `consignors`
-  MODIFY `consignor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `consignor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `driver`
@@ -701,7 +893,7 @@ ALTER TABLE `expenses_type`
 -- AUTO_INCREMENT for table `freights`
 --
 ALTER TABLE `freights`
-  MODIFY `freight_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `freight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=434;
 
 --
 -- AUTO_INCREMENT for table `identity_doc`
@@ -710,10 +902,16 @@ ALTER TABLE `identity_doc`
   MODIFY `identity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `load_type`
+-- AUTO_INCREMENT for table `loads`
 --
-ALTER TABLE `load_type`
-  MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `loads`
+  MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `load_routes`
+--
+ALTER TABLE `load_routes`
+  MODIFY `load_routes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `product_purchase`
@@ -725,7 +923,7 @@ ALTER TABLE `product_purchase`
 -- AUTO_INCREMENT for table `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `states`
