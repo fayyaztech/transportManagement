@@ -21,3 +21,4 @@ this is transport management system
 	2. manage Loads
 
 6. Freight management 
+	1. download sample excel
