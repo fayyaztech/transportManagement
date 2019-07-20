@@ -4,6 +4,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Freight_model extends CI_Model
 {
     public function getConsignorNameById($consignor_id)
+    {
+        $this->db->where('consignor_id', $consignor_id);
+        return $this->db->get('consignors')->row()->consignor_name;
+    }
 
     public function get_loads($consignor_id)
     {
