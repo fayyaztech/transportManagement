@@ -3,14 +3,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Driver_model extends CI_Model {
 
-	public function update_diver_info($post)
+	public function update_driver_info($post)
 	{
 		$this->db->where('driver_id', $post['driver_id']);
 		if ($this->db->update('driver', $post)) {
 			return true;
+		}else{
+			return false;
 		}
 	}
 
+	public function delete_driver_info($driver_id){
+		
+		$this->db->where('driver_id', $driver_id);
+		if($this->db->update('driver', ['driver_running_status'=>'0']))
+		{
+			return true;
+		}else{
+			return false;
+		}
+	}
 	public function save_diver_info($driver_info)
 	{
 		if ($this->db->insert('driver', $driver_info)) {
@@ -21,25 +33,16 @@ class Driver_model extends CI_Model {
 	}
 	public function fetch_driver_info($driver_id)
 	{
+
 		$this->db->where('driver_id', $driver_id);
 		$query= $this->db->get('driver');
 		return $query->result();
 	}
-	public function update_driver_info($driver_info)
-	{
-		$driver_id = $driver_info['driver_id'];
-		$this->db->where('driver_id', $driver_info['driver_id']);
-		unset($driver_info['driver_id']);
-		$driver_info['driver_form_status'] = 2;
-		if ($this->db->update('driver', $driver_info)) {
-			return true;
-		}else{
-			return false;
-		}
-	}
+	
 
 	public function driverManagement()
 	{
+		$this->db->where('driver_running_status<>',0);
 		$this->db->select('driver.*');
 		$query = $this->db->get('driver');
 		return $query->result();
