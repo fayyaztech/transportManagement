@@ -35,7 +35,7 @@ class Trip_model extends CI_Model
     public function stop_step($data)
     {
         $this->db->where('trip_details_id', $data['trip_step_id']);
-        if ($this->db->update('trip_details', ['trip_stop_date' => $data['trip_stop_date'],"trip_detail_status"=>3])) {
+        if ($this->db->update('trip_details', ['trip_stop_date' => $data['trip_stop_date'], "trip_detail_status" => 3])) {
             return true;
         }
 
@@ -107,8 +107,8 @@ class Trip_model extends CI_Model
         $trip_id = $data['trip_id'];
         unset($data['trip_id']);
         $this->db->where('trip_id', $trip_id);
-        if ($this->db->update('trip',['trip_end_date'=>$stop_date,"trip_status"=>1])) {
-            $this->db->insert('trip_expenses', ['trip_id'=>$trip_id,"trip_expense_name"=>"Extra Expense","trip_expense_amount"=>$data['trip_total_expense']]);
+        if ($this->db->update('trip', ['trip_end_date' => $stop_date, "trip_status" => 1])) {
+            $this->db->insert('trip_expenses', ['trip_id' => $trip_id, "trip_expense_name" => "Extra Expense", "trip_expense_amount" => $data['trip_total_expense']]);
             return true;
         }
     }
