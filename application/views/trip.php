@@ -143,6 +143,7 @@
                                                    <option value="">select truck</option>
 
                                                     <?php   
+
                                                     if(!empty(fetch_vehicle_list($this)))
                                                     {
                                                     foreach (fetch_vehicle_list($this) as $value)

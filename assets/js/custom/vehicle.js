@@ -57,7 +57,7 @@ $(document).on('submit','#update_form',function(event){
 				location.reload();
 			}
 		})
-		delete_record(vehicle_id);
+		
 	} 
 	else 
 	{
@@ -66,23 +66,10 @@ $(document).on('submit','#update_form',function(event){
 		
 });
 
-function delete_record(vehicle_id)
-{
-	$.ajax({
-	url:url+"vehicle/fetch_vehicle_info?vehicle_id="+vehicle_id,
-	method:"POST",
-	success:function(data){
-	$('#modal-1').html(data);
-}
-})
-}	
 
-// End Deliting Vehicle Record //
 
-// Fetching Record For Update //
 
-	var url=$('#url').val();
-	$(document).on('click', '#show_update_vform', function(event){
+$(document).on('click', '#show_update_vform', function(event){
 		var vehicle_id = $(this).parent().attr('value');
 		fetch_record(vehicle_id);
 });
