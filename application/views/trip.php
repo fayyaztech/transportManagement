@@ -120,11 +120,7 @@
                                             <div class="form-group">
                                                 <select name="consignee_id" id="select_consignee" class="form-control" required="required">
                                                     <option value="">select consignee</option>
-                                                    <?php   foreach (fetch_consignee($this) as $value)
-                                                    {
-                                                    echo '<option value="'.$value->consignee_id.'">'.$value->consignee_name.'</option>';
-                                                    }
-                                                    ?>
+                                                    
                                                 </select>
                                             </div>
                                         </div>
@@ -147,7 +143,6 @@
                                                    <option value="">select truck</option>
 
                                                     <?php   
-                                                    print_r(fetch_vehicle_list($this));
                                                     if(!empty(fetch_vehicle_list($this)))
                                                     {
                                                     foreach (fetch_vehicle_list($this) as $value)
@@ -220,14 +215,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <select name="load_id" id="load_id" class="form-control" >
-                                                        <option value="0">Market</option>
-                                                        <?php
-                                                            foreach (fetch_load($this) as $value)
-                                                            {
-                                                                    echo '<option value="'.$value->load_id.'">'.$value->load_name.'</option>';
-                                                            }
-                                                        ?>
+                                                    <select name="load_id" id="loads_by_consignor" class="form-control" >
                                                     </select>
                                                 </div>
                                             </div>
