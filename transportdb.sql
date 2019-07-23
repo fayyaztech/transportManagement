@@ -1,9 +1,9 @@
--- phpMyAdmin SQL Dump.
+-- phpMyAdmin SQL Dump
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 20, 2019 at 09:52 AM
+-- Generation Time: Jul 23, 2019 at 11:35 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.2.12
 
@@ -34,6 +34,17 @@ CREATE TABLE `advances` (
   `advance_date` date NOT NULL,
   `advance_amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `advances`
+--
+
+INSERT INTO `advances` (`advance_id`, `trip_id`, `advance_date`, `advance_amount`) VALUES
+(1, 1, '2019-06-30', 5000),
+(2, 2, '2019-07-01', 1000),
+(3, 2, '2019-07-02', 1000),
+(4, 3, '2019-07-09', 15000),
+(5, 4, '2019-07-01', 1000);
 
 -- --------------------------------------------------------
 
@@ -70,7 +81,10 @@ CREATE TABLE `consignees` (
 
 INSERT INTO `consignees` (`consignee_id`, `consignor_id`, `consignee_name`, `consignee_contact`, `consignee_address`, `consignee_pin_code`, `consignee_city`, `consignee_state`) VALUES
 (1, 1, 'bajaj consignee', '89875874389', '7837248327hji', 554637, 'HUH', 'U'),
-(2, 2, 'salman Shaikh', '94262525261', 'Mumbai', 431001, 'mumbai', 'Maharashtra');
+(2, 2, 'salman Shaikh', '94262525261', 'Mumbai', 431001, 'mumbai', 'Maharashtra'),
+(3, 3, 'sahfic bhai', '94262525261', 'mubai', 431005, 'mumbai', '—'),
+(4, 4, 'jalna TATa', '94262525261', 'Plot no. 4, beside Ambari Cochin classes, near fly', 431005, 'Aurangabad', 'Maharashtra'),
+(5, 2, 'Bizontech', '89875874389', 'aurangabad', 12312, 'aurangabad', 'mahrashtra');
 
 -- --------------------------------------------------------
 
@@ -94,7 +108,9 @@ CREATE TABLE `consignors` (
 
 INSERT INTO `consignors` (`consignor_id`, `consignor_name`, `consignor_contact`, `consignor_address`, `consignor_pin_code`, `consignor_city`, `consignor_state`) VALUES
 (1, 'bajaj Auto', '78743875', 'aurangabad', 10024, 'aurangabad', 'aurangabad'),
-(2, 'Sublime technologies', '855286242', 'Aurangabad', 431005, 'Aurangabad', 'Maharashtra');
+(2, 'Sublime technologies', '855286242', 'Aurangabad', 431005, 'Aurangabad', 'Maharashtra'),
+(3, 'Jameel Bhai', '987765444', 'Aurangabad', 431001, 'Aurangabad', 'Maharashtra'),
+(4, 'TATA', '8552886242', 'Aurangabad', 431005, 'mumbvai', 'maharashtra');
 
 -- --------------------------------------------------------
 
@@ -123,7 +139,7 @@ CREATE TABLE `driver` (
   `driver_date_of_join` date DEFAULT NULL COMMENT 'driver joining date',
   `driver_salary` int(11) NOT NULL,
   `driver_form_status` int(11) DEFAULT '1' COMMENT 'driver form how much completed ',
-  `driver_running_status` int(11) NOT NULL DEFAULT '0' COMMENT '0 mwan driver free and 1 mean driver busy',
+  `driver_running_status` int(11) NOT NULL DEFAULT '1' COMMENT '0 = deleted 1= free 2= busy',
   `time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -132,8 +148,11 @@ CREATE TABLE `driver` (
 --
 
 INSERT INTO `driver` (`driver_id`, `identity_id`, `address_id`, `wedge_type`, `driver_name`, `driver_dob`, `driver_number`, `driver_email`, `driver_permanent_address`, `driver_residential_address`, `driver_photo`, `driver_identy_id_no`, `driver_address_id_no`, `driver_licence_no`, `driver_licence_exp`, `driver_identity_link`, `driver_address_link`, `driver_date_of_join`, `driver_salary`, `driver_form_status`, `driver_running_status`, `time_stamp`) VALUES
-(2, 1, 1, NULL, 'Faiyaz Shaikh', '2019-03-05', '90957436673', 'fayyaztech@gmail.com', 'buldhana', 'buldhana', '', '', '', 0, NULL, '', '', NULL, 0, 1, 1, '2019-03-06 06:59:44'),
-(3, 1, 1, NULL, 'Tauseef Siddiqui', '1003-10-10', '95953331398', 'tak.iddiqui@gmail.com', 'aurangabad', 'aurangabad', '', '', '', 0, NULL, '', '', NULL, 0, 1, 1, '2019-03-07 09:03:36');
+(2, 1, 1, NULL, 'Faiyaz Shaikh', '2019-03-05', '90957436673', 'fayyaztech@gmail.com', 'buldhana', 'buldhana', '', '', '', 521673, '0000-00-00', '', '', '0000-00-00', 100, 1, 1, '2019-03-06 06:59:44'),
+(3, 1, 1, NULL, 'Tauseef Siddiqui', '1003-10-10', '95953331398', 'tak.iddiqui@gmail.com', 'aurangabad', 'aurangabad', '', '', '', 0, NULL, '', '', NULL, 0, 1, 1, '2019-03-07 09:03:36'),
+(4, 1, 1, NULL, 'Salman Driver', '2019-07-02', '08552886242', 'fayyaztech@gmail.com', 'Plot no. 4, beside Ambari Cochin classes, near fly', 'aurangabad', '', '', '', 232432432, '0000-00-00', '', '', '0000-00-00', 0, 1, 1, '2019-07-22 07:03:38'),
+(5, 1, 1, NULL, 'driver name', '2019-01-07', '08552886242', 'fayyaztech@gmail.com', 'aurangabad', '', '', '', '', 521673, '2019-07-16', '', '', '2019-07-24', 1000, 1, 1, '2019-07-23 09:21:12'),
+(6, 1, 1, NULL, 'test driver 5', '2019-03-05', '08552886242', 'fayyaztech@gmail.com', 'aurangabad', '', '', '', '', 54645765, '2019-07-11', '', '', '2019-07-10', 100, 1, 1, '2019-07-23 09:25:00');
 
 -- --------------------------------------------------------
 
@@ -153,29 +172,6 @@ CREATE TABLE `expenses` (
   `note` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `expenses`
---
-
-INSERT INTO `expenses` (`expense_id`, `trip_id`, `product_purchase_id`, `expense_name`, `expense_date`, `expense_amount`, `expense_bill_no`, `expense_vendar_name`, `note`) VALUES
-(1, NULL, 1, 'MRF', '2019-03-04', 25000, '10', '', '1st tyre'),
-(2, NULL, 2, 'MRF', '2019-03-04', 1000, '11', '', 'stepny'),
-(3, NULL, 3, 'MRF', '2019-03-04', 25000, '13', '', 'tyre'),
-(4, NULL, 4, 'Remold Tyre', '2019-03-04', 1700, '543664', '', 'note'),
-(5, NULL, 5, 'MRF', '2019-03-04', 25000, '67567', '', 'new one'),
-(6, NULL, 6, 'Red Hourse', '2019-03-04', 10000, '543664', '', 'oil'),
-(7, NULL, 7, 'Red Hourse', '2019-03-05', 10000, '67567', '', 'nw oile'),
-(8, NULL, 8, 'SFK', '2019-03-04', 10000, '67567', '', ''),
-(9, NULL, 9, 'Remold Tyre', '2019-03-04', 1700, '543664', '', '600 + remould'),
-(10, NULL, 10, 'Remold Tyre', '2019-03-04', 1700, '543664', '', '600 + remould'),
-(11, NULL, 11, 'MRF', '2019-03-13', 25000, '543664', '', 'battery'),
-(12, NULL, 12, 'MRF', '2019-03-04', 10000, '543664', '', ''),
-(13, NULL, 13, '', '2019-03-04', 1700, '543664', '', 'insirance expire'),
-(14, NULL, 14, 'Remold Tyre', '2019-03-21', 1700, '67567', '', ''),
-(17, NULL, NULL, '15', '2019-03-21', 12000, '786458734', 'mumbai ', 'nothing'),
-(19, NULL, NULL, '14', '2019-03-14', 10000, '67567', 'Shaikh ', ''),
-(20, NULL, 15, 'MRF', '2019-03-19', 10000, '543664', '', 'nothing');
-
 -- --------------------------------------------------------
 
 --
@@ -188,27 +184,6 @@ CREATE TABLE `expenses_details` (
   `ed_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `expenses_details`
---
-
-INSERT INTO `expenses_details` (`ed_id`, `et_id`, `ed_name`) VALUES
-(1, 3, 'Tyre'),
-(2, 3, 'Oil'),
-(3, 3, 'Battery'),
-(4, 3, 'Stepny'),
-(5, 4, 'passing'),
-(6, 4, 'PUC'),
-(7, 3, 'Misc repairs'),
-(8, 4, 'Insurance'),
-(9, 4, 'Tax'),
-(10, 4, 'Authorisation'),
-(11, 4, 'National Permit'),
-(12, 4, 'Fitness'),
-(13, 3, 'remould'),
-(14, 1, 'general'),
-(15, 1, 'stationary');
-
 -- --------------------------------------------------------
 
 --
@@ -219,16 +194,6 @@ CREATE TABLE `expenses_type` (
   `ep_id` int(11) NOT NULL,
   `ep_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `expenses_type`
---
-
-INSERT INTO `expenses_type` (`ep_id`, `ep_name`) VALUES
-(1, 'general_expense'),
-(2, 'Trip_expense'),
-(3, 'vehicle_expense'),
-(4, 'imp_docs');
 
 -- --------------------------------------------------------
 
@@ -248,130 +213,22 @@ CREATE TABLE `freights` (
 --
 
 INSERT INTO `freights` (`freight_id`, `load_routes_id`, `freight_effected_date`, `freight`) VALUES
-(310, 15, '2019-07-17', 90000),
-(311, 16, '2019-07-17', 60000),
-(312, 17, '2018-07-17', 120000),
-(313, 18, '2018-07-17', 80000),
-(314, 19, '2017-07-17', 105000),
-(315, 20, '2017-07-17', 70000),
-(316, 21, '2016-07-17', 90000),
-(317, 22, '2016-07-17', 60000),
-(318, 23, '2015-07-17', 120000),
-(319, 24, '2015-07-17', 80000),
-(320, 25, '2014-07-17', 102000),
-(321, 26, '2014-07-17', 68000),
-(322, 15, '2019-07-17', 90000),
-(323, 15, '2019-07-17', 90000),
-(324, 15, '2019-07-17', 90000),
-(325, 16, '2019-07-17', 60000),
-(326, 17, '2018-07-17', 120000),
-(327, 18, '2018-07-17', 80000),
-(328, 19, '2017-07-17', 105000),
-(329, 20, '2017-07-17', 70000),
-(330, 21, '2016-07-17', 90000),
-(331, 22, '2016-07-17', 60000),
-(332, 23, '2015-07-17', 120000),
-(333, 24, '2015-07-17', 80000),
-(334, 25, '2014-07-17', 102000),
-(335, 26, '2014-07-17', 68000),
-(336, 15, '2019-07-17', 90000),
-(337, 16, '2019-07-17', 60000),
-(338, 17, '2018-07-17', 120000),
-(339, 18, '2018-07-17', 80000),
-(340, 19, '2017-07-17', 105000),
-(341, 20, '2017-07-17', 70000),
-(342, 21, '2016-07-17', 90000),
-(343, 22, '2016-07-17', 60000),
-(344, 23, '2015-07-17', 120000),
-(345, 24, '2015-07-17', 80000),
-(346, 25, '2014-07-17', 102000),
-(347, 26, '2014-07-17', 68000),
-(348, 15, '2019-07-17', 90000),
-(349, 15, '2019-07-17', 90000),
-(350, 15, '2019-07-17', 90000),
-(351, 16, '2019-07-17', 60000),
-(352, 17, '2018-07-17', 120000),
-(353, 18, '2018-07-17', 80000),
-(354, 19, '2017-07-17', 105000),
-(355, 20, '2017-07-17', 70000),
-(356, 21, '2016-07-17', 90000),
-(357, 22, '2016-07-17', 60000),
-(358, 23, '2015-07-17', 120000),
-(359, 24, '2015-07-17', 80000),
-(360, 25, '2014-07-17', 102000),
-(361, 26, '2014-07-17', 68000),
-(362, 27, '2019-07-18', 200000),
-(363, 28, '2019-07-18', 170000),
-(364, 15, '2019-07-17', 90000),
-(365, 16, '2019-07-17', 60000),
-(366, 17, '2018-07-17', 120000),
-(367, 18, '2018-07-17', 80000),
-(368, 19, '2017-07-17', 105000),
-(369, 20, '2017-07-17', 70000),
-(370, 21, '2016-07-17', 90000),
-(371, 22, '2016-07-17', 60000),
-(372, 23, '2015-07-17', 120000),
-(373, 24, '2015-07-17', 80000),
-(374, 25, '2014-07-17', 102000),
-(375, 26, '2014-07-17', 68000),
-(376, 27, '2019-07-18', 200000),
-(377, 28, '2019-07-18', 170000),
-(378, 15, '2019-07-17', 90000),
-(379, 16, '2019-07-17', 60000),
-(380, 17, '2018-07-17', 120000),
-(381, 18, '2018-07-17', 80000),
-(382, 19, '2017-07-17', 105000),
-(383, 20, '2017-07-17', 70000),
-(384, 21, '2016-07-17', 90000),
-(385, 22, '2016-07-17', 60000),
-(386, 23, '2015-07-17', 120000),
-(387, 24, '2015-07-17', 80000),
-(388, 25, '2014-07-17', 102000),
-(389, 26, '2014-07-17', 68000),
-(390, 27, '2019-07-18', 200000),
-(391, 28, '2019-07-18', 170000),
-(392, 29, '2019-07-18', 200000),
-(393, 30, '2019-07-18', 170000),
-(394, 15, '2019-07-17', 90000),
-(395, 16, '2019-07-17', 60000),
-(396, 17, '2018-07-17', 120000),
-(397, 18, '2018-07-17', 80000),
-(398, 19, '2017-07-17', 105000),
-(399, 20, '2017-07-17', 70000),
-(400, 21, '2016-07-17', 90000),
-(401, 22, '2016-07-17', 60000),
-(402, 23, '2015-07-17', 120000),
-(403, 24, '2015-07-17', 80000),
-(404, 25, '2014-07-17', 102000),
-(405, 26, '2014-07-17', 68000),
-(406, 27, '2019-07-18', 200000),
-(407, 28, '2019-07-18', 170000),
-(408, 29, '2019-07-18', 200000),
-(409, 30, '2019-07-18', 170000),
-(410, 31, '2019-07-18', 200000),
-(411, 32, '2019-07-18', 150000),
-(412, 15, '2019-07-17', 90000),
-(413, 16, '2019-07-17', 60000),
-(414, 17, '2018-07-17', 120000),
-(415, 18, '2018-07-17', 80000),
-(416, 19, '2017-07-17', 105000),
-(417, 20, '2017-07-17', 70000),
-(418, 21, '2016-07-17', 90000),
-(419, 22, '2016-07-17', 60000),
-(420, 23, '2015-07-17', 120000),
-(421, 24, '2015-07-17', 80000),
-(422, 25, '2014-07-17', 102000),
-(423, 26, '2014-07-17', 68000),
-(424, 27, '2019-07-18', 200000),
-(425, 28, '2019-07-18', 170000),
-(426, 29, '2019-07-18', 200000),
-(427, 30, '2019-07-18', 170000),
-(428, 31, '2019-07-18', 200000),
-(429, 32, '2019-07-18', 150000),
-(430, 33, '2019-07-18', 200000),
-(431, 34, '2019-07-18', 150000),
-(432, 35, '2019-07-18', 20000),
-(433, 36, '2019-07-18', 15000);
+(1, 1, '2019-07-01', 12000),
+(2, 2, '2019-07-01', 15000),
+(3, 3, '2019-07-01', 4000),
+(4, 4, '2019-07-01', 13000),
+(5, 5, '2019-07-01', 15700),
+(6, 6, '2019-07-01', 7000),
+(7, 7, '2019-07-01', 13800),
+(8, 8, '2019-07-01', 15000),
+(9, 9, '2019-07-01', 1700),
+(10, 10, '2019-07-01', 14000),
+(11, 11, '2019-07-01', 40000),
+(12, 12, '2019-07-01', 1500),
+(13, 13, '2019-07-01', 56000),
+(14, 14, '2019-07-01', 70000),
+(15, 15, '2019-07-01', 46000),
+(16, 16, '2019-07-01', 46000);
 
 -- --------------------------------------------------------
 
@@ -383,16 +240,6 @@ CREATE TABLE `identity_doc` (
   `identity_id` int(11) NOT NULL,
   `id_name` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `identity_doc`
---
-
-INSERT INTO `identity_doc` (`identity_id`, `id_name`) VALUES
-(1, 'ADHAAR'),
-(2, 'Driving Licance'),
-(3, 'Passport'),
-(4, 'Voter_ID');
 
 -- --------------------------------------------------------
 
@@ -413,8 +260,10 @@ CREATE TABLE `loads` (
 
 INSERT INTO `loads` (`load_id`, `load_name`, `consignor_id`, `load_status`) VALUES
 (1, 'Auto30', 1, 0),
-(2, 'Software10', 2, 0),
-(3, 'Bike52', 1, 0);
+(2, 'Bike52', 1, 0),
+(3, 'etc', 1, 0),
+(4, 'steel40', 4, 0),
+(5, 'steel80', 4, 0);
 
 -- --------------------------------------------------------
 
@@ -433,28 +282,22 @@ CREATE TABLE `load_routes` (
 --
 
 INSERT INTO `load_routes` (`load_routes_id`, `load_id`, `route_id`) VALUES
-(15, 1, 9),
-(16, 3, 9),
-(17, 1, 10),
-(18, 3, 10),
-(19, 1, 11),
-(20, 3, 11),
-(21, 1, 12),
-(22, 3, 12),
-(23, 1, 13),
-(24, 3, 13),
-(25, 1, 14),
-(26, 3, 14),
-(27, 1, 15),
-(28, 3, 15),
-(29, 1, 16),
-(30, 3, 16),
-(31, 1, 17),
-(32, 3, 17),
-(33, 1, 18),
-(34, 3, 18),
-(35, 1, 19),
-(36, 3, 19);
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1),
+(4, 1, 2),
+(5, 2, 2),
+(6, 3, 2),
+(7, 1, 3),
+(8, 2, 3),
+(9, 3, 3),
+(10, 1, 4),
+(11, 2, 4),
+(12, 3, 4),
+(13, 4, 5),
+(14, 5, 5),
+(15, 4, 6),
+(16, 5, 6);
 
 -- --------------------------------------------------------
 
@@ -475,27 +318,6 @@ CREATE TABLE `product_purchase` (
   `pp_status` int(11) NOT NULL DEFAULT '1' COMMENT 'working or expired if tyre removed or not '
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `product_purchase`
---
-
-INSERT INTO `product_purchase` (`pp_id`, `expense_details_id`, `vehicle_id`, `pp_start_km`, `pp_total_run`, `pp_expiry`, `pp_warranty`, `pp_serial_no`, `pp_expected_run`, `pp_status`) VALUES
-(1, 1, 13, 100, 0, NULL, 3, 123, 100, 0),
-(2, 4, 13, 100, 0, NULL, 3, 124, 50, 1),
-(3, 4, 13, 101, 0, NULL, 3, 124, 100, 0),
-(4, 13, 13, 105, 0, NULL, 0, 124, 105, 0),
-(5, 1, 13, 160, 0, NULL, 3, 66549, 500, 0),
-(6, 2, 13, 180, 0, NULL, NULL, NULL, 500, 0),
-(7, 2, 13, 680, 0, NULL, NULL, NULL, 500, 1),
-(8, 1, 13, 700, 0, NULL, 3, 66542, 500, 1),
-(9, 13, 13, 710, 0, NULL, 0, 123, 100, 1),
-(10, 13, 13, 760, 0, NULL, 0, 66549, 100, 1),
-(11, 3, 13, 0, 0, NULL, 3, 66542, NULL, 1),
-(12, 7, 13, 0, 0, NULL, NULL, NULL, NULL, 1),
-(13, 11, 13, 0, 0, '2019-03-07', NULL, NULL, NULL, 1),
-(14, 13, 13, 800, 0, NULL, 0, 124, 100, 1),
-(15, 1, 13, 2700, 0, NULL, 2, 66542, 1000, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -514,17 +336,13 @@ CREATE TABLE `routes` (
 --
 
 INSERT INTO `routes` (`route_id`, `route_origin`, `route_destination`, `route_distance`) VALUES
-(9, 'waluj', 'chakan', 300),
-(10, 'waluj', 'mumbai', 400),
-(11, 'waluj', 'nasik', 350),
-(12, 'chakan', 'mumbai', 300),
-(13, 'aurangabad (MH)', 'mumbai', 400),
-(14, 'waluj', 'Nagpur', 340),
-(15, 'Buldhana', 'mumbai', 500),
-(16, 'Rajur', 'mumbai', 500),
-(17, 'Jalna', 'mumbai', 500),
-(18, 'Jalna', 'Nagpur', 400),
-(19, 'Jalna', 'Buldhana', 150);
+(1, 'waluj', 'chakan', 250),
+(2, 'chakan', 'mumbai', 300),
+(3, 'mumbai', 'chakan', 300),
+(4, 'chakan', 'waluj', 250),
+(5, 'Jalna', 'Nashik', 350),
+(6, 'nashik', 'jalna', 350),
+(7, 'nasik', 'Jalna', 250);
 
 -- --------------------------------------------------------
 
@@ -592,7 +410,7 @@ CREATE TABLE `trip` (
   `allowance` double NOT NULL,
   `trip_start_date` date NOT NULL,
   `trip_end_date` date NOT NULL,
-  `trip_status` int(11) NOT NULL
+  `trip_status` int(11) NOT NULL COMMENT '0 = active 1= stop'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -600,8 +418,10 @@ CREATE TABLE `trip` (
 --
 
 INSERT INTO `trip` (`trip_id`, `vehicle_id`, `consignor_id`, `consignee_id`, `allowance`, `trip_start_date`, `trip_end_date`, `trip_status`) VALUES
-(4, 13, 1, 11, 12000, '0000-00-00', '0000-00-00', 0),
-(6, 15, 2, 11, 12000, '0000-00-00', '0000-00-00', 0);
+(1, 13, 1, 1, 1200, '2019-06-30', '2019-07-11', 1),
+(2, 14, 4, 4, 1000, '2019-07-01', '2019-07-03', 1),
+(3, 15, 3, 3, 1200, '2019-07-09', '2019-07-11', 1),
+(4, 13, 2, 5, 1000, '2019-07-01', '2019-07-10', 1);
 
 -- --------------------------------------------------------
 
@@ -615,20 +435,49 @@ CREATE TABLE `trip_details` (
   `load_id` int(11) NOT NULL,
   `driver_id` int(11) NOT NULL,
   `route_id` int(11) NOT NULL,
-  `trip_status` int(11) NOT NULL,
+  `trip_detail_status` int(11) NOT NULL COMMENT '2 = running 3= stop',
   `trip_start_date` date NOT NULL,
   `trip_stop_date` date NOT NULL,
-  `trip_detail_freight` double NOT NULL
+  `trip_detail_freight` double NOT NULL,
+  `trip_details_is_loaded` int(11) NOT NULL COMMENT '0 loaded 1 empty'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `trip_details`
 --
 
-INSERT INTO `trip_details` (`trip_details_id`, `trip_id`, `load_id`, `driver_id`, `route_id`, `trip_status`, `trip_start_date`, `trip_stop_date`, `trip_detail_freight`) VALUES
-(3, 4, 1, 2, 1, 2, '2019-07-01', '0000-00-00', 0),
-(5, 4, 0, 2, 8, 0, '2019-07-10', '0000-00-00', 0),
-(6, 6, 2, 3, 4, 2, '2019-03-13', '0000-00-00', 0);
+INSERT INTO `trip_details` (`trip_details_id`, `trip_id`, `load_id`, `driver_id`, `route_id`, `trip_detail_status`, `trip_start_date`, `trip_stop_date`, `trip_detail_freight`, `trip_details_is_loaded`) VALUES
+(1, 1, 1, 2, 1, 3, '2019-06-30', '2019-07-01', 0, 0),
+(2, 2, 4, 3, 5, 3, '2019-07-01', '2019-07-02', 0, 0),
+(3, 2, 0, 3, 6, 3, '2019-07-02', '2019-07-03', 0, 1),
+(4, 1, 2, 2, 2, 3, '2019-07-03', '2019-07-04', 0, 0),
+(5, 1, 0, 2, 3, 3, '2019-07-04', '2019-07-08', 0, 1),
+(6, 1, 3, 2, 4, 3, '2019-07-10', '2019-07-11', 0, 0),
+(7, 3, 0, 4, 2, 3, '2019-07-09', '2019-07-11', 45000, 0),
+(8, 4, 0, 3, 2, 3, '2019-07-01', '2019-07-03', 40000, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `trip_expenses`
+--
+
+CREATE TABLE `trip_expenses` (
+  `trip_expense_id` int(11) NOT NULL,
+  `trip_expense_name` varchar(50) NOT NULL,
+  `trip_expense_amount` double NOT NULL,
+  `trip_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_expenses`
+--
+
+INSERT INTO `trip_expenses` (`trip_expense_id`, `trip_expense_name`, `trip_expense_amount`, `trip_id`) VALUES
+(1, 'Extra Expense', 1000, 2),
+(2, 'Extra Expense', 1000, 1),
+(3, 'Extra Expense', 0, 3),
+(4, 'Extra Expense', 7676, 4);
 
 -- --------------------------------------------------------
 
@@ -641,15 +490,6 @@ CREATE TABLE `trip_status` (
   `ts_status` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `trip_status`
---
-
-INSERT INTO `trip_status` (`ts_id`, `ts_status`) VALUES
-(1, 'not started'),
-(2, 'running'),
-(3, 'stop');
-
 -- --------------------------------------------------------
 
 --
@@ -658,8 +498,6 @@ INSERT INTO `trip_status` (`ts_id`, `ts_status`) VALUES
 
 CREATE TABLE `vehicle` (
   `vehicle_id` int(11) NOT NULL,
-  `ts_id` int(11) DEFAULT NULL,
-  `trip_status` int(11) DEFAULT NULL COMMENT 'running, stop',
   `vehicle_number` varchar(1000) NOT NULL,
   `vehicle_purchase_year` varchar(1000) NOT NULL,
   `vehicle_permit` varchar(1000) NOT NULL,
@@ -670,17 +508,17 @@ CREATE TABLE `vehicle` (
   `vehicle_engine_no` int(11) NOT NULL,
   `vehicle_type` int(11) NOT NULL,
   `vehicle_expected_average` int(11) NOT NULL DEFAULT '0',
-  `vehicle_status` int(11) NOT NULL DEFAULT '1'
+  `vehicle_status` int(11) NOT NULL DEFAULT '1' COMMENT '0 = deactive 1 = free 2 = running'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `vehicle`
 --
 
-INSERT INTO `vehicle` (`vehicle_id`, `ts_id`, `trip_status`, `vehicle_number`, `vehicle_purchase_year`, `vehicle_permit`, `vehicle_tyres`, `vehicle_current_reading`, `vehicle_load_capacity`, `vehicle_chassis_no`, `vehicle_engine_no`, `vehicle_type`, `vehicle_expected_average`, `vehicle_status`) VALUES
-(13, NULL, NULL, 'MH20AH5263', '2016-09-09', 'national', 6, 2700, 10, '12234', 43242, 1, 60, 1),
-(14, NULL, NULL, 'MH20AH2010', '2010', '', 6, 2450, 10, '76778375', 5564883, 0, 3, 2),
-(15, NULL, NULL, 'MH20WH2957', '2010', '', 6, 2780, 0, '76778375', 5564883, 0, 3, 1);
+INSERT INTO `vehicle` (`vehicle_id`, `vehicle_number`, `vehicle_purchase_year`, `vehicle_permit`, `vehicle_tyres`, `vehicle_current_reading`, `vehicle_load_capacity`, `vehicle_chassis_no`, `vehicle_engine_no`, `vehicle_type`, `vehicle_expected_average`, `vehicle_status`) VALUES
+(13, 'MH20AH5263', '2016-09-09', 'national', 6, 2700, 10, '12234', 43242, 1, 60, 1),
+(14, 'MH20AH2010', '2010', '', 6, 2450, 10, '76778375', 5564883, 0, 3, 1),
+(15, 'MH20WH2957', '2010', '', 6, 2780, 0, '76778375', 5564883, 0, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -692,16 +530,6 @@ CREATE TABLE `wedge_type` (
   `wt_id` int(11) NOT NULL,
   `wt_name` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `wedge_type`
---
-
-INSERT INTO `wedge_type` (`wt_id`, `wt_name`) VALUES
-(1, 'Trip based'),
-(2, 'Monthly'),
-(3, 'Fixed Salary'),
-(4, 'Daily');
 
 --
 -- Indexes for dumped tables
@@ -818,6 +646,12 @@ ALTER TABLE `trip_details`
   ADD PRIMARY KEY (`trip_details_id`);
 
 --
+-- Indexes for table `trip_expenses`
+--
+ALTER TABLE `trip_expenses`
+  ADD PRIMARY KEY (`trip_expense_id`);
+
+--
 -- Indexes for table `trip_status`
 --
 ALTER TABLE `trip_status`
@@ -827,9 +661,7 @@ ALTER TABLE `trip_status`
 -- Indexes for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  ADD PRIMARY KEY (`vehicle_id`),
-  ADD KEY `ts_status` (`ts_id`),
-  ADD KEY `trip_status` (`trip_status`);
+  ADD PRIMARY KEY (`vehicle_id`);
 
 --
 -- Indexes for table `wedge_type`
@@ -845,7 +677,7 @@ ALTER TABLE `wedge_type`
 -- AUTO_INCREMENT for table `advances`
 --
 ALTER TABLE `advances`
-  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -857,73 +689,73 @@ ALTER TABLE `cities`
 -- AUTO_INCREMENT for table `consignees`
 --
 ALTER TABLE `consignees`
-  MODIFY `consignee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `consignee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `consignors`
 --
 ALTER TABLE `consignors`
-  MODIFY `consignor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `consignor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `expenses_details`
 --
 ALTER TABLE `expenses_details`
-  MODIFY `ed_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ed_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `expenses_type`
 --
 ALTER TABLE `expenses_type`
-  MODIFY `ep_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ep_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `freights`
 --
 ALTER TABLE `freights`
-  MODIFY `freight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=434;
+  MODIFY `freight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `identity_doc`
 --
 ALTER TABLE `identity_doc`
-  MODIFY `identity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `identity_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `loads`
 --
 ALTER TABLE `loads`
-  MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `load_routes`
 --
 ALTER TABLE `load_routes`
-  MODIFY `load_routes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `load_routes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `product_purchase`
 --
 ALTER TABLE `product_purchase`
-  MODIFY `pp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `pp_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `states`
@@ -935,19 +767,25 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `trip`
 --
 ALTER TABLE `trip`
-  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `trip_details`
 --
 ALTER TABLE `trip_details`
-  MODIFY `trip_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `trip_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `trip_expenses`
+--
+ALTER TABLE `trip_expenses`
+  MODIFY `trip_expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `trip_status`
 --
 ALTER TABLE `trip_status`
-  MODIFY `ts_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ts_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vehicle`
@@ -959,7 +797,7 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `wedge_type`
 --
 ALTER TABLE `wedge_type`
-  MODIFY `wt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `wt_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
