@@ -149,7 +149,7 @@ function fetch_trip_list($ctx)
     $ctx->db->select('consignors.consignor_name');
 	$ctx->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
 
-	$ctx->db->order_by('trip.trip_status', 'asc');
+	$ctx->db->order_by('trip.trip_start_date', 'desc');
 	
     $ctx->db->join('trip_details', 'trip.trip_id = trip_details.trip_id', 'left');
     $ctx->db->join('routes as route', 'trip_details.route_id = route.route_id', 'left');
