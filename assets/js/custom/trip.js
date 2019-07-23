@@ -8,6 +8,17 @@ jQuery(document).ready(function($) {
 
 // Add Trip Button Click
 
+$("#select_consignor").change(function(event) {
+    var consignor_id = $("#select_consignor").val();
+    $.get(url+'trip/get_consignee?consignor_id='+consignor_id, function(data) {
+        $("#select_consignee").html(data);
+    });
+
+    $.get(url+'trip/get_loads?consignor_id='+consignor_id, function(data) {
+        $("#loads_by_consignor").html(data);
+    });
+    
+});
 $("#add_consignor").click(function(event) {
     $.ajax({
         url: url + "operations/add_consignor",
@@ -96,6 +107,25 @@ $(document).on('submit', '#add_consignor_form', function(event) {
             });
 });
 
+
+$(document).on('submit', '#stop_trip_step_form', function (event) {
+    event.preventDefault();
+    // alert('clicked');
+    $.ajax({
+        url: url + 'trip/stop_step',
+        type: 'POST',
+        data: new FormData(this),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+                alert(data);            
+            location.reload();
+        }
+    });
+});
+
+
 $(document).on('submit', '#add_consignee_form', function(event) {
     event.preventDefault();
     // alert('clicked');
@@ -126,11 +156,8 @@ $(document).on('submit', '#add_consignee_form', function(event) {
 $(document).on('click',"#stop_trip",function(event) {
     $("#loadingBlock").show();
     var trip_id=$(this).parent().attr('t_id');
-    var v_id = $(this).parent().attr('v_id');
-    var t_run = $(this).parent().attr('t_id');
-    var trip_name =$(this).closest("tr").find("td:nth-child(3)").text();
     $.ajax({
-        url: url + "operations/complete_trip?trip_id="+trip_id+"&name="+trip_name+"&vehicle_id="+v_id+"&t_run="+t_run,
+        url: url + "operations/complete_trip?trip_id="+trip_id,
         method: "POST",
         success: function(data) {
             $('#modal-id').html(data);
@@ -169,6 +196,20 @@ $(document).on('click',"#step_trip",function(event) {
         success: function(data) {
             $('#modal-id').html(data);
              $('#modal-id').modal('show');
+        }
+    })
+});
+
+$(document).on('click', "#stop_step_trip", function (event) {
+
+    var trip_id = $(this).parent().attr('t_id');
+    trip_name = $(this).closest("tr").find("td:nth-child(3)").text();
+    $.ajax({
+        url: url + "trip/fetch_stop_step_trip?trip_id=" + trip_id,
+        method: "POST",
+        success: function (data) {
+            $('#modal-id').html(data);
+            $('#modal-id').modal('show');
         }
     })
 });
