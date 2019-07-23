@@ -6,6 +6,37 @@ jQuery(document).ready(function($) {
         load_trip_data();
     });
 
+
+$(document).on('submit', '#add_route_submit', function(event) {
+    
+            event.preventDefault();
+            $.ajax({
+                url: url+'route/add_route',
+                type: 'POST',
+                data: new FormData(this),
+                cache:false,
+                contentType:false,
+                processData:false,
+                success:function(data){
+                        var resp = jQuery.parseJSON(data);
+                        console.log(data);
+                        if (resp.code == 1) {
+                           alert(resp.msg);
+                           location.reload(true);
+                           // $("#add_route_submit").trigger("reset");
+
+                        }else{
+                            alert(resp.msg);
+                            
+                        }
+
+                        $("#loadingBlock").hide();
+
+                }
+            })
+        });
+
+
 // Add Trip Button Click
 
 $("#select_consignor").change(function(event) {
@@ -108,9 +139,11 @@ $(document).on('submit', '#add_consignor_form', function(event) {
 });
 
 
+/*
+    stop main trip submit data
+*/
 $(document).on('submit', '#stop_trip_step_form', function (event) {
     event.preventDefault();
-    // alert('clicked');
     $.ajax({
         url: url + 'trip/stop_step',
         type: 'POST',
@@ -327,6 +360,7 @@ $(document).on('click', "#stop_step_trip", function (event) {
                         load_trip_data();
                         $('#modal-id').modal('hide');
                         $('#modal-id').html("");
+                        location.reload();
                     }
                     else
                     {
