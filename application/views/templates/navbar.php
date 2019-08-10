@@ -109,33 +109,33 @@
                             <a href="<?php echo base_url('admin'); ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/vehicle_management'); ?>"><i class="fa fa-bar-chart-o fa-fw"></i> Vehicle Management</a>
+                            <a href="<?php echo base_url('operations/vehicle_management'); ?>"><i class="fa fa-bar-chart-o fa-fw"></i> Vehicle Master</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('operations/maintenance'); ?>"><i class="fa fa-table fa-fw"></i> Maintenance</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/driver_management'); ?>"><i class="fa fa-edit fa-fw"></i> Driver Management</a>
+                            <a href="<?php echo base_url('operations/driver_management'); ?>"><i class="fa fa-edit fa-fw"></i> Driver Master</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('operations/client_management'); ?>">
                                 <i class="fa fa-edit fa-fw"></i> 
-                                Client Management
+                                Client Master
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/route_management'); ?>"><i class="fa fa-edit fa-fw"></i> Routes Management</a>
+                            <a href="<?php echo base_url('operations/route_management'); ?>"><i class="fa fa-edit fa-fw"></i> Routes Master</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/load_management'); ?>">
+                           <a href="<?php echo base_url('operations/load_management'); ?>">
                                 <i class="fa fa-edit fa-fw"></i> 
-                                Load Management
+                                Load Master
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('operations/freight_management'); ?>">
                                 <i class="fa fa-edit fa-fw"></i> 
-                                Freight Management
+                                Freight Master
                             </a>
                         </li>
 
