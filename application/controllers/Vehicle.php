@@ -5,7 +5,14 @@ class Vehicle extends CI_Controller {
 
 	public function index()
 	{
-		echo "not Found";
+		$this->load->model('vehicle_model');
+        template($this, 'vehicle');
+	}
+
+	public function vehicle_form()
+	{
+		// both add and update operation perform in single file 
+		$this->load->view('vehicle/vehicle_form');
 	}
 
 		public function add_vehicle()
@@ -13,11 +20,10 @@ class Vehicle extends CI_Controller {
 		$data=$this->input->post();
 		$config= array(
 		array('field' =>'vehicle_number' ,'rules'=>'required|min_length[7]|max_length[10]'),
-		array('field' =>'vehicle_purchase_year' ,'rules'=>'required|exact_length[4]|numeric'),
+		array('field' =>'purchase_date' ,'rules'=>'required|numeric'),
 		array('field' =>'vehicle_current_reading' ,'rules'=>'required|numeric'),
 		array('field' =>'vehicle_chassis_no' ,'rules'=>'required'),
 		array('field' =>'vehicle_engine_no' ,'rules'=>'required'),
-		//array('field' =>'vehicle_expected_average' ,'rules'=>'required|max_length[10]'),
 		array('field' =>'vehicle_tyres' ,'rules'=>'required|min_length[1]'),
 		);
 
