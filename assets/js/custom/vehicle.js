@@ -1,3 +1,12 @@
+// add vihicle button clicked
+$('.add_vehicle').click(function(event) {
+	$.get(url+'vehicle/vehicle_form', function(data) {
+		$('.modal_containt').html(data);
+		$('#modal').modal('show');
+	});
+});
+
+
 // Saving New Vehicle Record //
 
 $(document).on('submit','#submit',function(event){
@@ -13,7 +22,7 @@ $(document).on('submit','#submit',function(event){
 			processData:false,
 			success: function(data){
 			alert(data);
-			location.reload();
+			// location.reload();
 			}
 	})
 })
