@@ -20,12 +20,6 @@ class Operations extends CI_Controller
 
     }
 
-    public function vehicle_management()
-    {
-        $this->load->model('vehicle_model');
-        template($this, 'vehicle');
-    }
-
     public function maintenance()
     {
 
