@@ -28,9 +28,20 @@ class Vehicle_model extends CI_Model
 
     public function add_vehicle_info($vehicle_data)
     {
-        if ($this->db->insert_batch('vehicle', ['vehicle_data' => $vehicle_data])) {
-            return true;
+        $responce = false;
+        if (isset($vehicle_data["vehicle_id"])) {
+            $this->db->where('vehicle_id', $vehicle_data['vehicle_id']);
+            unset($vehicle_data['vehicle_id']);
+            if ($this->db->update('vehicle', $vehicle_data)) {
+                    $responce = true;
+            }else{
+                if ($this->db->insert_batch('vehicle',$vehicle_data)) {
+                    $responce = true;
+                }
+            }
         }
+
+        return $responce;
     }
 
     public function update_vehicle_info($vehicle_id, $info)
@@ -54,7 +65,7 @@ class Vehicle_model extends CI_Model
     {
         $this->db->where(['vehicle_id' => $vehicle_id, 'vehicle_status' => '1']);
         $query = $this->db->get('vehicle');
-        return $query->result();
+        return $query->result_array();
     }
 
 }
