@@ -22,8 +22,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="modal fade" id="modal1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -37,14 +35,12 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead class="bg-primary">
                             <tr>
-                                 <th>Sr No.</th>
+                                <th>Sr No.</th>
                                 <th>Name</th>
                                 <th>Status</th>
                                 <th>Contact</th>
@@ -54,7 +50,27 @@
                         </thead>
                         
                         <tbody id="driver_management_table">
-                            
+                            <?php
+                            foreach ($driver_data as $value) {
+                            $count = 1;
+                            if ($value->driver_running_status == 1) {
+                            $status = '<span class="label label-success">Available</span>';
+                            } else {
+                            $status = '<span class="label label-danger">On Trip</span>';
+                            }
+                            echo '<tr>
+                                <td>' . $count++ . '</td>
+                                <td>' . $value->driver_name . '</td>
+                                <td>' . $status . '</td>
+                                <td>' . $value->driver_number . '</td>
+                                <td>' . $value->driver_permanent_address . '</td>
+                                <td value="' . $value->driver_id . '">
+                                    <button id="update_driver" class="btn btn-info fa fa-edit" ></button>
+                                    <button data-toggle="tooltip" data-placement="top" title="Delete" id="delete" class="btn btn-danger fa fa-trash"></button>
+                                </td>
+                            </tr>';
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -96,5 +112,5 @@
         </div>
     </div>
 </div>
-<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Trigger modal</a>
+
 </body>
