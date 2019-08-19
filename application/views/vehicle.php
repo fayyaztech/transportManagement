@@ -11,54 +11,80 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <a class="btn btn-warning pull-right add_vehicle" style="margin-right: 40px;" href='#'>Add vehicle</a>
+                <a class="btn btn-warning pull-right add_vehicle" style="margin-right: 40px;" href='#'><i class="fa fa-plus-circle"> </i> Add vehicle</a>
             </div>
             <br>
             <input type="hidden" name="url" id="url" class="form-control" value="<?php echo base_url(); ?>">
-            <div class="row">                            
+            <div class="row">
+                <form action="" method="get" class="form-inline" role="form">
+                
+                    <div class="form-group">
+                        <select class="form-control" name="filter">
+                            <option value="4"> All</option>
+                            <option value="0"> Deactivated</option>
+                            <option value="1"> Active</option>
+                            <option value="2"> Running</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-filter"></i> Filter</button>
+                </form>
+                </br>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover text-center">
                                         <thead class="bg-primary text-center">
                                             <tr>
                                                 <th class="text-center">Vehicle</th>
-                                                <th class="text-center">Vehicle status</th>
-                                                <th class="text-center">completed Kms</th>
-                                                <th class="text-center">Route</th>
-                                                <th class="text-center">Driver</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">purchase Date</th>
+                                                <th class="text-center">body type</th>
+                                                <th class="text-center">registration_date</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         
                                         <tbody>
                                             <?php
+
+                                            // all vehicles data array 
                                             $data = [];
-                                            $data = $this->vehicle_model->get_vehicle_details();
-                                            foreach ($data as $value) {
-                                            $exra_data = $this->vehicle_model->get_vehicle_last_trip_details($value->vehicle_id);
-                                            $route = "--";
-                                            $driver = "--";
-                                            $last_trip = "--";
-                                            
-                                            if (!empty($exra_data) && $value->vehicle_status == 2) {
-                                            $status = '<span class="label label-danger">On Trip</span>';
-                                            $route = $exra_data->route_origin." to ".$exra_data->route_destination;
-                                            $driver = $exra_data->driver_name;
-                                            }else{
-                                            $status = '<span class="label label-success">Available</span>';
-                                            // $last_trip = $exra_data->trip_stop_date;
+
+                                            // vehicle filter 
+                                            $filter = 1;
+
+                                            //if receive filter prams 
+                                            if ($this->input->get('filter') != NULL) {
+                                                $filter = $this->input->get('filter');
                                             }
+
+                                            $data = $this->vehicle_model->get_vehicle_details($filter);
+                                            foreach ($data as $value) {
+
+                                                if ($value->vehicle_status == 1) {
+                                                    // 1 vehicle available
+                                                    $status = '<span class="label label-success">Available</span>';
+                                                    $delete_btn = '<button data-toggle="tooltip" data-placement="top" title="Delete" id="delete" class="btn btn-danger fa fa-trash"></button>';
+                                                }elseif ($value->vehicle_status == 2) {
+                                                    // 2 vehicle running 
+                                                    $status = '<span class="label label-warning">Running</span>';
+                                                    $delete_btn = '<button class="btn btn-danger fa fa-trash" disabled=""></button>';
+                                                }elseif ($value->vehicle_status == 0) {
+                                                    // vehicle deactivated
+                                                    $status = '<span class="label label-danger">Deactivated</span>';
+                                                    $delete_btn = '<button class="btn btn-success fa fa-recycle" id="reactive"></button>';
+                                                }
+
                                             echo '<tr>
                                                 <td>'.$value->vehicle_number.'</td>
                                                 <td>'.$status.'</td>
-                                                <td>'.$value->vehicle_current_reading.'</td>
-                                                <td>'.$route.'</td>
+                                                <td>'.$value->vehicle_purchase_date.'</td>
+                                                <td>'.$value->vehicle_body_type.'</td>
                                                 
-                                                <td>'.$driver.'</td>
+                                                <td>'.$value->vehicle_registration_date.'</td>
                                                 <td value="'.$value->vehicle_id.'">
-                                                    <a  class="btn btn-info
-                                                    fa fa-edit"  data-toggle="modal" href="#modal-1" id="show_update_vform" data-toggle="tooltip" data-placement="down" title="Update"></a>
-                                                    <button data-toggle="tooltip" data-placement="top" title="Delete" id="delete" class="btn btn-danger fa fa-trash"></button>
+                                                    <a  class="btn btn-primary fa fa-info"  data-toggle="modal" id="vehicle_info" data-toggle="tooltip" data-placement="down" title="Update"></a>
+                                                    <a  class="btn btn-info fa fa-edit"  data-toggle="modal" id="show_update_vform" data-toggle="tooltip" data-placement="down" title="Update"></a>
+                                                    '.$delete_btn.'
                                                 </td>
                                             </tr>';
                                             }

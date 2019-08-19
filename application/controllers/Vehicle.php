@@ -13,19 +13,29 @@ class Vehicle extends CI_Controller {
 	{
 		// both add and update operation perform in single file
 		$vehicle_data = [];
+		$show_info = false;
 		$vehicle_id = $this->input->get('vehicle_id');
 		if ($vehicle_id != NULL) {
 			if (!empty($data = $this->vehicle_model->fetch_single_vehicle_info($vehicle_id))) {
 				$vehicle_data = $data;
 			}
 		}
-		$this->load->view('vehicle/vehicle_form',['vehicle_data'=>$vehicle_data]);
+
+		if ($this->input->get('action')=="show_info") {
+			$show_info = true;
+		}
+		$this->load->view('vehicle/vehicle_form',['vehicle_data'=>$vehicle_data,'show_info'=>$show_info]);
 	}
+
 
 		public function add_vehicle()
 	{
-		$data=$this->input->post();
-		$config= array(
+		/*
+			* add new vehicle 
+			* update old vehicle data 
+		*/
+		$data = $this->input->post();
+		$config = array(
 		array('field' =>'vehicle_number' ,'rules'=>'required|min_length[7]|max_length[10]'),
 		array('field' =>'vehicle_purchase_date' ,'rules'=>'required|date'),
 		array('field' =>'vehicle_current_reading' ,'rules'=>'required|numeric'),
@@ -35,54 +45,18 @@ class Vehicle extends CI_Controller {
 		);
 
 		$this->load->library('form_validation',$config);
+
+		//form validation 
 		if($this->form_validation->run() == true)
 		{
-			if($this->vehicle_model->add_vehicle_info($data))
-			{
-				echo 'Record Saved.';
-			}
-			else
-			{
-				echo 'Failed Try Again.';		
-			}
+			$resp = $this->vehicle_model->add_vehicle_info($data);
 		}
 		else
 		{
-			echo stripcslashes(validation_errors());
+			$resp = stripcslashes(validation_errors());
 		}
-	}
 
-	public function update_vehicle()
-	{
-		$vehicle_id=$this->input->post('vehicle_id');
-		$info=$this->input->post();
-		unset($info['vehicle_id']);
-		$config= array(
-		array('field' =>'vehicle_number' ,'rules'=>'required|min_length[7]|max_length[10]'),
-		array('field' =>'vehicle_purchase_year' ,'rules'=>'required|exact_length[4]|numeric'),
-		array('field' =>'vehicle_current_reading' ,'rules'=>'required|numeric'),
-		array('field' =>'vehicle_chassis_no' ,'rules'=>'required|min_length[17]'),
-		array('field' =>'vehicle_engine_no' ,'rules'=>'required|min_length[10]'),
-		array('field' =>'vehicle_expected_average' ,'rules'=>'required|min_length[1]'),
-		array('field' =>'vehicle_tyres' ,'rules'=>'required|min_length[1]'),
-		);
-
-		$this->load->library('form_validation',$config);
-		if($this->form_validation->run() == true)
-		{
-			if($this->vehicle_model->update_vehicle_info($vehicle_id,$info))
-			{
-				echo "Record Updated.";
-			}
-			else
-			{
-				echo "Failed Try Again.?";
-			}
-		}
-		else
-		{
-			echo stripcslashes(validation_errors());
-		}
+		echo $resp;
 	}
 
 	public function delete_vehicle()
@@ -92,11 +66,15 @@ class Vehicle extends CI_Controller {
 		{
 			echo "Record Deleted..";
 		}
-		else
+	}
+
+	public function reactive_vehicle()
+	{
+		$vehicle_id=$this->input->get('vehicle_id');
+		if($data=$this->vehicle_model->reactive_vehicle($vehicle_id))
 		{
-
+			echo "vehicle reactivated ..";
 		}
-
 	}
 
 	public function __construct()
