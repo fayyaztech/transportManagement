@@ -6,6 +6,15 @@ $('.add_vehicle').click(function(event) {
 	});
 });
 
+// update vehicle button
+$(document).on('click', '#show_update_vform', function(event){
+		var vehicle_id = $(this).parent().attr('value');
+		$.get(url+'vehicle/vehicle_form?vehicle_id='+vehicle_id, function(data) {
+		$('.modal_containt').html(data);
+		$('#modal').modal('show');
+	});
+});
+
 
 // Saving New Vehicle Record //
 
@@ -22,7 +31,7 @@ $(document).on('submit','#submit',function(event){
 			processData:false,
 			success: function(data){
 			alert(data);
-			// location.reload();
+				location.reload();
 			}
 	})
 })
@@ -74,23 +83,4 @@ $(document).on('submit','#update_form',function(event){
 	}
 		
 });
-
-
-
-
-$(document).on('click', '#show_update_vform', function(event){
-		var vehicle_id = $(this).parent().attr('value');
-		fetch_record(vehicle_id);
-});
- 
-function fetch_record(vehicle_id)
-{
-	$.ajax({
-	url:url+"vehicle/fetch_vehicle_info?vehicle_id="+vehicle_id,
-	method:"POST",
-	success:function(data){
-	$('#modal-1').html(data);
-}
-})
-}
 // End Fetching Record For Update //
