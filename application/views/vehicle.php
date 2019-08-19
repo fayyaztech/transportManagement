@@ -32,8 +32,8 @@
                                         
                                         <tbody>
                                             <?php
-                                            // $data = $this->vehicle_model->get_vehicle_details();
                                             $data = [];
+                                            $data = $this->vehicle_model->get_vehicle_details();
                                             foreach ($data as $value) {
                                             $exra_data = $this->vehicle_model->get_vehicle_last_trip_details($value->vehicle_id);
                                             $route = "--";
