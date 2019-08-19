@@ -10,20 +10,27 @@
                             <form id="submit" method="post" action="javascript:void(0);">
                                 <div class="modal-body">
                                     <div class="card mx-auto">
-                                        
                                         <div class="card-body">
                                             <div class="row">
+                                                <?php
+                                                // print_r($vehicle_data);
+                                if(isset($vehicle_data[0])) {
+                                    ?>
+<input type="hidden" name="vehicle_id" value="<?php echo $vehicle_data[0]['vehicle_id']?>">
+                                    <?php
+                                }
+                                ?>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Owner Name</label>
-                                                        <input type="text" id="owner_name" name="owner_name" class="form-control" placeholder="Owner Name" required="required" autofocus="autofocus">
+                                                        <input type="text" id="owner_name" name="vehicle_owner_name" class="form-control" placeholder="Owner Name" required="required" autofocus="autofocus" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_owner_name'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="passing no">Engine Number</label>
-                                                        <input type="text" id="vehicle_engine_no" name="vehicle_engine_no" class="form-control" placeholder="Engine Number" required="required">
+                                                        <input type="text" id="vehicle_engine_no" name="vehicle_engine_no" class="form-control" placeholder="Engine Number" required="required" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_engine_no'].'"';} ?>>
                                                     </div>
                                                 </div>
                                             </div>
@@ -31,14 +38,14 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Purchase/Dilivery date</label>
-                                                        <input type="date" id="purchase_date" name="purchase_date" class="form-control" placeholder="Dilivery date" required="required" autofocus="autofocus">
+                                                        <input type="date" id="purchase_date" name="vehicle_purchase_date" class="form-control" placeholder="Dilivery date" required="required" autofocus="autofocus"<?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_purchase_date'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Vehicle class</label>
-                                                        <input type="text" id="vehicle_class" name="vehicle_class" class="form-control" placeholder="Vehicle Class" required="required" autofocus="autofocus">
+                                                        <input type="text" id="vehicle_class" name="vehicle_class" class="form-control" placeholder="Vehicle Class" required="required" autofocus="autofocus"<?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_class'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
@@ -47,14 +54,14 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Body Type</label>
-                                                        <input type="text" id="body_type" name="body_type" class="form-control" placeholder="Body Type" required="required" autofocus="autofocus">
+                                                        <input type="text" id="body_type" name="vehicle_body_type" class="form-control" placeholder="Body Type" required="required" autofocus="autofocus"<?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_body_type'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Maker</label>
-                                                        <input type="text" id="maker" name="maker" class="form-control" placeholder="Maker" required="required" autofocus="autofocus">
+                                                        <input type="text" id="maker" name="vehicle_maker" class="form-control" placeholder="Maker" required="required" autofocus="autofocus"<?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_maker'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
@@ -63,14 +70,14 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Maker Model</label>
-                                                        <input type="text" id="maker_model" name="maker_model" class="form-control" placeholder="Maker Model" required="required" autofocus="autofocus">
+                                                        <input type="text" id="maker_model" name="vehicle_maker_model" class="form-control" placeholder="Maker Model" required="required" autofocus="autofocus" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_maker_model'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Unladen Weight(kg.)</label>
-                                                        <input type="number" id="unladen_wt" name="unladen_wt" class="form-control" placeholder="Unladen Weight" required="required" autofocus="autofocus">
+                                                        <input type="number" id="unladen_wt" name="vehicle_unladen_wt" class="form-control" placeholder="Unladen Weight" required="required" autofocus="autofocus" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_unladen_wt'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
@@ -79,14 +86,14 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Laden Weight(kg.)</label>
-                                                        <input type="number" id="laden_wt" name="laden_wt" class="form-control" placeholder="Laden Weight" required="required" autofocus="autofocus">
+                                                        <input type="number" id="laden_wt" name="vehicle_laden_wt" class="form-control" placeholder="Laden Weight" required="required" autofocus="autofocus" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_laden_wt'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Seating Capacity</label>
-                                                        <input type="number" id="seating_cap" name="seating_cap" class="form-control" placeholder="Seating Capacity" autofocus="autofocus">
+                                                        <input type="number" id="seating_cap" name="vehicle_seating_capacity" class="form-control" placeholder="Seating Capacity" autofocus="autofocus" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_seating_capacity'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
@@ -95,14 +102,14 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Manufacture Year</label>
-                                                        <input type="date" id="manufacture" name="manufacture" class="form-control" placeholder="Manufacture year" required="required" autofocus="autofocus">
+                                                        <input type="date" id="manufacture" name="vehicle_manufacture_year" class="form-control" placeholder="Manufacture year" required="required" autofocus="autofocus" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_manufacture_year'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="passing no">Chassis Number</label>
-                                                        <input type="text" id="vehicle_chassis_no" name="vehicle_chassis_no" class="form-control" placeholder="Chassis Number" required="required">
+                                                        <input type="text" id="vehicle_chassis_no" name="vehicle_chassis_no" class="form-control" placeholder="Chassis Number" required="required" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_chassis_no'].'"';} ?>>
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,13 +118,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="passing no">Registration Date</label>
-                                                        <input type="date" id="reg_date" name="reg_date" class="form-control" placeholder="Registration date" required="required">
+                                                        <input type="date" id="reg_date" name="vehicle_registration_date" class="form-control" placeholder="Registration date" required="required" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_registration_date'].'"';} ?>>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstName">Vehicle Number</label>
-                                                        <input type="text" id="vehicle_number" name="vehicle_number" class="form-control" placeholder="Vehicle Name" required="required" autofocus="autofocus">
+                                                        <input type="text" id="vehicle_number" name="vehicle_number" class="form-control" placeholder="Vehicle Name" required="required" autofocus="autofocus" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_number'].'"';} ?>>
                                                         
                                                     </div>
                                                 </div>
@@ -127,13 +134,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="purchase year">Start Km</label>
-                                                        <input type="number" name="vehicle_current_reading" class="form-control" placeholder="Start Km" required="required">
+                                                        <input type="number" name="vehicle_current_reading" class="form-control" placeholder="Start Km" required="required" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_current_reading'].'"';} ?>>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="passing no">Vehicle type</label>
-                                                        <input type="text" id="vehicle_type" name="vehicle_type" class="form-control" placeholder="Vehicle type">
+                                                        <input type="text" id="vehicle_type" name="vehicle_type" class="form-control" placeholder="Vehicle type" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_type'].'"';} ?>>
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,13 +151,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="passing no">Vehicle Category</label>
-                                                        <input type="text" id="vehicle_category" name="vehicle_category" class="form-control" placeholder="Vehicle Category" required="required">
+                                                        <input type="text" id="vehicle_category" name="vehicle_category" class="form-control" placeholder="Vehicle Category" required="required" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_category'].'"';} ?>>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="passing no">Expected Average</label>
-                                                        <input type="number" id="vehicle_expected_average" name="vehicle_expected_average" class="form-control" placeholder="Expected Average" required="required">
+                                                        <input type="number" id="vehicle_expected_average" name="vehicle_expected_average" class="form-control" placeholder="Expected Average" required="required" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_expected_average'].'"';} ?>>
                                                     </div>
                                                 </div>
                                             </div>
@@ -158,7 +165,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="purchase year">Number Of Tyres</label>
-                                                        <input type="number" id="vehicle_tyres" name="vehicle_tyres" class="form-control" placeholder="Number of Tyres" required="required">
+                                                        <input type="number" id="vehicle_tyres" name="vehicle_tyres" class="form-control" placeholder="Number of Tyres" required="required" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_tyres'].'"';} ?>>
                                                     </div>
                                                 </div>
                                             </div>
