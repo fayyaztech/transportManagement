@@ -29,11 +29,6 @@ class Operations extends CI_Controller
         //template($this,'maintenance');
     }
 
-    public function driver_management()
-    {
-        template($this, 'driver');
-    }
-
     public function route_management()
     {
         template($this, 'route');
@@ -54,11 +49,6 @@ class Operations extends CI_Controller
     {
         template($this, 'client');
 
-    }
-
-    public function personal_info()
-    {
-        $this->load->view('driver/personal_info');
     }
 
     public function driver_upload_info()

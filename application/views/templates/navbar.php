@@ -115,7 +115,7 @@
                             <a href="<?php echo base_url('operations/maintenance'); ?>"><i class="fa fa-table fa-fw"></i> Maintenance</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/driver_management'); ?>"><i class="fa fa-edit fa-fw"></i> Driver Master</a>
+                            <a href="<?php echo base_url('driver'); ?>"><i class="fa fa-edit fa-fw"></i> Driver Master</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('operations/client_management'); ?>">
