@@ -83,25 +83,3 @@ $(document).on('submit','#submit',function(event){
 	})
 })
 // End Saving New Vehicle Record //
-
-// Saving Updated Vehicle Record //
-
-$(document).on('submit','#update_form',function(event){
-	var url=$('#url').val();
-
-	event.preventDefault();
-	$.ajax({
-			url:url+"vehicle/update_vehicle",
-			method:"post",
-			data:new FormData(this),
-			contentType:false,
-			cache:false,
-			processData:false,
-			success: function(data){
-			alert(data);
-			location.reload();
-			}
-	})
-})
-
-// End Saving Updated Vehicle Record //
