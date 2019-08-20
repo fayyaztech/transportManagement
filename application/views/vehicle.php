@@ -20,10 +20,18 @@
                 
                     <div class="form-group">
                         <select class="form-control" name="filter">
-                            <option value="4"> All</option>
-                            <option value="0"> Deactivated</option>
-                            <option value="1"> Active</option>
-                            <option value="2"> Running</option>
+                            <option value="4" <?php if (NULL !== $this->input->get('filter') && $this->input->get('filter') == 4) {
+                                echo 'selected';
+                            } ?>> All</option>
+                            <option value="0" <?php if (NULL !== $this->input->get('filter') && $this->input->get('filter') == 0) {
+                                echo 'selected';
+                            } ?>> Deactivated</option>
+                            <option value="1" <?php if (NULL !== $this->input->get('filter') && $this->input->get('filter') == 1) {
+                                echo 'selected';
+                            } ?>> Active</option>
+                            <option value="2" <?php if (NULL !== $this->input->get('filter') && $this->input->get('filter') == 2) {
+                                echo 'selected';
+                            } ?>> Running</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-filter"></i> Filter</button>
