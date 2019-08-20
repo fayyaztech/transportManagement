@@ -6,7 +6,11 @@ class Driver extends CI_Controller
 
     public function index()
     {
-        $driver_data = $this->driver_model->driverManagement();
+    	$filter = 1;
+    	if ($this->input->get('filter') !== NULL) {
+    		$filter = $this->input->get('filter');
+    	}
+        $driver_data = $this->driver_model->driverManagement($filter);
         template($this, 'driver',['driver_data'=>$driver_data]);
     }
 
@@ -22,27 +26,22 @@ class Driver extends CI_Controller
 
         $this->load->library('form_validation', $config);
         if ($this->form_validation->run()) {
-            if ($d_id = $this->driver_model->save_diver_info($post)) {
-                $resp['code'] = 1;
-                $resp["msg"] = "driver added successfully !";
-
-            } else {
-                $resp['code'] = 0;
-                $resp["msg"] = "Failed to add driver !";
-            }
+            $responce = $this->driver_model->save_diver_info($post);
+            echo $responce;
         } else {
-            $resp['code'] = 0;
-            $resp["msg"] = validation_errors();
+            echo validation_errors();
         }
-
-        echo json_encode($resp);
 
     }
 
 
     public function driver_form()
     {
-        $this->load->view('driver/driver_form');
+    	$driver_data = [];
+    	if (isset($_GET['driver_id'])) {
+    		$driver_data = $this->driver_model->fetch_driver_info($this->input->get('driver_id'));
+    	}
+        $this->load->view('driver/driver_form',['driver_data'=>$driver_data]);
     }
 
     public function update_driver_info()
@@ -74,159 +73,11 @@ class Driver extends CI_Controller
 
     }
 
-    public function fetch_driver()
-    {
-        $driver_id = $this->input->get('driver_id');
-        $data = $this->driver_model->fetch_driver_info($driver_id);
-        foreach ($data as $value) {
-
-            echo '
-				<div class="row">
-	<div class="col-md-12">
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="text-center">Personal Information</h3>
-			</div>
-			<div class="panel-body">
-				<form method="post" id="driver_update_submit">
-					<div class="row">
-						<div class="col-md-2">
-							<div class="form-group">
-								<label for="firstName">Name</label>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<input type="text" name="driver_name" class="form-control" placeholder="Name" value="' . $value->driver_name . '" autofocus="autofocus">
-								<input type="hidden" class="form-control" id="driver_id" name="driver_id" value="' . $value->driver_id . '" placeholder="Enter email">
-
-							</div>
-						</div>
-
-						<div class="col-md-2">
-							<div class="form-group">
-								<label for="firstName">Date Of Birth</label>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<input type="date" name="driver_dob" value="' . $value->driver_dob . '" class="form-control" autofocus="autofocus">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-2">
-							<div class="form-group">
-								<label for="firstName">Mobile Number</label>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<input type="tel" name="driver_number"  value="' . $value->driver_number . '" class="form-control" placeholder="Contact Number" autofocus="autofocus">
-							</div>
-						</div>
-						<div class="col-md-2">
-							<div class="form-group">
-								<label for="email">Email</label>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<input type="email" name="driver_email" value="' . $value->driver_email . '" class="form-control" placeholder="email" autofocus="autofocus">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-
-						<div class="col-md-2">
-							<div class="form-group">
-								<label for="">Date of Joining</label>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<input type="date" name="driver_date_of_join" value="' . $value->driver_date_of_join . '"class="form-control"  autofocus="autofocus">
-							</div>
-						</div>
-						<div class="col-md-2">
-							<div class="form-group">
-								<label for="">Salary</label>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<input type="numeric" name="driver_salary" value="' . $value->driver_salary . '" class="form-control" required=""  autofocus="autofocus">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-2">
-							<div class="form-group">
-								<label for="">Licence no</label>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<input type="text" name="driver_licence_no" value="' . $value->driver_licence_no . '" class="form-control"autofocus="autofocus">
-							</div>
-						</div>
-
-						<div class="col-md-2">
-							<div class="form-group">
-								<label for="">Expiry Date</label>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<input type="date" name="driver_licence_exp" value="' . $value->driver_licence_exp . '" class="form-control"  autofocus="autofocus">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-2">
-							<div class="form-group">
-								<label for="firstName">Address</label>
-							</div>
-						</div>
-						<div class="col-md-8">
-							<div class="form-group">
-								<textarea name="driver_permanent_address"  class="form-control">' . $value->driver_permanent_address . '</textarea>
-							</div>
-						</div>
-						<div class="col-md-2">
-							<button type="submit" class="btn btn-success pull-right btn-lg" id="personal_information">Update</button>
-						</div>
-					</div>
-
-
-
-				</div>
-			</form>
-
-		</div>
-	</div>
-</div>
-
-		';
-
-        }
-    }
-
     public function delete_driver()
     {
 
         $driver_id = $this->input->get('driver_id');
-
-        if ($this->driver_model->delete_driver_info($driver_id)) {
-            $resp['code'] = 1;
-            $resp["msg"] = "deleted successfully !";
-        } else {
-            $resp['code'] = 0;
-            $resp["msg"] = "may be driver is on trip!";
-        }
-
-        echo json_encode($resp);
-
+        echo $this->driver_model->delete_driver_info($driver_id);
     }
 
     public function __construct()
