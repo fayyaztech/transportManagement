@@ -108,14 +108,14 @@
                         <li>
                             <a href="<?php echo base_url('admin'); ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
+                                                <li>
+                            <a href="<?php echo base_url('driver'); ?>"><i class="fa fa-edit fa-fw"></i> Driver Master</a>
+                        </li>
                         <li>
                             <a href="<?php echo base_url('vehicle'); ?>"><i class="fa fa-bar-chart-o fa-fw"></i> Vehicle Master</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('operations/maintenance'); ?>"><i class="fa fa-table fa-fw"></i> Maintenance</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url('driver'); ?>"><i class="fa fa-edit fa-fw"></i> Driver Master</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('operations/client_management'); ?>">
