@@ -1,6 +1,9 @@
 //base_url
 var url = $('#url').val();
 
+jQuery(document).ready(function($) {
+    $("#dataTable").dataTable();
+});
 // add vihicle button clicked
 $('.add_vehicle').click(function(event) {
     $.get(url + 'vehicle/vehicle_form', function(data) {

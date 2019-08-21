@@ -1,6 +1,7 @@
 var url = $("#url").val();
 jQuery(document).ready(function($) {
     $("#loadingBlock").hide();
+    $('#dataTable').DataTable();
     // load_driver_data()
 });
 
@@ -29,6 +30,38 @@ $(document).on('click', "#driver_profile", function(event) {
     });
 });
 
+$(document).on('click', '#reactive_driver', function(event) {
+
+    if (confirm('Do You Want To reactive driver..?')) {
+        var driver_id = $(this).parent().attr('value');
+        $.get(url + "driver/reactive_driver?driver_id=" + driver_id, function(data) {
+            if (data == 1) {
+                alert("Drivet profile enabled");
+                location.reload();
+            } else {
+                alert("driver profile failed to enable");
+            }
+        });
+    }
+
+});
+
+$(document).on('click', '#delete', function(event) {
+
+    if (confirm('Do You Want To Delete Driver Record..?')) {
+        var driver_id = $(this).parent().attr('value');
+        $.get(url + "driver/delete_driver?driver_id=" + driver_id, function(data) {
+            if (data == 1) {
+                alert("Drivet profile removed");
+                location.reload();
+            } else {
+                alert("driver profile failed to remove");
+            }
+        });
+    }
+
+});
+
 
 $(document).on('submit', "#driver_form", function(event) {
     event.preventDefault();
@@ -52,21 +85,4 @@ $(document).on('submit', "#driver_form", function(event) {
             }
         }
     })
-});
-
-
-$(document).on('click', '#delete', function(event) {
-
-    if (confirm('Do You Want To Delete Vehicle Record..?')) {
-        var driver_id = $(this).parent().attr('value');
-        $.get(url + "driver/delete_driver?driver_id=" + driver_id, function(data) {
-            if (data == 1) {
-                alert("Drivet profile disabled");
-                location.reload();
-            } else {
-                alert("driver profile failed to remove");
-            }
-        });
-    }
-
 });
