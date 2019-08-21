@@ -20,15 +20,6 @@ class Operations extends CI_Controller
 
     }
 
-    public function maintenance()
-    {
-
-        $data = fetch_vehicle_list($this);
-        //$tyre_info=$this->maintenance_model->fetch_tyre_info();
-        template($this, 'maintenance', ['data' => $data]);
-        //template($this,'maintenance');
-    }
-
     public function route_management()
     {
         template($this, 'route');

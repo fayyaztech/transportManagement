@@ -115,7 +115,7 @@
                             <a href="<?php echo base_url('vehicle'); ?>"><i class="fa fa-bar-chart-o fa-fw"></i> Vehicle Master</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/maintenance'); ?>"><i class="fa fa-table fa-fw"></i> Maintenance</a>
+                            <a href="<?php echo base_url('maintenance'); ?>"><i class="fa fa-table fa-fw"></i> Maintenance</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('operations/client_management'); ?>">

@@ -114,6 +114,7 @@ function update_vehicle_status($ctx, $vehicle_id, $status)
         return false;
     }
 }
+
 function fetch_vehicle_list($ctx, $status = 1)
 {
     // $ctx context of current object

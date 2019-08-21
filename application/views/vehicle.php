@@ -36,7 +36,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-filter"></i> Filter</button>
                 </form>
-                </br>
+                <br/>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover text-center" id="dataTable">
