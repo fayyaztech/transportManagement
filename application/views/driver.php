@@ -57,7 +57,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover" id="dataTable">
                         <thead class="bg-primary">
                             <tr>
                                 <th>Sr No.</th>
@@ -80,7 +80,7 @@
                                 $delete_btn = '<button data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger fa fa-trash" disabled></button>';
                             }elseif($value->driver_status == 0){
                                 $status = '<span class="label label-danger">deactive</span>';
-                                $delete_btn = '<button data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger fa fa-trash" disabled></button>';
+                                $delete_btn = '<button data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-success fa fa-recycle" id="reactive_driver"></button>';
                             }
 
                             echo '<tr>
