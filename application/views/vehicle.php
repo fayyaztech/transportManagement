@@ -39,9 +39,10 @@
                 </br>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover text-center">
+                                    <table class="table table-bordered table-hover text-center" id="dataTable">
                                         <thead class="bg-primary text-center">
                                             <tr>
+                                                <th class="text-center">Vehicle ID</th>
                                                 <th class="text-center">Vehicle</th>
                                                 <th class="text-center">Status</th>
                                                 <th class="text-center">purchase Date</th>
@@ -83,6 +84,7 @@
                                                 }
 
                                             echo '<tr>
+                                                <td>'.$value->vehicle_id.'</td>
                                                 <td>'.$value->vehicle_number.'</td>
                                                 <td>'.$status.'</td>
                                                 <td>'.$value->vehicle_purchase_date.'</td>
@@ -90,7 +92,7 @@
                                                 
                                                 <td>'.$value->vehicle_registration_date.'</td>
                                                 <td value="'.$value->vehicle_id.'">
-                                                    <a  class="btn btn-primary fa fa-info"  data-toggle="modal" id="vehicle_info" data-toggle="tooltip" data-placement="down" title="Update"></a>
+                                                    <a  class="btn btn-primary fa fa-eye"  data-toggle="modal" id="vehicle_info" data-toggle="tooltip" data-placement="down" title="Update"></a>
                                                     <a  class="btn btn-info fa fa-edit"  data-toggle="modal" id="show_update_vform" data-toggle="tooltip" data-placement="down" title="Update"></a>
                                                     '.$delete_btn.'
                                                 </td>
