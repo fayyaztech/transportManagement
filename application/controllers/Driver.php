@@ -80,6 +80,13 @@ class Driver extends CI_Controller
         echo $this->driver_model->delete_driver_info($driver_id);
     }
 
+    public function reactive_driver()
+    {
+
+        $driver_id = $this->input->get('driver_id');
+        echo $this->driver_model->reactive_driver($driver_id);
+    }
+
     public function __construct()
     {
         parent::__construct();

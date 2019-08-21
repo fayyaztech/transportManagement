@@ -14,6 +14,16 @@ class Driver_model extends CI_Model
         return $responce;
     }
 
+    public function reactive_driver($driver_id)
+    {
+        $responce = 0; //default failed
+        $this->db->where('driver_id', $driver_id);
+        if ($this->db->update('driver', ['driver_status' => '1'])) {
+            $responce = 1;
+        }
+        return $responce;
+    }
+
     public function save_diver_info($driver_info)
     {
         $responce = 0; //operation failed
