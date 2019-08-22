@@ -33,12 +33,15 @@
                                             <th>Consignee Name</th>
                                             <th>Vehicle Number</th>
                                             <th>Trip Start Date</th>
-                                            <th>Trip Stop Date</th>
+                                            <th>Trip End Date</th>
                                             <th>Route</th>
                                             <th>Driver</th>
                                             <th>Distance</th>
-                                            <th>Frieght</th>
-                                            <th colspan="2">Actions</th>
+                                            <th>Expected Frieght</th>
+                                            <th>Payment Recieved</th>
+                                            <th>Incentive</th>
+                                            <th>Steps</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="trip_table">

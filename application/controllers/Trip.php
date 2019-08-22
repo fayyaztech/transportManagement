@@ -167,7 +167,7 @@ class Trip extends CI_Controller
                     // status 2 = running
                     if ($trip_d->trip_detail_status == 2) {
                         $status = "bg-success";
-                        $add_advance_btn = '<button id="fetch_advance" class="btn btn-info fa fa-plus text-white"> add advance</button>';
+                        $add_advance_btn = '<button id="fetch_advance" class="btn btn-info fa fa-plus text-white">advance</button>';
                     } else {
                         $status = "bg-danger";
                         $add_advance_btn = "";
@@ -184,12 +184,12 @@ class Trip extends CI_Controller
 			   <td>' . $trip_d->route_origin . ' to ' . $trip_d->route_destination . '</td>
 			   <td>' . $trip_d->driver_name . '</td>
 			   <td>' . $trip_d->route_distance . '</td>';
-                    echo '<td>' . $freight . '</trip_d>';
+                    echo '<td>' . $freight . '</td><td></td><td></td>';
 
                     echo '<td t_id="' . $trip_d->trip_details_id . '" v_id="' . $trip_d->vehicle_id . '">
-                         <button id="update_trip" class="btn btn-success fa fa-edit text-primary"> edit</button>';
+                         <button id="update_trip" class="btn btn-success fa fa-edit text-primary"></button>';
                     if ($trip_d->trip_detail_status == 2) {
-                        echo '<button id="stop_step_trip" class="btn btn-danger fa fa-stop text-danger"> stop Step</button>';
+                        echo '<button id="stop_step_trip" class="btn btn-danger fa fa-stop text-danger"></button>';
                     }
 
                     echo $add_advance_btn.'
