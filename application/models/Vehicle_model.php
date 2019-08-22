@@ -55,7 +55,7 @@ class Vehicle_model extends CI_Model
 
     public function fetch_single_vehicle_info($vehicle_id)
     {
-        $this->db->where(['vehicle_id' => $vehicle_id, 'vehicle_status' => '1']);
+        $this->db->where(['vehicle_id' => $vehicle_id]);
         $query = $this->db->get('vehicle');
         return $query->result_array();
     }
