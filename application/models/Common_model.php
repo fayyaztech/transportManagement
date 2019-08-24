@@ -12,7 +12,7 @@ class Common_model extends CI_Model
         }
 
         $query = $this->db->get('vehicle');
-        return $query->result();
+        return $query->result_array();
     }
 
 }

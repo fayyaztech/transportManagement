@@ -37,12 +37,52 @@ class Maintenance extends CI_Controller
         template($this, 'maintenance', $data);
     }
 
+    public function mnt_forward_form()
+    {
+        // changer vehicle assigned vehicle form 
+        $vehicle_list = $this->common_model->fetch_vehicle_list($vehicle_filter = "");
+        $mnt_id = $this->input->get('mnt_id');
+
+        $data = [
+            'vehicle_list' => $vehicle_list,
+            'mnt_id' => $mnt_id,
+        ];
+        $this->load->view('maintenance/mnt_forward_form', $data);
+
+    }
+
+    public function save_forward_mnt()
+    {
+        /* chage assigned vehicle */
+        $post = $this->input->post();
+        echo $this->maintenance_model->save_forward_mnt($post);
+    }
+
     public function get_maintainance_form()
     {
-        // ajax request
+        /* 
+            * gernate form on ajax request 
+            * new entry
+            * view details
+            * edit details
+            * recycle old entry tyre remold || battry recharged
+        */
         // action is type of request
         $action = $this->input->get('action');
         $data['action'] = $action;
+
+        /* mnt type for Action
+         * remold tyre
+         * recharge battry
+        default mnt is null
+         */
+        $data['mnt_recycle'] = false;
+
+        // if mnt_type received
+        if (null !== ($this->input->get('mnt_recycle'))) {
+            $data['mnt_recycle'] = $this->input->get('mnt_recycle');
+        }
+
         if ($action == "new") {
             //make a sure data not empty
             if (null === $this->input->get('v_id') && null === $this->input->get('v_name')) {
@@ -54,27 +94,47 @@ class Maintenance extends CI_Controller
             $data['vehicle_id'] = $this->input->get('v_id');
             $data['vehicle_number'] = $this->input->get('v_name');
         } elseif ($action == "edit" || $action == "view") {
-            
+
             //make a sure data not empty
-            if($this->input->get('mnt_id') == ""){
+            if ($this->input->get('mnt_id') == "") {
                 echo "ERROR";
                 die();
             }
             $mnt_id = $this->input->get('mnt_id');
             $mnt_record = $this->maintenance_model->single_maintenance_record($mnt_id);
 
-            //require data 
+            //require data
             $data['mnt_record'] = $mnt_record;
             $data['vehicle_id'] = $mnt_record['vehicle_id'];
             $data['vehicle_number'] = $mnt_record['vehicle_number'];
         }
         $data['mnt_types'] = $this->maintenance_model->get_mnt_types();
-        
-        $this->load->view('maintainance/maintainance_form', $data);
+
+        $this->load->view('maintenance/maintenance_form', $data);
+    }
+
+    public function delete_mnt_record()
+    {
+        /* delete maintenance records */
+        $mnt_id = $this->input->get('mnt_id');
+        echo $this->maintenance_model->delete_record($mnt_id);
+
+    }
+
+    public function srap_mnt_record()
+    {
+        /* delete maintenance records */
+        $mnt_id = $this->input->get('mnt_id');
+        echo $this->maintenance_model->make_mnt_scrap($mnt_id);
+
     }
 
     public function add_maintenance()
     {
+        /* save maintenance new data
+         * update data
+         * update recycled data
+         */
         $data = $this->input->post();
         echo $this->maintenance_model->add_maintenance($data);
     }

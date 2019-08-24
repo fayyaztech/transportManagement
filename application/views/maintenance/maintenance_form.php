@@ -1,7 +1,29 @@
 <form id="maintainance_form" action="javascript:void(0);">
+<?php if($action == 'edit' && $mnt_recycle == FALSE){?>
+    <input type="hidden" name="mnt_id" class="form-control" value="<?php echo $mnt_record['mnt_id']; ?>">
+<?php }?>
+<?php  if($mnt_recycle){?>
+ 
+ <input type="hidden" name="mnt_type_renewed_id" class="form-control" value="<?php echo $mnt_record['mnt_id']; ?>">
+ 
+<?php } ?>
+
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Maintanance Form</h4>
+        <h4 class="modal-title">Maintanance 
+        <?php 
+            if($action == 'edit'){
+                echo "Edit";
+            }elseif($action == 'view'){
+                echo 'View';
+            }else{
+                echo 'New Entry';
+            }
+
+            echo ($mnt_recycle) ? ' Recycling' : '' ;
+        ?>
+        
+        </h4>
     </div>
     <div class="modal-body">
         <div class="row">
@@ -17,11 +39,15 @@
             <div class="col-md-4 col-md-offset-1">
                 <div class="form-group">
                     <label for="">Type</label>
-                    <select class="form-control" name="mnt_type" id="mnt_type" <?php if($action == "view")echo "disabled"; ?>>
+                    <select class="form-control" name="mnt_type" id="mnt_type" <?php if($action == "view" || $mnt_recycle == TRUE)echo "disabled"; ?>>
                     <?php for($i = 0; $i < count($mnt_types);$i++){?>
-                        <option value="<?php echo $mnt_types[$i]['mnt_type_id'];?>" <?php if(isset($mnt_record) && ($mnt_record['mnt_type'] == $mnt_types[$i]['mnt_type_id']))echo "selected"; ?>><?php echo $mnt_types[$i]['mnt_type_name']?></option>
+                        <option value="<?php echo $mnt_types[$i]['mnt_type_id'];?>" <?php if(isset($mnt_record) && ($mnt_record['mnt_type'] == $mnt_types[$i]['mnt_type_id']))echo "selected"; ?> ><?php echo $mnt_types[$i]['mnt_type_name']?></option>
                     <?php } ?>                      
                     </select>
+                    <?php if ($mnt_recycle) {?>
+                     <input type="hidden" name="mnt_type" class="form-control" value="<?php echo $mnt_record['mnt_type'];?>">
+                    <?php }?>
+                    
                 </div>
             </div>
             <div class="col-md-4 col-md-offset-1">

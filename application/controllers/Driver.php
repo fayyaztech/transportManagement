@@ -44,34 +44,34 @@ class Driver extends CI_Controller
         $this->load->view('driver/driver_form',['driver_data'=>$driver_data]);
     }
 
-    public function update_driver_info()
-    {
-        $post = $this->input->post();
+    // public function update_driver_info()
+    // {
+    //     $post = $this->input->post();
 
-        $config = array(
-            array("field" => "driver_name", "rules" => "required"),
-            array("field" => "driver_number", "rules" => "required|numeric|min_length[10]"),
-            array("field" => "driver_permanent_address", "rules" => "required"),
-        );
-        $this->load->library('form_validation', $config);
+    //     $config = array(
+    //         array("field" => "driver_name", "rules" => "required"),
+    //         array("field" => "driver_number", "rules" => "required|numeric|min_length[10]"),
+    //         array("field" => "driver_permanent_address", "rules" => "required"),
+    //     );
+    //     $this->load->library('form_validation', $config);
 
-        if ($this->form_validation->run()) {
-            if ($this->driver_model->update_driver_info($post)) {
-                $resp['code'] = 1;
-                $resp["msg"] = "driver updated successfully !";
+    //     if ($this->form_validation->run()) {
+    //         if ($this->driver_model->update_driver_info($post)) {
+    //             $resp['code'] = 1;
+    //             $resp["msg"] = "driver updated successfully !";
 
-            } else {
-                $resp['code'] = 0;
-                $resp["msg"] = "Failed to update driver !";
-            }
-        } else {
-            $resp['code'] = 0;
-            $resp["msg"] = validation_errors();
-        }
+    //         } else {
+    //             $resp['code'] = 0;
+    //             $resp["msg"] = "Failed to update driver !";
+    //         }
+    //     } else {
+    //         $resp['code'] = 0;
+    //         $resp["msg"] = validation_errors();
+    //     }
 
-        echo json_encode($resp);
+    //     echo json_encode($resp);
 
-    }
+    // }
 
     public function delete_driver()
     {
