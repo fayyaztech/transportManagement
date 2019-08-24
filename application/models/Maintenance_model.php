@@ -3,158 +3,77 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Maintenance_model extends CI_Model
 {
-
-    public function delete_expense($expense_id)
+    public function add_maintenance($data)
     {
-        $this->db->where('expense_id', $expense_id);
-        if ($this->db->delete('expenses')) {
-            return true;
-        }
-    }
+        /**save new entry
+         * update if received mnt_id
+         * scrap old product if receved same id for recycled
+         */
+        $responce = 0; //faild opration
+        if (isset($data['mnt_id'])) {
+            $this->db->where('mnt_id', $data['mnt_id']);
+            unset($data['mnt_id']);
+            if ($this->db->update('maintenance', $data)) {
+                $responce = 2; // 2 for form updated
+            }
 
-    public function get_expense()
-    {
-        $this->db->select('expenses.expense_id,expenses.expense_date,expenses.expense_amount,expense_vendar_name,expenses_details.ed_name,expenses.expense_bill_no,expenses.note');
-        $this->db->where('expenses.product_purchase_id IS NULL');
-        $this->db->join('expenses_details', 'expenses.expense_name = expenses_details.ed_id', 'left');
-        $query = $this->db->get('expenses');
-        return $query->result();
-
-    }
-    public function add_expenses($post)
-    {
-        if ($this->db->insert('expenses', $post)) {
-            return true;
-        }
-    }
-
-    public function fetch_vehicle_details($vehicle_id)
-    {
-        $this->db->select('vehicle.vehicle_current_reading');
-        $this->db->select('expenses_details.ed_name');
-        $this->db->select('product_purchase.*,expenses.*');
-        $this->db->where('product_purchase.vehicle_id', $vehicle_id);
-        $this->db->where('product_purchase.pp_status', 1);
-        $this->db->join('expenses', 'product_purchase.pp_id = expenses.product_purchase_id', 'left');
-        $this->db->join('expenses_details', 'expenses_details.ed_id = product_purchase.expense_details_id', 'left');
-        $this->db->join('vehicle', 'product_purchase.vehicle_id = vehicle.vehicle_id');
-        $query = $this->db->get('product_purchase');
-        return $query->result();
-    }
-
-    public function fetch_tyre_info_by_vid($vehicle_id)
-    {
-        $this->db->where(['pp_id' => '1', 'vehicle_id' => $vehicle_id]);
-        $query = $this->db->get('vehicle_maintenance');
-        return $query->result();
-    }
-
-    public function fetch_battery_info($vm_id)
-    {
-        $this->db->where(['pp_id' => '3', 'vm_id' => $vm_id]);
-        $query = $this->db->get('vehicle_maintenance');
-        return $query->result();
-    }
-
-// aadd product and expense
-    public function add_product($data)
-    {
-
-        if ($data['expense_details_id'] == 2) {
-            // if expenses are oil then older oil status replase with 0
-            $this->db->where(['vehicle_id' => $data['vehicle_id'], 'expense_details_id' => 2]);
-            $this->db->update('product_purchase', ['pp_status' => 0]);
-
-        } elseif ($data['expense_details_id'] == 3) {
-            // if expenses are battery then older oil status replase with 0
-            $this->db->where(['vehicle_id' => $data['vehicle_id'], 'expense_details_id' => 3]);
-            $this->db->update('product_purchase', ['pp_status' => 0]);
-        } elseif ($data['expense_details_id'] == 13) {
-            // if stepny added
-            $this->db->where(['vehicle_id' => $data['vehicle_id'], 'pp_id' => $data['pp_id']]);
-            unset($data['pp_id']);
-            $this->db->update('product_purchase', ['pp_status' => 0]);
-        }
-
-        if ($this->db->insert('product_purchase', $data)) {
-            return $this->db->insert_id();
         } else {
-            return false;
+            if ($this->db->insert('maintenance', $data)) {
+                if ($data['mnt_type_renewed_id'] !== "") {
+                    $this->make_mnt_scrap($data['mnt_type_renewed_id']);
+                }
+                $responce = 1; // 1 for new record
+            }
+        }
+
+        return $responce;
+    }
+
+    public function make_mnt_scrap($id)
+    {
+        $this->db->where('mnt_id', $id);
+        return ($this->db->update('maintenance', ['mnt_status' => 2])) ? TRUE : FALSE ;
+
+    }
+
+    public function save_forward_mnt($post)
+    {
+        $this->db->where('mnt_id', $post['mnt_id']);
+        if ($this->db->update('maintenance', $post)) {
+            return 1;
         }
     }
 
-    public function delete_product($id)
-    {
-        $this->db->where('pp_id', $id);
-        $this->db->delete('product_purchase');
+    public function maintenance_records($vehicle_id)
+    {     
+        // if record filter applied select perticular vehicle records
+        if ($vehicle_id !== "") {$this->db->where('mnt.vehicle_id', $vehicle_id);}
+        $this->db->select('mnt.mnt_id,mnt.mnt_type,mnt.mnt_date,mnt.mnt_name,mnt.mnt_shop_name,mnt.mnt_amount,mnt.mnt_warranty,v.vehicle_number,mntt.mnt_type_name,mnt_status');
+        $this->db->order_by('mnt.mnt_date', 'DESC');
+        $this->db->join('maintenance_type as mntt', 'mnt.mnt_type = mntt.mnt_type_id', 'left');
+        $this->db->join('vehicle as v', 'mnt.vehicle_id = v.vehicle_id', 'left');
+        return $this->db->get('maintenance as mnt')->result_array();
+
     }
 
-    public function insert_expenses($expense)
+    public function get_mnt_types()
     {
-        if ($this->db->insert('expenses', $expense)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->db->get('maintenance_type')->result_array();
     }
 
-    // ***************** add product and expenses END*****************//
-
-    public function add_oil_maintenance_info($data)
+    public function delete_record($mnt_id)
     {
-        $vehicle_id = $data['vehicle_id'];
-        $pp_id = $data['pp_id'];
-        $this->db->set('vm_product_status', '0');
-        $this->db->where(['vehicle_id' => $vehicle_id, 'pp_id' => $pp_id]);
-        $this->db->update('vehicle_maintenance');
-        if ($this->db->insert('vehicle_maintenance', $data)) {
-            return true;
-        }
+        $this->db->where('mnt_id', $mnt_id);
+        if ($this->db->delete('maintenance')) {return true;}
     }
 
-    public function add_battery_maintenance_info($data)
+    public function single_maintenance_record($mnt_id)
     {
-        if ($this->db->insert('vehicle_maintenance', $data)) {
-            return true;
-        }
-    }
-
-    public function add_recharge_battery_info($data)
-    {
-        if ($this->db->insert('vehicle_maintenance', $data)) {
-            return true;
-        }
-    }
-
-    public function assign_battery($old_id, $data)
-    {
-        $this->db->set('vehicle_id', $data['vehicle_id']);
-        $this->db->where(['vehicle_id' => $old_id, 'pp_id' => '3']);
-        if ($this->db->update('vehicle_maintenance')) {
-            return true;
-        }
-    }
-
-    public function update_battery_maintenance_info($vm_id, $data)
-    {
-        $this->db->where(['vm_id' => $vm_id, 'pp_id' => '3']);
-        if ($this->db->update('vehicle_maintenance', $data)) {
-            return true;
-        }
-    }
-
-    public function add_misc_maintenance_info($data)
-    {
-        if ($this->db->insert('vehicle_maintenance', $data)) {
-            return true;
-        }
-    }
-
-    public function add_permit_maintenance_info($data)
-    {
-        if ($this->db->insert('vehicle_maintenance', $data)) {
-            return true;
-        }
+        $this->db->where('mnt.mnt_id', $mnt_id);
+        $this->db->select('v.vehicle_number,mntt.mnt_type_name,mnt.*');
+        $this->db->join('maintenance_type as mntt', 'mnt.mnt_type = mntt.mnt_type_id', 'left');
+        $this->db->join('vehicle as v', 'mnt.vehicle_id = v.vehicle_id', 'left');
+        return $this->db->get('maintenance as mnt')->row_array();
     }
 }
 

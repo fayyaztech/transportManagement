@@ -14,6 +14,8 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo base_url(); ?>assets/dist/js/sb-admin-2.js"></script>
+    <script src="<?php echo base_url(); ?>assets/vendor/datatables/js/jquery.dataTables.js"></script>
+    <script src="<?php echo base_url(); ?>assets/vendor/datatables/js/dataTables.bootstrap4.js"></script>
 
     
 

@@ -20,26 +20,6 @@ class Operations extends CI_Controller
 
     }
 
-    public function vehicle_management()
-    {
-        $this->load->model('vehicle_model');
-        template($this, 'vehicle');
-    }
-
-    public function maintenance()
-    {
-
-        $data = fetch_vehicle_list($this);
-        //$tyre_info=$this->maintenance_model->fetch_tyre_info();
-        template($this, 'maintenance', ['data' => $data]);
-        //template($this,'maintenance');
-    }
-
-    public function driver_management()
-    {
-        template($this, 'driver');
-    }
-
     public function route_management()
     {
         template($this, 'route');
@@ -60,11 +40,6 @@ class Operations extends CI_Controller
     {
         template($this, 'client');
 
-    }
-
-    public function personal_info()
-    {
-        $this->load->view('driver/personal_info');
     }
 
     public function driver_upload_info()

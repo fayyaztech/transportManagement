@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2.1
+-- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 23, 2019 at 11:35 AM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.2.12
+-- Generation Time: Aug 19, 2019 at 09:11 AM
+-- Server version: 5.7.27-0ubuntu0.16.04.1
+-- PHP Version: 7.0.33-0ubuntu0.16.04.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -498,16 +496,26 @@ CREATE TABLE `trip_status` (
 
 CREATE TABLE `vehicle` (
   `vehicle_id` int(11) NOT NULL,
-  `vehicle_number` varchar(1000) NOT NULL,
-  `vehicle_purchase_year` varchar(1000) NOT NULL,
-  `vehicle_permit` varchar(1000) NOT NULL,
-  `vehicle_tyres` int(11) NOT NULL,
-  `vehicle_current_reading` int(11) NOT NULL,
-  `vehicle_load_capacity` float NOT NULL,
-  `vehicle_chassis_no` varchar(1000) NOT NULL,
-  `vehicle_engine_no` int(11) NOT NULL,
-  `vehicle_type` int(11) NOT NULL,
   `vehicle_expected_average` int(11) NOT NULL DEFAULT '0',
+  `vehicle_owner_name` varchar(50) NOT NULL,
+  `vehicle_purchase_date` date DEFAULT NULL,
+  `vehicle_engine_no` varchar(25) NOT NULL,
+  `vehicle_class` varchar(20) NOT NULL,
+  `vehicle_body_type` varchar(20) NOT NULL,
+  `vehicle_maker` varchar(20) NOT NULL,
+  `vehicle_maker_model` varchar(30) NOT NULL,
+  `vehicle_laden_wt` int(11) NOT NULL,
+  `vehicle_unladen_wt` double NOT NULL,
+  `vehicle_category` varchar(30) NOT NULL,
+  `vehicle_weight` int(11) NOT NULL,
+  `vehicle_seating_capacity` int(11) NOT NULL,
+  `vehicle_manufacture_year` date DEFAULT NULL,
+  `vehicle_chassis_no` varchar(30) NOT NULL,
+  `vehicle_registration_date` date DEFAULT NULL,
+  `vehicle_number` varchar(10) NOT NULL,
+  `vehicle_current_reading` double NOT NULL,
+  `vehicle_type` varchar(30) NOT NULL,
+  `vehicle_tyres` int(11) NOT NULL,
   `vehicle_status` int(11) NOT NULL DEFAULT '1' COMMENT '0 = deactive 1 = free 2 = running'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -515,10 +523,8 @@ CREATE TABLE `vehicle` (
 -- Dumping data for table `vehicle`
 --
 
-INSERT INTO `vehicle` (`vehicle_id`, `vehicle_number`, `vehicle_purchase_year`, `vehicle_permit`, `vehicle_tyres`, `vehicle_current_reading`, `vehicle_load_capacity`, `vehicle_chassis_no`, `vehicle_engine_no`, `vehicle_type`, `vehicle_expected_average`, `vehicle_status`) VALUES
-(13, 'MH20AH5263', '2016-09-09', 'national', 6, 2700, 10, '12234', 43242, 1, 60, 1),
-(14, 'MH20AH2010', '2010', '', 6, 2450, 10, '76778375', 5564883, 0, 3, 1),
-(15, 'MH20WH2957', '2010', '', 6, 2780, 0, '76778375', 5564883, 0, 3, 1);
+INSERT INTO `vehicle` (`vehicle_id`, `vehicle_expected_average`, `vehicle_owner_name`, `vehicle_purchase_date`, `vehicle_engine_no`, `vehicle_class`, `vehicle_body_type`, `vehicle_maker`, `vehicle_maker_model`, `vehicle_laden_wt`, `vehicle_unladen_wt`, `vehicle_category`, `vehicle_weight`, `vehicle_seating_capacity`, `vehicle_manufacture_year`, `vehicle_chassis_no`, `vehicle_registration_date`, `vehicle_number`, `vehicle_current_reading`, `vehicle_type`, `vehicle_tyres`, `vehicle_status`) VALUES
+(16, 4, 'salman Shaikh', '2019-01-01', '65767', 'unkinwn', 'opne', 'no', 'no', 323, 345, '100', 0, 3, '2019-04-11', '984y7984hfiue', '2019-06-06', 'MH20AH5544', 32432, 'motar', 6, 1);
 
 -- --------------------------------------------------------
 
@@ -678,127 +684,106 @@ ALTER TABLE `wedge_type`
 --
 ALTER TABLE `advances`
   MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
   MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `consignees`
 --
 ALTER TABLE `consignees`
   MODIFY `consignee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT for table `consignors`
 --
 ALTER TABLE `consignors`
   MODIFY `consignor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
   MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
   MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `expenses_details`
 --
 ALTER TABLE `expenses_details`
   MODIFY `ed_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `expenses_type`
 --
 ALTER TABLE `expenses_type`
   MODIFY `ep_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `freights`
 --
 ALTER TABLE `freights`
   MODIFY `freight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
 --
 -- AUTO_INCREMENT for table `identity_doc`
 --
 ALTER TABLE `identity_doc`
   MODIFY `identity_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `loads`
 --
 ALTER TABLE `loads`
   MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT for table `load_routes`
 --
 ALTER TABLE `load_routes`
   MODIFY `load_routes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
 --
 -- AUTO_INCREMENT for table `product_purchase`
 --
 ALTER TABLE `product_purchase`
   MODIFY `pp_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `routes`
 --
 ALTER TABLE `routes`
   MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
 --
 -- AUTO_INCREMENT for table `states`
 --
 ALTER TABLE `states`
   MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
-
 --
 -- AUTO_INCREMENT for table `trip`
 --
 ALTER TABLE `trip`
   MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `trip_details`
 --
 ALTER TABLE `trip_details`
   MODIFY `trip_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
 --
 -- AUTO_INCREMENT for table `trip_expenses`
 --
 ALTER TABLE `trip_expenses`
   MODIFY `trip_expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `trip_status`
 --
 ALTER TABLE `trip_status`
   MODIFY `ts_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
+  MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `wedge_type`
 --
 ALTER TABLE `wedge_type`
   MODIFY `wt_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- Constraints for dumped tables
 --
@@ -808,7 +793,6 @@ ALTER TABLE `wedge_type`
 --
 ALTER TABLE `product_purchase`
   ADD CONSTRAINT `product_purchase_ibfk_1` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`vehicle_id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
