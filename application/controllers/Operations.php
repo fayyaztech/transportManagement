@@ -41,19 +41,6 @@ class Operations extends CI_Controller
         template($this, 'client');
 
     }
-
-    public function driver_upload_info()
-    {
-        $this->load->view('driver/documents');
-    }
-    public function driver_uploads()
-    {
-        $this->load->view('driver/document_upload');
-    }
-    public function driver_salary_info()
-    {
-        $this->load->view('driver/wage_method');
-    }
     public function add_route()
     {
         $this->load->view('route/add_route');
