@@ -118,7 +118,7 @@
                             <a href="<?php echo base_url('maintenance'); ?>"><i class="fa fa-table fa-fw"></i> Maintenance</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/client_management'); ?>">
+                            <a href="<?php echo base_url('client'); ?>">
                                 <i class="fa fa-edit fa-fw"></i> 
                                 Client Master
                             </a>

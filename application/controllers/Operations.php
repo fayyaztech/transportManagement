@@ -35,12 +35,6 @@ class Operations extends CI_Controller
         template($this, 'expense');
 
     }
-
-    public function client_management()
-    {
-        template($this, 'client');
-
-    }
     public function add_route()
     {
         $this->load->view('route/add_route');
