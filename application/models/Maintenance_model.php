@@ -18,10 +18,20 @@ class Maintenance_model extends CI_Model
             }
 
         } else {
+            if($data['mnt_type'] == 4 || $data['mnt_type'] == 5 || $data['mnt_type'] == 6){
+                /**if mnt type 
+                 * 4 body work
+                 * 5 engin work
+                 * 6 misc work
+                 * work status is done 3;
+                 */
+                $data['mnt_status'] = 3;
+            }
             if ($this->db->insert('maintenance', $data)) {
-                if ($data['mnt_type_renewed_id'] !== "") {
+                if (isset($data['mnt_type_renewed_id'])) {
                     $this->make_mnt_scrap($data['mnt_type_renewed_id']);
                 }
+
                 $responce = 1; // 1 for new record
             }
         }

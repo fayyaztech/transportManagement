@@ -12,11 +12,17 @@ class Client_model extends CI_Model
 
     public function add_client($post)
     {
-        if ($this->db->insert('consignors', $post)) {
-            return true;
-        } else {
-            return false;
+        $responce = 0; //operation failed
+        if (isset($post['consignor_id'])) {
+            $this->db->where('consignor_id', $post['consignor_id']);
+            unset($post["consignor_id"]);
+            if ($this->db->update('consignors', $post)) {
+                $responce = 2; //uodated
+            }
+        } elseif ($this->db->insert('consignors', $post)) {
+            $responce = 1; //new added
         }
+        return $responce;
     }
 
     public function add_consignee($post)
@@ -28,21 +34,36 @@ class Client_model extends CI_Model
         }
     }
 
-    public function update_client_info($post, $client_id)
+    public function delete_consignor($consignor_id)
     {
-        $this->db->where('client_id', $client_id);
-        if ($this->db->update('client', $post)) {
+        $this->db->where('consignor_id', $consignor_id);
+        $this->db->delete('consignees');
+
+        $this->db->where('consignor_id', $consignor_id);
+        if ($this->db->delete('consignors')) {
             return true;
-        } else {
-            return false;
         }
+    }
+
+    public function delete_consignee($consigee_id)
+    {
+        $this->db->where('consignee_id', $consigee_id);
+        if($this->db->delete('consignees')){
+            return TRUE;
+        }
+    }
+
+    public function fetch_consignee_list($consignor_id)
+    {
+        $this->db->where('consignor_id', $consignor_id);
+        return $this->db->get('consignees')->result_array();
     }
 
     public function fetch_client_info($client_id)
     {
-        $this->db->where('client_id', $client_id);
-        $query = $this->db->get('client');
-        return $query->result();
+        $this->db->where('consignor_id', $client_id);
+        $query = $this->db->get('consignors');
+        return $query->row_array();
     }
 
 }

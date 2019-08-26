@@ -5,23 +5,35 @@ class Client extends CI_Controller {
 
 	public function index()
 	{
+		/**Client home page
+		 * client list get from model
+		 */
 		$consinee_list = $this->client_model->get_list();
-		$count = 1;
-		foreach ($consinee_list as $value) {
-			echo '
-				<tr>
-					<td>'.$count++.'</td>
-                    <td>'.$value->consignor_name.'</td>
-                    <td>'.$value->consignor_address.'</td>
-                    <td>'.$value->consignor_contact.'</td>
-                    <td>'.$value->consignor_city.'</td>
-                    <td value='.$value->consignor_id.'>
-                      <a id="update_con" href="#modal-id" data-toggle="modal" class="btn btn-info fa fa-edit edit_client" ></a>
-                      <button class="btn btn-danger fa fa-trash delete_consingee"></button>
-                    </td>
-                </tr>
-			';
+		$data['consinee_list'] = $consinee_list;
+		template($this, 'client',$data);
+	}
+
+	public function add_consignor_form()
+	{
+		/**send consignor form via ajax
+		 * action new|edit
+		 * view true|false (editable|non-editable)
+		 */
+		$data['view'] = false;
+		$data['action'] = 'new';
+		if(NULL !== $this->input->get('action')){
+			$data['action'] = $this->input->get('action');
+			$data['info'] = $this->client_model->fetch_client_info($this->input->get('consignor_id'));
 		}
+		if($this->input->get('view') == 'true'){
+			$data['view'] = TRUE;
+		}
+		$this->load->view('client/consignor_form',$data);
+	}
+
+	public function add_consignee_form()
+	{
+		$this->load->view('client/consignee_form');
 	}
 
 	public function add_consignor()
@@ -38,19 +50,13 @@ class Client extends CI_Controller {
 		$this->load->library('form_validation', $validation);
 
 			if ($this->form_validation->run()) {
-			if ($this->client_model->add_client($post)) {
-				$resp['code'] = 1;
-				$resp["msg"] = "client added successfully !";
-			}else{
-				$resp['code'] = 0;
-				$resp["msg"] = "Failed to add client !";
+			if ($r = $this->client_model->add_client($post)) {
+				echo $r;
 			}
 		} else {
-			$resp['code'] = 0;
-			$resp["msg"] = validation_errors();
+			echo validation_errors();
 		}
 
-		echo json_encode($resp);
 	}
 
 	public function add_consignee()
@@ -83,36 +89,35 @@ class Client extends CI_Controller {
 		echo json_encode($resp);
 	}
 
-	public function update_client()
+	public function delete_consignor()
 	{
-		$client_id=$this->input->get('client_id');
-		$data = $this->input->post();
-		print_r($data);
-		$validation = array(
-			array('field'=>"client_name", 'rules'=>'required'),
-			array('field'=>"client_contact", 'rules'=>'required|numeric'),
-			array('field'=>"client_address", 'rules'=>'required'),
-			array('field'=>"client_pincode", 'rules'=>'required|numeric'),
-			array('field'=>"client_city", 'rules'=>'required'),
-			array('field'=>"client_state", 'rules'=>'required')
-		);
-		
-		$this->load->library('form_validation', $validation);
-		
-		if ($this->form_validation->run()) {
-			if ($this->client_model->update_client_info($data,$client_id)) {
-				$resp['code'] = 1;
-				$resp["msg"] = "client Update successfully !";
-			}else{
-				$resp['code'] = 0;
-				$resp["msg"] = "Failed to Update client !";
-			}
-		} else {
-			$resp['code'] = 0;
-			$resp["msg"] = validation_errors();
+		$consinor_id = $this->input->get('consignor_id');
+		if($this->client_model->delete_consignor($consinor_id)){
+			echo 1;
+		}else{
+			echo 2;
 		}
+		
+	}
 
-		echo json_encode($resp);
+	public function delete_consignee()
+	{
+		$consinee_id = $this->input->get('consignee_id');
+		if($this->client_model->delete_consignee($consinee_id)){
+			echo 1;
+		}else{
+			echo 2;
+		}
+		
+	}
+
+	public function consinee_list()
+	{
+		$consinor_id = $this->input->get('consignor_id');
+		$data['consignees'] = $this->client_model->fetch_consignee_list($consinor_id);
+		$this->load->view('client/consignee_list',$data);
+		
+		
 	}
 
 	public function fetch_client()
