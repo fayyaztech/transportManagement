@@ -39,7 +39,7 @@ class Routes_model extends CI_Model
 
         $this->db->order_by('route_origin', 'asc');
         $query = $this->db->get("routes");
-        return $query->result();
+        return $query->result_array();
 
     }
 

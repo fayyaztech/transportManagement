@@ -19,12 +19,6 @@ class Operations extends CI_Controller
         template($this, 'load');
 
     }
-
-    public function route_management()
-    {
-        template($this, 'route');
-
-    }
     public function trip_management()
     {
         template($this, 'trip');
