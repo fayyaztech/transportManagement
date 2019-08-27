@@ -124,7 +124,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/route_management'); ?>"><i class="fa fa-edit fa-fw"></i> Routes Master</a>
+                        <a href="<?php echo base_url('route/'); ?>"><i class="fa fa-edit fa-fw"></i> Routes Master</a>
                         </li>
                         <li>
                            <a href="<?php echo base_url('operations/load_management'); ?>">
