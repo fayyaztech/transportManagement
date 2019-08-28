@@ -12,12 +12,20 @@ class Routes_model extends CI_Model
         }
     }
 
-    public function add_route($data)
+    public function add_route($post)
     {
 
-        if ($this->db->insert('routes', ['route_origin' => $data['route_origin'], 'route_destination' => $data['route_destination'], 'route_distance' => $data['route_distance']])) {
-            return true;
+        $response = 0; //operation failed
+        if (isset($post['route_id'])) {
+            $this->db->where('route_id', $post['route_id']);
+            unset($post["route_id"]);
+            if ($this->db->update('routes', $post)) {
+                $response = 2; //uodated
+            }
+        } elseif ($this->db->insert('routes', $post)) {
+            $response = 1; //new added
         }
+        return $response;
 
     }
     public function update_freight($data)
@@ -43,15 +51,11 @@ class Routes_model extends CI_Model
 
     }
 
-    public function single_route($route_id)
+    public function fetch_route_info($route_id)
     {
-        $this->db->select('route.*');
-        $this->db->select('freight_rate.*');
-        $this->db->where('route.route_id', $route_id);
-        $this->db->where(['freight_rate.route_id' => $route_id, 'freight_status' => 1]);
-        $this->db->from('route');
-        $this->db->join('freight_rate', 'route.route_id = freight_rate.route_id', 'left');
-        $query = $this->db->get();
-        return $query->result();
+        
+         $this->db->where('route_id', $route_id);
+        $query = $this->db->get('routes');
+        return $query->row_array();
     }
 }

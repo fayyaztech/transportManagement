@@ -6,16 +6,26 @@ jQuery(document).ready(function ($) {
 
 $("#add_new_route").click(function (e) { 
     e.preventDefault();
-    $.get(url+"route/add_route_form",function (data){
-        $('.modal-body').html(data);
-        $("#modal-id").modal('show');
-    });
+    route_form({});
 });
 
-$(document).on('click', "#delete_route_btn", function (event) {
+
+//update route form
+$(".update_route_btn").click(function (e) {
+    e.preventDefault();
+    var route_id = $(this).parent().attr('value');
+    var data = {
+        'action': 'edit',
+        'route_id': route_id
+    };
+    route_form(data);
+});
+
+
+$(document).on('click', ".delete_route_btn", function (event) {
     var conf = confirm("Do you really want to delete this route ??");
     if (conf == true) {
-        var route_id = $(this).attr('value');
+        var route_id = $(this).parent().attr('value');
         $.get(url + 'route/delete_route?route_id=' + route_id, function (data) {
             if (data == "1") {
                 location.reload();
@@ -27,17 +37,7 @@ $(document).on('click', "#delete_route_btn", function (event) {
 
 });
 
-$(document).on('change', '#consignment_type', function (event) {
-    var consignment_type = $('#consignment_type').val();
-    if (consignment_type == 'market') {
-        $('#freight').hide();
-        $('#cmvr').hide();
-    } else {
-        $('#freight').show();
-        $('#cmvr').show();
-    }
 
-});
 
 $(document).on('submit', '#add_route_submit', function (event) {
 
@@ -50,16 +50,14 @@ $(document).on('submit', '#add_route_submit', function (event) {
         contentType: false,
         processData: false,
         success: function (data) {
-            var resp = jQuery.parseJSON(data);
-            console.log(data);
-            if (resp.code == 1) {
-                alert(resp.msg);
-                location.reload(true);
-                // $("#add_route_submit").trigger("reset");
-
+           if (data == 1) {
+                alert("route added !");
+                location.reload();
+            } else if (data == 2) {
+                alert("route Updated !");
+                location.reload();
             } else {
                 alert(resp.msg);
-
             }
 
             $("#loadingBlock").hide();
@@ -67,30 +65,16 @@ $(document).on('submit', '#add_route_submit', function (event) {
         }
     })
 });
-$(document).on('submit', '#update_route_submit', function (event) {
 
-    event.preventDefault();
-    $.ajax({
-        url: url + 'route/update_freight',
-        type: 'POST',
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (data) {
 
-            var resp = jQuery.parseJSON(data);
-            console.log(data);
-            if (resp.code == 1) {
-                $('#modal-id').modal('hide');
-                alert(resp.msg);
-            } else {
-                alert(resp.msg);
-
-            }
-
-            $("#loadingBlock").hide();
-
-        }
-    })
-});
+function route_form(data) {
+    /**function used for 
+     * get to add consignor form
+     * edit consignor form
+     * view consignor details
+     */
+    $.get(url+"route/add_route_form",data,function (data){
+        $('.modal-body').html(data);
+        $("#modal-id").modal('show');
+    });
+}

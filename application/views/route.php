@@ -36,9 +36,10 @@
                                 <td><?php echo $route_info[$i]['route_origin']; ?></td>
                                 <td><?php echo $route_info[$i]['route_destination']; ?></td>
                                 <td><?php echo $route_info[$i]['route_distance']; ?> Km</td>
-                                <td>
-                                    <a class="btn btn-danger fa fa-trash" id="delete_route_btn"
-                                        value="'.$value->route_id.'"></a>
+                                <td value="<?php echo $route_info[$i]['route_id']; ?>">
+                                    <button class="btn btn-danger fa fa-trash delete_route_btn"
+                                        ></button>
+                                    <button class="btn btn-info fa fa-edit update_route_btn"></button>
                                 </td>
                             </tr>
                             <?php
