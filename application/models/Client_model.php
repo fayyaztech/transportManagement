@@ -10,6 +10,16 @@ class Client_model extends CI_Model
         return $query->result();
     }
 
+    public function assign_routes($data)
+    {
+        $this->db->where('consignor_id', $data[0]['consignor_id']);
+        $this->db->delete('assigned_routes');
+                
+        if ($this->db->insert_batch('assigned_routes', $data)) {
+            return true;
+        }
+    }
+
     public function add_client($post)
     {
         $responce = 0; //operation failed
@@ -48,8 +58,8 @@ class Client_model extends CI_Model
     public function delete_consignee($consigee_id)
     {
         $this->db->where('consignee_id', $consigee_id);
-        if($this->db->delete('consignees')){
-            return TRUE;
+        if ($this->db->delete('consignees')) {
+            return true;
         }
     }
 
