@@ -6,7 +6,7 @@ class Route extends CI_Controller
 
     public function index()
     {
-        $data['route_info'] = $this->routes_model->fetch_route();
+        $data['route_info'] = $this->common_model->fetch_route();
         template($this, 'route', $data);
     }
 

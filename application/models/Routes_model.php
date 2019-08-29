@@ -34,15 +34,6 @@ class Routes_model extends CI_Model
         }
     }
 
-    public function fetch_route()
-    {
-
-        $this->db->order_by('route_origin', 'asc');
-        $query = $this->db->get("routes");
-        return $query->result_array();
-
-    }
-
     public function single_route($route_id)
     {
         $this->db->select('route.*');
