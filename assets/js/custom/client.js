@@ -81,61 +81,6 @@ $(".view_consignee").click(function (e) {
     }, );
 });
 
-// assign Route
-$(".assign_route").click(function (e) {
-    /**on clicked assign route
-     * show unassigned route for assign
-     */
-    e.preventDefault();
-    var consignor_id = $(this).parent().attr('value');
-    data = {
-        'consignor_id': consignor_id,
-        'action': 'unassign'
-    };
-    assign_routes(data)
-
-});
-
-// unassigne route
-$(".unassign_route").click(function (e) {
-    /**on click unassign route 
-     * show assigned routes for remove or unassign
-     */
-    e.preventDefault();
-    var consignor_id = $(this).parent().attr('value');
-    data = {
-        'consignor_id': consignor_id,
-        'action': 'assign'
-    };
-    assign_routes(data);
-});
-
-$(document).on('submit', '#assign_route', function (e) {
-    e.preventDefault();
-    $.ajax({
-        type: "POST",
-        url: url + "client/assign_route_controll",
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            if (data == 1) {
-                alert("route unassigned !");
-                location.reload();
-            } else if (data == 2) {
-                alert("route assigned !");
-                location.reload();
-            } else {
-                alert(resp.msg);
-            }
-            $("#loadingBlock").hide();
-        }
-    });
-});
-
-
-
 //add consignee from 
 $("#add_consignee_btn").click(function (event) {
     event.preventDefault();
@@ -195,14 +140,6 @@ $(document).on('submit', '#add_consignee_form', function (event) {
         }
     });
 });
-
-function assign_routes() {
-    $.get(url + "client/assign_routes_view", data, function (responce) {
-        $('.modal-body').html(responce);
-        $("#route_table").dataTable();
-        $("#modal-id").modal("show");
-    });
-}
 
 function load_clients() {
     alert("om");

@@ -118,10 +118,13 @@
                             <a href="<?php echo base_url('maintenance'); ?>"><i class="fa fa-table fa-fw"></i> Maintenance</a>
                         </li>
                         <li>
-                        <a href="<?php echo base_url('route/'); ?>"><i class="fa fa-edit fa-fw"></i> Routes Master</a>
+                            <a href="<?php echo base_url('client'); ?>">
+                                <i class="fa fa-edit fa-fw"></i> 
+                                Client Master
+                            </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('client'); ?>"><i class="fa fa-edit fa-fw"></i>Client Master</a>
+                        <a href="<?php echo base_url('route/'); ?>"><i class="fa fa-edit fa-fw"></i> Routes Master</a>
                         </li>
                         <li>
                            <a href="<?php echo base_url('operations/load_management'); ?>">

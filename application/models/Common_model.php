@@ -15,34 +15,6 @@ class Common_model extends CI_Model
         return $query->result_array();
     }
 
-    public function get_consignor_name($consignor_id)
-    {
-        $this->db->select('consignor_name');
-        $this->db->where('consignor_id', $consignor_id);
-        return $this->db->get('consignors')->row_array()['consignor_name'];
-    }
-
-    public function fetch_assigned_routes($consignor_id)
-    {
-        $this->db->where('consignor_id', $consignor_id);
-        return $this->db->get('assigned_routes')->result_array();
-    }
-
-    public function fetch_unassigned_routes($consignor_id)
-    {
-        $this->db->select('r.route_id,r.route_origin,r.route_destination,r.route_distance');
-        $this->db->where('as_r.consignor_id', $consignor_id);
-        $this->db->join('assigned_routes as as_r', 'r.route_id = as_r.route_id', 'left');
-        return $this->db->get('routes as r')->result_array();
-    }
-
-    public function fetch_route()
-    {
-        $this->db->order_by('route_origin', 'asc');
-        $query = $this->db->get("routes");
-        return $query->result_array();
-    }
-
 }
 
 /* End of file common_model.php */

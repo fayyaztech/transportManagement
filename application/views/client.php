@@ -63,7 +63,6 @@
                                                           <button class="btn btn-info fa fa-edit update_consignor" ></button>
                                                           <button class="btn btn-danger fa fa-trash delete_consignor"></button>
                                                           <button class="btn btn-success fa fa-users view_consignee"></button>
-                                                          <button class="btn btn-warning fa fa-road assign_route"></button>
                                                         </td>
                                                     </tr>
                                                 ';
