@@ -9,11 +9,6 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
-             <!-- <div class="row">
-                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" href='#modal-id' id="add_route">Add Route</button>
-            </div><br> -->
-            
             <div role="tabpanel">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
@@ -25,22 +20,37 @@
                     </li>
                 </ul>
                 <!-- Tab panes -->
+                <br/>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="load_list">
-                        
+
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered table-hover" id="dataTable">
                                     <thead class="bg-primary">
-                                        <tr><th>Sr.</th>  
+                                        <tr><th>Sr.</th>
                                             <th>Load Name</th>
                                             <th>Consignor Name</th>
                                             <th>action</th>
                                         </tr>
                                     </thead>
-                                    
+
                                     <tbody id="load_info">
-                                        
+                                    <?php 
+                                    $count = 1;
+                                    foreach ($load_info as $value) {
+                                        echo '
+                                            <tr>
+                                                <td>' . $count++ . '</td>
+                                                <td>' . $value->load_name . '</td>
+                                                <td>' . $value->consignor_name . '</td>
+                                                <td>
+                                                    <span class="btn btn-danger fa fa-trash"></span>
+                                                </td>
+                                            </tr>
+                                                ';
+                                        }
+                                    ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -53,8 +63,8 @@
                                     <h3 class="text-center">Add Load</h3>
                                 </div>
                                 <div class="panel-body">
-                                    
-                                   
+
+
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="form-group">
@@ -65,14 +75,14 @@
                                             <div class="form-group">
                                                 <select class="c-select form-control" name="consignor_id">
                                                     <option selected>select Consignor</option>
-                                                      <?php 
-                                                        $consignor= fetch_consignor($this);
-                                                        foreach ($consignor as $value) {
-                                                            echo'
-                                                                <option value="'.$value->consignor_id.'">'.$value->consignor_name.'</option>
+                                                      <?php
+$consignor = fetch_consignor($this);
+foreach ($consignor as $value) {
+    echo '
+                                                                <option value="' . $value->consignor_id . '">' . $value->consignor_name . '</option>
                                                             ';
-                                                        }
-                                                      ?>
+}
+?>
                                                 </select>
                                             </div>
                                         </div>
@@ -96,51 +106,51 @@
                                                 <select class="c-select form-control" name="route_id">
                                                     <option selected>select route</option>
                                                       <?php /*
-                                                        $route= fetch_route($this);
-                                                        foreach ($route as $value) {
-                                                            echo'
-                                                                <option value="'.$value->route_id.'">'.$value->route_origin.'-'.$value->route_destination.'</option>
-                                                            ';
-                                                        }*/
-                                                      ?>
+$route= fetch_route($this);
+foreach ($route as $value) {
+echo'
+<option value="'.$value->route_id.'">'.$value->route_origin.'-'.$value->route_destination.'</option>
+';
+}*/
+?>
                                                 </select>
                                             </div>
                                         </div> -->
-                                    
-                                       
-                                        
+
+
+
                                     </div>
-                                    
-                                    
+
+
                                     <div class="row">
-                                        
+
                                         <div class="col-md-3 col-md-offset-9">
                                             <button type="button" class="btn btn-danger" data-dismiss="modal">close</button>
                                             <button type="submit" class="btn btn-success" id="personal_information">Submit</button>
                                             <button type="button" class="hidden reset-btn">Custom Reset Button</button>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
-                                
+
                             </div>
                         </form>
-                        
+
                     </div>
                 </div>
             </div>
-            
-            
+
+
             <div class="modal fade" id="modal-id">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" id="route">
                         <div class="modal-body" >
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
-           
+
             <input type="hidden" name="url" id="url" class="form-control" value="<?php echo base_url(); ?>">
         </div>
     </div>

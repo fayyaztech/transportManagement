@@ -4,7 +4,7 @@ var url = $("#url").val();
 
     jQuery(document).ready(function($) {
         $("#loadingBlock").hide();
-        fetch_load_data();
+        $("#dataTable").dataTable();
     });
 
     function fetch_load_data()

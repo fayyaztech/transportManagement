@@ -109,22 +109,22 @@
                             <a href="<?php echo base_url('admin'); ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                                                 <li>
-                            <a href="<?php echo base_url('driver'); ?>"><i class="fa fa-edit fa-fw"></i> Driver Master</a>
+                            <a href="<?php echo base_url('driver/'); ?>"><i class="fa fa-edit fa-fw"></i> Driver Master</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('vehicle'); ?>"><i class="fa fa-bar-chart-o fa-fw"></i> Vehicle Master</a>
+                            <a href="<?php echo base_url('vehicle/'); ?>"><i class="fa fa-bar-chart-o fa-fw"></i> Vehicle Master</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('maintenance'); ?>"><i class="fa fa-table fa-fw"></i> Maintenance</a>
+                            <a href="<?php echo base_url('maintenance/'); ?>"><i class="fa fa-table fa-fw"></i> Maintenance</a>
                         </li>
                         <li>
                         <a href="<?php echo base_url('route/'); ?>"><i class="fa fa-edit fa-fw"></i> Routes Master</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('client'); ?>"><i class="fa fa-edit fa-fw"></i>Client Master</a>
+                            <a href="<?php echo base_url('client/'); ?>"><i class="fa fa-edit fa-fw"></i>Client Master</a>
                         </li>
                         <li>
-                           <a href="<?php echo base_url('operations/load_management'); ?>">
+                           <a href="<?php echo base_url('load/'); ?>">
                                 <i class="fa fa-edit fa-fw"></i> 
                                 Load Master
                             </a>

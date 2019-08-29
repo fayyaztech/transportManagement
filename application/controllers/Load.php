@@ -5,20 +5,8 @@ class Load extends CI_Controller {
 
 	public function index()
 	{
-		$count = 1;	
-		$load_info = $this->loads_model->fetch_load_records();
-		foreach ($load_info as  $value) {
-			echo'
-				<tr>
-					<td>'.$count++.'</td>
-					<td>'.$value->load_name.'</td>
-					<td>'.$value->consignor_name.'</td>
-					<td>
-						<span class="btn btn-danger fa fa-trash"></span>
-                    </td>
-				</tr>
-			';
-		}
+		$data['load_info'] = $this->loads_model->fetch_load_records();
+		template($this, 'load',$data);
 	}
 
 	public function add_load(){
