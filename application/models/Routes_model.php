@@ -20,7 +20,7 @@ class Routes_model extends CI_Model
             $this->db->where('route_id', $post['route_id']);
             unset($post["route_id"]);
             if ($this->db->update('routes', $post)) {
-                $response = 2; //uodated
+                $response = 2; //updated
             }
         } elseif ($this->db->insert('routes', $post)) {
             $response = 1; //new added
