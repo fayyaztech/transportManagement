@@ -1,9 +1,9 @@
 <?php
 
-function getCurrentFreight($ctx,$load_route_id)
+function getCurrentFreight($ctx, $load_route_id)
 {
-	$ctx->db->where("load_routes_id",$load_route_id);
-	return $ctx->db->get("freights")->row()->freight;
+    $ctx->db->where("load_routes_id", $load_route_id);
+    return $ctx->db->get("freights")->row()->freight;
 }
 
 function add_advance($ctx, $trip_id, $advance)
@@ -37,7 +37,7 @@ function getDriverIDByTripId($ctx, $trip_id)
 function update_driver_status($ctx, $status)
 {
     // if status is 2 then vehicle is running
-    // status is an array contains driverId and Status 
+    // status is an array contains driverId and Status
     $ctx->db->where('driver_id', $status['driver_id']);
     if ($ctx->db->update('driver', $status)) {
         return true;
@@ -128,10 +128,10 @@ function fetch_trip_list($ctx)
     $ctx->db->select('loads.load_name,consignee_name,trip_stop_date');
     $ctx->db->select('driver.driver_name');
     $ctx->db->select('consignors.consignor_name');
-	$ctx->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
+    $ctx->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
 
-	$ctx->db->order_by('trip.trip_start_date', 'desc');
-	
+    $ctx->db->order_by('trip.trip_start_date', 'desc');
+
     $ctx->db->join('trip_details', 'trip.trip_id = trip_details.trip_id', 'left');
     $ctx->db->join('routes as route', 'trip_details.route_id = route.route_id', 'left');
     $ctx->db->join('consignors', 'trip.consignor_id =consignors.consignor_id');
@@ -226,6 +226,7 @@ function fetch_routes($ctx, $client_id)
     return $query->result();
 }
 
-function format_date($date){
-    return date('d-m-Y',strtotime($date));
+function format_date($date)
+{
+    return date('d-m-Y', strtotime($date));
 }
