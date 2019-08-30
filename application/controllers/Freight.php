@@ -6,7 +6,8 @@ class Freight extends CI_Controller
 
     public function index()
     {
-
+        $data['freights'] = $this->freight_model->get_freights();
+        template($this, 'freight',$data);
     }
 
     public function upload_excel()
@@ -38,7 +39,7 @@ class Freight extends CI_Controller
             echo "Page referesh after 10 sec";
             $this->_upload_to_database($arr_data, $header, $consignor_id);
             echo "If no logs here ! make a sure your excel not empty";
-            header("refresh:10 url=" . base_url("operations/freight_management"));
+            header("refresh:10 url=" . base_url("freight"));
 
         }
 
@@ -48,7 +49,7 @@ class Freight extends CI_Controller
     {
 
         $consignor_id = intval($this->input->get('consignor_id')); //received by get method
-        $consignor_name = $this->freight_model->getConsignorNameById($consignor_id); // received by get method
+        $consignor_name = $this->common_model->get_consignor_name($consignor_id); // received by get method
 
         $alphbets = alphabet_array();
 
@@ -56,15 +57,13 @@ class Freight extends CI_Controller
         $alphbets = alphabet_array();
 
         //freight model
-        $loads = $this->freight_model->get_loads($consignor_id);
-        $routes = $this->freight_model->get_routes();
+        $loads = $this->common_model->get_loads($consignor_id);
+        $routes = $this->common_model->fetch_assigned_routes($consignor_id);
 
         $title_row = ["AFFECTED DATE", "ORIGIN", "DESTINATION", "DISTANCE"];
-        foreach ($loads as $value) {
-
-            $title_row[] = $value->load_name;
+        for ($i = 0; $i < count($loads); $i++) {
+            $title_row[] = $loads[$i]['load_name'];
         }
-
 
         $title_row_colmns = count($title_row);
 
@@ -75,20 +74,17 @@ class Freight extends CI_Controller
             $alphabet_series++;
         }
 
-// print_r($excel_file[0]);
-
-// die();
-
         //add routes data in excel file
         // excel array index for add more value in array after 0 index
         $excel_array_index = 1;
         $alphabet_series = 0; //array index 1 is B;
         $cell_number = 2;
-        foreach ($routes as $r) {
+        // var_dump($routes);
+        for ($i = 0; $i < count($routes); $i++) {
             $excel_file[$excel_array_index][$alphbets[$alphabet_series++] . $cell_number] = "";
-            $excel_file[$excel_array_index][$alphbets[$alphabet_series++] . $cell_number] = $r->route_origin;
-            $excel_file[$excel_array_index][$alphbets[$alphabet_series++] . $cell_number] = $r->route_destination;
-            $excel_file[$excel_array_index][$alphbets[$alphabet_series++] . $cell_number] = $r->route_distance;
+            $excel_file[$excel_array_index][$alphbets[$alphabet_series++] . $cell_number] = $routes[$i]['route_origin'];
+            $excel_file[$excel_array_index][$alphbets[$alphabet_series++] . $cell_number] = $routes[$i]['route_destination'];
+            $excel_file[$excel_array_index][$alphbets[$alphabet_series++] . $cell_number] = $routes[$i]['route_distance'];
             $excel_array_index++;
             $alphabet_series = 0;
             $cell_number++;
@@ -96,7 +92,6 @@ class Freight extends CI_Controller
 
         // $excel_file[$excel_array_index][$alphbets[$alphabet_series++] . $cell_number] = $r->route_id;
         // $excel_file[$excel_array_index][$alphbets[$alphabet_series++] . $cell_number] = $excel_array_index;
-        
 
         $this->genrate_excel($excel_file,$consignor_name);
 
@@ -188,7 +183,7 @@ class Freight extends CI_Controller
             }
         }
 
-        $filename = $name_of_consigner ." ". date("d-m-Y") .'.xls'; //save our workbook as this file name
+        $filename = $name_of_consigner . " " . date("d-m-Y") . '.xls'; //save our workbook as this file name
         header('Content-Type: application/vnd.ms-excel'); //mime type
         header('Content-Disposition: attachment;filename="' . $filename . '"'); //tell browser what's the file name
         header('Cache-Control: max-age=0'); //no cache

@@ -25,25 +25,39 @@ $consignor = fetch_consignor($this);
                             Add/upfreight</a>
                     </li>
                 </ul>
+                <br/>
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="freight_list">
 
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered table-hover" id="dataTable">
                                     <thead class="bg-primary">
                                         <tr>
                                             <th>Sr.</th>
-                                            <th>freight</th>
+                                            <th>affected date</th>
+                                            <th>expected freight</th>
                                             <th>Consignor Name</th>
+                                            <th>Load</th>
                                             <th>route</th>
-                                            <th>current Rate</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
 
                                     <tbody id="freight_info">
-
+                                        <?php
+                                            for($i=0;$i<count($freights);$i++){ ?>
+                                                <tr>
+                                                    <td><?php echo $freights[$i]['load_routes_id'] ?></td>
+                                                    <td><?php echo format_date($freights[$i]['freight_effected_date']); ?></td>
+                                                    <td><?php echo $freights[$i]['freight'] ?></td>
+                                                    <td><?php echo $freights[$i]['consignor_name'] ?></td>
+                                                    <td><?php echo $freights[$i]['load_name'] ?></td>
+                                                    <td><?php echo $freights[$i]['route_origin'] ?>-<?php echo $freights[$i]['route_destination'] ?></td>
+                                                    <td>action</td>
+                                                </tr>
+                                            <?php } ?>
                                     </tbody>
                                 </table>
                             </div>

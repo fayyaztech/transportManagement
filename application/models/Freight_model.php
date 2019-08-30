@@ -3,25 +3,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Freight_model extends CI_Model
 {
-    public function getConsignorNameById($consignor_id)
+    public function get_freights()
     {
-        $this->db->where('consignor_id', $consignor_id);
-        return $this->db->get('consignors')->row()->consignor_name;
+        /**get freight 
+         * all freights
+         */
+        $this->db->select('l.load_name,r.route_origin,r.route_destination,f.freight_id,f.freight_effected_date,f.freight,c.consignor_name,lr.load_routes_id');        
+        $this->db->join('routes as r', 'r.route_id = lr.route_id', 'left');
+        $this->db->join('freights as f', 'f.load_routes_id = lr.load_routes_id', 'right');
+        $this->db->join('loads as l', 'l.load_id = lr.load_id', 'left');        
+        $this->db->join('consignors as c', 'c.consignor_id = l.consignor_id', 'left');
+        
+        return $this->db->get('load_routes as lr')->result_array();
+        
     }
-
-    public function get_loads($consignor_id)
-    {
-        $this->db->select('loads.*');
-        $this->db->where(["loads.consignor_id" => $consignor_id, "loads.load_status" => 0]);
-        return $this->db->get('loads')->result();
-
-    }
-
-    public function get_routes()
-    {
-        return $this->db->get('routes')->result();
-    }
-
     public function get_load_id($load, $consignor_id)
     {
         $this->db->where(['load_name' => $load, "consignor_id" => $consignor_id, "load_status" => 0]);

@@ -24,16 +24,10 @@ class Common_model extends CI_Model
 
     public function fetch_assigned_routes($consignor_id)
     {
-        $this->db->where('consignor_id', $consignor_id);
-        return $this->db->get('assigned_routes')->result_array();
-    }
-
-    public function fetch_unassigned_routes($consignor_id)
-    {
         $this->db->select('r.route_id,r.route_origin,r.route_destination,r.route_distance');
+        $this->db->join('routes as r', 'r.route_id = as_r.route_id', 'left');
         $this->db->where('as_r.consignor_id', $consignor_id);
-        $this->db->join('assigned_routes as as_r', 'r.route_id = as_r.route_id', 'left');
-        return $this->db->get('routes as r')->result_array();
+        return $this->db->get('assigned_routes as as_r')->result_array();
     }
 
     public function fetch_route()
@@ -41,6 +35,13 @@ class Common_model extends CI_Model
         $this->db->order_by('route_origin', 'asc');
         $query = $this->db->get("routes");
         return $query->result_array();
+    }
+
+    public function get_loads($consignor_id)
+    {
+        $this->db->select('loads.*');
+        $this->db->where(["loads.consignor_id" => $consignor_id, "loads.load_status" => 0]);
+        return $this->db->get('loads')->result_array();
     }
 
 }
