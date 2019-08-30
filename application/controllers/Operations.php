@@ -8,11 +8,7 @@ class Operations extends CI_Controller
     {
         template($this);
     }
-
-    public function freight_management()
-    {
-        template($this, 'freight');
-    }
+    
     public function trip_management()
     {
         template($this, 'trip');

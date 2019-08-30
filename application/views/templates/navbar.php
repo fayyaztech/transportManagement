@@ -130,7 +130,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('operations/freight_management'); ?>">
+                            <a href="<?php echo base_url('freight'); ?>">
                                 <i class="fa fa-edit fa-fw"></i> 
                                 Freight Master
                             </a>
