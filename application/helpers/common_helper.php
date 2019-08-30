@@ -25,26 +25,6 @@ function dateDifferenceInDay($date, $date2)
     return $interval->format('%R%a days');
 }
 
-function getFreightRate($ctx, $rout_id, $trip_date)
-{
-
-	/* 
-	
-		@ this function is disable and deleted soon do not use any more 
-
-
-	*/
-
-    // $ctx->output->enable_profiler(TRUE);
-    $ctx->db->select('freight_rate.freight_rate,freight_rate.freight_cmvr');
-    $ctx->db->where('freight_rate.freight_affect_date <= "' . $trip_date . '"');
-    $ctx->db->order_by('freight_rate.freight_affect_date', 'desc');
-    $ctx->db->limit(1);
-    $query = $ctx->db->get('freight_rate');
-    $c = $query->row();
-    return ['freight_rate' => $c->freight_rate, 'freight_cmvr' => $c->freight_cmvr];
-}
-
 function getDriverIDByTripId($ctx, $trip_id)
 {
     $ctx->db->where('trip_id', $trip_id);
@@ -164,13 +144,6 @@ function fetch_trip_list($ctx)
     return $query->result();
 }
 
-function fetch_identity_doc($ctx)
-{
-    // get list of all identity proof doc like adhar pan voting id and other
-    $query = $ctx->db->get('identity_doc');
-    return $query->result();
-}
-
 // Added By Afroz Khan On 28-02-2019
 
 function fetch_status($ctx)
@@ -251,4 +224,8 @@ function fetch_routes($ctx, $client_id)
     // $client id compulsory for select rout for prticulare client
     $query = $ctx->db->get('route');
     return $query->result();
+}
+
+function format_date($date){
+    return date('d-m-Y',strtotime($date));
 }
