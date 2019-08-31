@@ -137,7 +137,7 @@
                         </li>
 
                         <li>
-                            <a href="<?php echo base_url('operations/trip_management'); ?>"><i class="fa fa-edit fa-fw"></i> Trip Management</a>
+                            <a href="<?php echo base_url('trip'); ?>"><i class="fa fa-edit fa-fw"></i> Trip Management</a>
                         </li>
 
                         <li>

@@ -8,12 +8,6 @@ class Operations extends CI_Controller
     {
         template($this);
     }
-    
-    public function trip_management()
-    {
-        template($this, 'trip');
-
-    }
     public function expense_management()
     {
         template($this, 'expense');
