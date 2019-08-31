@@ -34,15 +34,7 @@ function getDriverIDByTripId($ctx, $trip_id)
     return $c->driver_id;
 }
 
-function update_driver_status($ctx, $status)
-{
-    // if status is 2 then vehicle is running
-    // status is an array contains driverId and Status
-    $ctx->db->where('driver_id', $status['driver_id']);
-    if ($ctx->db->update('driver', $status)) {
-        return true;
-    }
-}
+
 function check_current_reading_greater($ctx, $vers)
 {
     // before updating tyre check current vehicale reading is grate than old reading
@@ -85,15 +77,6 @@ function check_number_of_tyre($ctx, $vehicle_id)
     }
 }
 
-function update_vehicle_status($ctx, $vehicle_id, $status)
-{
-    $ctx->db->where('vehicle_id', $vehicle_id);
-    if ($ctx->db->update('vehicle', ['vehicle_status' => $status])) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 function fetch_vehicle_list($ctx, $status = 1)
 {
@@ -181,7 +164,7 @@ function fetch_route($ctx)
 function fetch_driver($ctx, $status = "")
 {
     // fetch route data
-    $ctx->db->where('driver_running_status', $status);
+    $ctx->db->where('driver_status', $status);
     $query = $ctx->db->get('driver');
     return $query->result();
 }

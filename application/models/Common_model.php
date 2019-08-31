@@ -44,6 +44,34 @@ class Common_model extends CI_Model
         return $this->db->get('loads')->result_array();
     }
 
+    public function driver_unavailable($driver_id)
+    {
+        /**driver busy */
+        $this->db->where('driver_id', $driver_id);
+        $this->db->update('driver', ['driver_status'=>2]);        
+    }
+
+    public function driver_available($driver_id)
+    {
+        /**driver free */
+        $this->db->where('driver_id', $driver_id);
+        $this->db->update('driver', ['driver_status'=>1]);    
+    }
+
+    public function vehicle_unavailable($vehicle_id)
+    {
+        /**vehicle running */
+        $this->db->where('vehicle_id', $vehicle_id);
+        $this->db->update('vehicle', ['vehicle_status'=>2]);
+    }
+
+    public function vehicle_available($vehicle_id)
+    {
+        /**vehicle free */
+        $this->db->where('vehicle_id', $vehicle_id);
+        $this->db->update('vehicle', ['vehicle_status'=>1]);
+    }
+
 }
 
 /* End of file common_model.php */

@@ -1,141 +1,160 @@
 var url = $("#url").val();
 
-jQuery(document).ready(function($) {
-        $("#loadingBlock").hide();
-        $('#freight_div').hide();
-        load_trip_data();
-    });
+jQuery(document).ready(function ($) {
+    $("#loadingBlock").hide();
+    $("#dataTable").dataTable();
+    $('#freight_div').hide();
+});
 
-
-$(document).on('submit', '#add_route_submit', function(event) {
-    
-            event.preventDefault();
-            $.ajax({
-                url: url+'route/add_route',
-                type: 'POST',
-                data: new FormData(this),
-                cache:false,
-                contentType:false,
-                processData:false,
-                success:function(data){
-                        var resp = jQuery.parseJSON(data);
-                        console.log(data);
-                        if (resp.code == 1) {
-                           alert(resp.msg);
-                           location.reload(true);
-                           // $("#add_route_submit").trigger("reset");
-
-                        }else{
-                            alert(resp.msg);
-                            
-                        }
-
-                        $("#loadingBlock").hide();
-
-                }
+$('#add-trip').click(function (e) { 
+    e.preventDefault();
+    var data = {};
+    $.get(url+"trip/add_trip_from", data,
+        function (data) {
+            $('.modal-content').html(data);
+            $('#modal-id').modal({
+                backdrop: 'static',
+                keyboard: false  // to prevent closing with Esc button (if you want this too)
             })
+            $("#modal-id").modal("show");
+
         });
+});
+
+
+$(document).on('submit', '#add_route_submit', function (event) {
+
+    event.preventDefault();
+    $.ajax({
+        url: url + 'route/add_route',
+        type: 'POST',
+        data: new FormData(this),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            var resp = jQuery.parseJSON(data);
+            console.log(data);
+            if (resp.code == 1) {
+                alert(resp.msg);
+                location.reload(true);
+                // $("#add_route_submit").trigger("reset");
+
+            } else {
+                alert(resp.msg);
+
+            }
+
+            $("#loadingBlock").hide();
+
+        }
+    })
+});
 
 
 // Add Trip Button Click
 
-$("#select_consignor").change(function(event) {
+$(document).on('change',"#select_consignor",function () {
     var consignor_id = $("#select_consignor").val();
-    $.get(url+'trip/get_consignee?consignor_id='+consignor_id, function(data) {
+    $.get(url + 'trip/get_consignee?consignor_id=' + consignor_id, function (data) {
         $("#select_consignee").html(data);
     });
 
-    $.get(url+'trip/get_loads?consignor_id='+consignor_id, function(data) {
+    $.get(url + 'trip/get_loads?consignor_id=' + consignor_id, function (data) {
         $("#loads_by_consignor").html(data);
     });
-    
+
+    $.get(url + 'trip/get_routes?consignor_id=' + consignor_id, function (data) {
+        $("#select-routes").html(data);
+    });
+
 });
-$("#add_consignor").click(function(event) {
+$("#add_consignor").click(function () {
     $.ajax({
         url: url + "operations/add_consignor",
         method: "POST",
-        success: function(data) {
+        success: function (data) {
             $('#modal-id').html(data);
         }
     })
 });
-$("#add_consignee").click(function(event) {
+$("#add_consignee").click(function () {
     $.ajax({
         url: url + "operations/add_consignee",
         method: "POST",
-        success: function(data) {
+        success: function (data) {
             $('#modal-id').html(data);
         }
     })
 });
-$(document).on('change','#trip_type',function(event){
-      var trip_type = $('#trip_type').val();
-        if(trip_type == 2){
-            $('#freight_div').show();
-            $('#load_div').hide();
-        }else{
-            $('#freight_div').hide();
-            $('#load_div').show();
-        }
-        
-    });
-//route hide show
-$(document).on('change','#consignment_type',function(event){
-      var consignment_type = $('#consignment_type').val();
-       if(consignment_type == 'market'){
-            $('#freight').hide();
-            $('#cmvr').hide();
-        }else{
-            $('#freight').show();
-            $('#cmvr').show();
-        }
-        
-    });
+$(document).on('change', '#trip_type', function () {
+    var trip_type = $('#trip_type').val();
+    if (trip_type == 2) {
+        $('#freight_div').show();
+        $('#load_div').hide();
+    } else {
+        $('#freight_div').hide();
+        $('#load_div').show();
+    }
 
-$("#add_client").click(function(event) {
+});
+//route hide show
+$(document).on('change', '#consignment_type', function () {
+    var consignment_type = $('#consignment_type').val();
+    if (consignment_type == 'market') {
+        $('#freight').hide();
+        $('#cmvr').hide();
+    } else {
+        $('#freight').show();
+        $('#cmvr').show();
+    }
+
+});
+
+$("#add_client").click(function () {
     $.ajax({
         url: url + "operations/add_client",
         method: "POST",
-        success: function(data) {
+        success: function (data) {
             $('#modal-id').html(data);
         }
     })
 });
-$("#add_route").click(function(event) {
+$("#add_route").click(function () {
     $.ajax({
         url: url + "operations/add_route",
         method: "POST",
-        success: function(data) {
+        success: function (data) {
             $('#modal-id').html(data);
         }
     })
 });
 // Stop Trip Button Click
-$(document).on('submit', '#add_consignor_form', function(event) {
+$(document).on('submit', '#add_consignor_form', function (event) {
     event.preventDefault();
     // alert('clicked');
     $.ajax({
-        url: url+'client/add_consignor',
-         type: 'POST',
-                data: new FormData(this),
-                cache:false,
-                contentType:false,
-                processData:false,
-                success:function(data){
-                        var resp = jQuery.parseJSON(data);
-                        console.log(data);
-                        if (resp.code == 1) {
-                          
-                            $('#modal-id').modal('hide'); 
+        url: url + 'client/add_consignor',
+        type: 'POST',
+        data: new FormData(this),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            var resp = jQuery.parseJSON(data);
+            console.log(data);
+            if (resp.code == 1) {
 
-                        }else{
-                            alert(resp.msg);
-                            
-                        }
-                        $("#loadingBlock").hide();
+                $('#modal-id').modal('hide');
 
-                }
-            });
+            } else {
+                alert(resp.msg);
+
+            }
+            $("#loadingBlock").hide();
+
+        }
+    });
 });
 
 
@@ -152,65 +171,65 @@ $(document).on('submit', '#stop_trip_step_form', function (event) {
         contentType: false,
         processData: false,
         success: function (data) {
-                alert(data);            
+            alert(data);
             location.reload();
         }
     });
 });
 
 
-$(document).on('submit', '#add_consignee_form', function(event) {
+$(document).on('submit', '#add_consignee_form', function (event) {
     event.preventDefault();
     // alert('clicked');
     $.ajax({
-        url: url+'client/add_consignee',
-         type: 'POST',
-                data: new FormData(this),
-                cache:false,
-                contentType:false,
-                processData:false,
-                success:function(data){
-                        var resp = jQuery.parseJSON(data);
-                        console.log(data);
-                        if (resp.code == 1) {
-                          
-                            $('#modal-id').modal('hide'); 
+        url: url + 'client/add_consignee',
+        type: 'POST',
+        data: new FormData(this),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            var resp = jQuery.parseJSON(data);
+            console.log(data);
+            if (resp.code == 1) {
 
-                        }else{
-                            alert(resp.msg);
-                            
-                        }
-                        $("#loadingBlock").hide();
+                $('#modal-id').modal('hide');
 
-                }
-            });
+            } else {
+                alert(resp.msg);
+
+            }
+            $("#loadingBlock").hide();
+
+        }
+    });
 });
 
-$(document).on('click',"#stop_trip",function(event) {
+$(document).on('click', "#stop_trip", function () {
     $("#loadingBlock").show();
-    var trip_id=$(this).parent().attr('t_id');
+    var trip_id = $(this).parent().attr('t_id');
     $.ajax({
-        url: url + "operations/complete_trip?trip_id="+trip_id,
+        url: url + "operations/complete_trip?trip_id=" + trip_id,
         method: "POST",
-        success: function(data) {
+        success: function (data) {
             $('#modal-id').html(data);
             $("#t_id").val(trip_id);
-            $('#modal-id').modal('show');            
+            $('#modal-id').modal('show');
         }
     })
 });
 
 // Update Trip Button Click
 
-$(document).on('click',"#update_trip",function(event) {
-    var trip_id=$(this).parent().attr('t_id');
-    trip_name=$(this).closest("tr").find("td:nth-child(3)").text();
+$(document).on('click', "#update_trip", function () {
+    var trip_id = $(this).parent().attr('t_id');
+    trip_name = $(this).closest("tr").find("td:nth-child(3)").text();
     $.ajax({
-        url: url + "trip/fetch_trip_info?trip_id="+trip_id,
+        url: url + "trip/fetch_trip_info?trip_id=" + trip_id,
         method: "POST",
-        success: function(data) {
+        success: function (data) {
             $('#modal-id').html(data);
-             $('#modal-id').modal('show');
+            $('#modal-id').modal('show');
         }
     })
 });
@@ -219,21 +238,21 @@ $(document).on('click',"#update_trip",function(event) {
 
 
 
-$(document).on('click',"#step_trip",function(event) {
-    
-    var trip_id=$(this).parent().attr('t_id');
-    trip_name=$(this).closest("tr").find("td:nth-child(3)").text();
+$(document).on('click', "#step_trip", function () {
+
+    var trip_id = $(this).parent().attr('t_id');
+    trip_name = $(this).closest("tr").find("td:nth-child(3)").text();
     $.ajax({
-        url: url + "trip/fetch_trip_step?trip_id="+trip_id,
+        url: url + "trip/fetch_trip_step?trip_id=" + trip_id,
         method: "POST",
-        success: function(data) {
+        success: function (data) {
             $('#modal-id').html(data);
-             $('#modal-id').modal('show');
+            $('#modal-id').modal('show');
         }
     })
 });
 
-$(document).on('click', "#stop_step_trip", function (event) {
+$(document).on('click', "#stop_step_trip", function () {
 
     var trip_id = $(this).parent().attr('t_id');
     trip_name = $(this).closest("tr").find("td:nth-child(3)").text();
@@ -249,186 +268,158 @@ $(document).on('click', "#stop_step_trip", function (event) {
 
 // Saving Add Trip Step Form Data 
 
-    $(document).on('submit',"#save_trip_step",function(event){
+$(document).on('submit', "#save_trip_step", function (event) {
     event.preventDefault();
     $("#loadingBlock").show();
     $.ajax({
-            url:url+"trip/add_trip_step",
-            method:"post",
-            data:new FormData(this),
-            contentType:false,
-            cache:false,
-            processData:false,
-            success:function(data){
-                    var resp = jQuery.parseJSON(data);
-                    console.log(data);
-                    if (resp.code == 1) 
-                    {
-                        alert(resp.msg);
-                        $('#modal-id').modal('hide');
-                        load_trip_data();
-                    }
-                    else
-                    {
-                        alert(resp.msg);
-                    }
-                    $("#loadingBlock").hide();
-                 }
-            })
-    });
+        url: url + "trip/add_trip_step",
+        method: "post",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            var resp = jQuery.parseJSON(data);
+            console.log(data);
+            if (resp.code == 1) {
+                alert(resp.msg);
+                $('#modal-id').modal('hide');
+                load_trip_data();
+            } else {
+                alert(resp.msg);
+            }
+            $("#loadingBlock").hide();
+        }
+    })
+});
 
 // Saving Add Trip Form Data 
 
-    $(document).on('submit',"#add_trip",function(event){
+$(document).on('submit', "#add_trip", function (event) {
     event.preventDefault();
     $("#loadingBlock").show();
     $.ajax({
-            url:url+"trip/add_trip",
-            method:"post",
-            data:new FormData(this),
-            contentType:false,
-            cache:false,
-            processData:false,
-            success:function(data){
-                    var resp = jQuery.parseJSON(data);
-                    console.log(data);
-                    if (resp.code == 1) 
-                    {
-                        alert(resp.msg);
-                        $('#modal-id').modal('hide');
-                        location.reload();
-                    }
-                    else
-                    {
-                        alert(resp.msg);
-                    }
-                    $("#loadingBlock").hide();
-                 }
-            })
-    });
+        url: url + "trip/add_trip",
+        method: "post",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            var resp = jQuery.parseJSON(data);
+            console.log(data);
+            if (resp.code == 1) {
+                alert(resp.msg);
+                $('#modal-id').modal('hide');
+                location.reload();
+            } else {
+                alert(resp.msg);
+            }
+            $("#loadingBlock").hide();
+        }
+    })
+});
 
 // Saving Update Trip Form Data
 
-    $(document).on('submit',"#update_trip_form",function(event){
+$(document).on('submit', "#update_trip_form", function (event) {
     event.preventDefault();
     $("#loadingBlock").show();
     $.ajax({
-            url:url+"trip/update_trip",
-            method:"post",
-            data:new FormData(this),
-            contentType:false,
-            cache:false,
-            processData:false,
-            success:function(data){
-                    var resp = jQuery.parseJSON(data);
-                    console.log(data);
-                    if (resp.code == 1) 
-                    {
-                        alert(resp.msg);
-                        load_trip_data();
-                        $('#modal-id').modal('hide');
-                        $('#modal-id').html("");
-                    }
-                    else
-                    {
-                        alert(resp.msg);
-                    }
-                    $("#loadingBlock").hide();
-                 }
-            })
-    });
+        url: url + "trip/update_trip",
+        method: "post",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            var resp = jQuery.parseJSON(data);
+            console.log(data);
+            if (resp.code == 1) {
+                alert(resp.msg);
+                load_trip_data();
+                $('#modal-id').modal('hide');
+                $('#modal-id').html("");
+            } else {
+                alert(resp.msg);
+            }
+            $("#loadingBlock").hide();
+        }
+    })
+});
 
 // Saving Stop Trip Form Data
 
-    $(document).on('submit',"#stop_trip_form",function(event){
+$(document).on('submit', "#stop_trip_form", function (event) {
     // var trip_id=$("#t_id").val();
     event.preventDefault();
     $("#loadingBlock").show();
     $.ajax({
-            url:url+"trip/stop_trip",
-            method:"post",
-            data:new FormData(this),
-            contentType:false,
-            cache:false,
-            processData:false,
-            success:function(data){
-                    var resp = jQuery.parseJSON(data);
-                    console.log(data);
-                    if (resp.code == 1) 
-                    {
-                        alert(resp.msg);
-                        load_trip_data();
-                        $('#modal-id').modal('hide');
-                        $('#modal-id').html("");
-                        location.reload();
-                    }
-                    else
-                    {
-                        alert(resp.msg);
-                    }
-                    $("#loadingBlock").hide();
-                 }
-            })
-    });
+        url: url + "trip/stop_trip",
+        method: "post",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            var resp = jQuery.parseJSON(data);
+            console.log(data);
+            if (resp.code == 1) {
+                alert(resp.msg);
+                load_trip_data();
+                $('#modal-id').modal('hide');
+                $('#modal-id').html("");
+                location.reload();
+            } else {
+                alert(resp.msg);
+            }
+            $("#loadingBlock").hide();
+        }
+    })
+});
 
 
 
 //fetch trip advance form
 
-$(document).on('click',"#fetch_advance",function(event) {
-    var trip_id=$(this).parent().attr('t_id');
-   
+$(document).on('click', "#fetch_advance", function () {
+    var trip_id = $(this).parent().attr('t_id');
+
     $.ajax({
-        url: url + "trip/fetch_advance_form?trip_id="+trip_id,
+        url: url + "trip/fetch_advance_form?trip_id=" + trip_id,
         method: "POST",
-        success: function(data) {
+        success: function (data) {
             $('#modal-id').html(data);
-             $('#modal-id').modal('show');
+            $('#modal-id').modal('show');
         }
     })
 });
 
 //add trip advance 
-    
- $(document).on('submit',"#add_advance",function(event){
+
+$(document).on('submit', "#add_advance", function (event) {
     // var trip_id=$("#t_id").val();
     event.preventDefault();
     $("#loadingBlock").show();
     $.ajax({
-            url:url+"trip/add_advance",
-            method:"post",
-            data:new FormData(this),
-            contentType:false,
-            cache:false,
-            processData:false,
-            success:function(data){
-                    var resp = jQuery.parseJSON(data);
-                    console.log(data);
-                    if (resp.code == 1) 
-                    {
-                        alert(resp.msg);
-                        load_trip_data();
-                        $('#modal-id').modal('hide');
-                        $('#modal-id').html("");
-                    }
-                    else
-                    {
-                        alert(resp.msg);
-                    }
-                    $("#loadingBlock").hide();
-                 }
-            })
-    });
-
-
-
-
-// Load Function For Main Table Data
-
-        function load_trip_data(){
-        $("#loadingBlock").show();
-        $.get(url+'trip/', function(data) {
-            $("#trip_table").html(data);
+        url: url + "trip/add_advance",
+        method: "post",
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            var resp = jQuery.parseJSON(data);
+            console.log(data);
+            if (resp.code == 1) {
+                alert(resp.msg);
+                load_trip_data();
+                $('#modal-id').modal('hide');
+                $('#modal-id').html("");
+            } else {
+                alert(resp.msg);
+            }
             $("#loadingBlock").hide();
-        });
-    }
+        }
+    })
+});

@@ -2,14 +2,27 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 class Trip extends CI_Controller
 {
+    public function index()
+    {
+        // $this->output->enable_profiler(TRUE);
+        
+        $data['trip_info'] = fetch_trip_list($this);
+        template($this, 'trip', $data);
+    }
+
+    public function add_trip_from()
+    {
+        $data = [];
+        $this->load->view('trip/add_trip', $data);
+    }
 
     public function stop_step()
     {
-    	$data = $this->trip_model->fetch_step_details($this->input->post('trip_step_id'));
+        $data = $this->trip_model->fetch_step_details($this->input->post('trip_step_id'));
         if ($this->trip_model->stop_step($this->input->post())) {
-        	update_driver_status($this,['driver_id'=>$data->driver_id,"driver_running_status"=>1]);
-        	// update_vehicle_status($this, $, $status);
-        	
+            update_driver_status($this, ['driver_id' => $data->driver_id, "driver_running_status" => 1]);
+            // update_vehicle_status($this, $, $status);
+
             echo "trip Stoped";
         } else {
             echo "failed to stop ";
@@ -84,131 +97,6 @@ class Trip extends CI_Controller
         }
     }
 
-    public function index()
-    {
-        // $this->output->enable_profiler(TRUE);
-
-        $trip_info = fetch_trip_list($this);
-        // echo "<pre>";
-        // print_r($trip_info);
-        $count = 1;
-        $freight = "undefine";
-        $row_span = "";
-        foreach ($trip_info as $value) {
-            $consignor_name = $value->consignor_name;
-            $vehicle_number = $value->vehicle_number;
-            $consignee_name = $value->consignee_name;
-            unset($value->client_name);
-            unset($value->vehicle_number);
-            $trip_data[$value->trip_id]['client_details'] = ['consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name];
-            $trip_data[$value->trip_id]['trip_details'][] = $value;
-        }
-
-        // print_r($trip_data);
-
-        if (!empty($trip_data)) {
-            foreach ($trip_data as $k => $v) {
-                // echo "loop Start";
-                $loop_count = 1;
-                /*
-                @ $k is a key of array
-                @ $row_span used to arrange the display of table row
-                 */
-
-                
-                $row_span = count($trip_data[$k]['trip_details']);
-                // echo "<-----tr>";
-                echo
-                '<tr>
-					<td  style="vertical-align: middle;" rowspan="' . $row_span . '">' . $count++ . '</td>
-					<td  style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_data[$k]['client_details']['consignor_name'] . '</td>
-					<td  style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_data[$k]['client_details']['consignee_name'] . '</td>
-					<td  style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_data[$k]['client_details']['vehicle_number'] . '</td>';
-                // echo "<pre>";
-                // print_r($trip_data[$k]);
-                foreach ($trip_data[$k]['trip_details'] as $trip_d) {
-
-                    if ($loop_count != 1) {
-                        echo "<tr>";
-                    }
-
-                    // print_r($trip_d);
-                    $per_km = "";
-                    
-                    if ($trip_d->trip_status == 0) {
-                    	
-                    $stop_button = '<button id="stop_trip" class="btn btn-danger text-danger fa fa-stop "></button>';
-					$step_button = '<button id="step_trip" class="btn btn-success text-danger fa fa-step-forward "></button>';
-                    }else{
-                    	$stop_button = "";
-                    	$step_button = "";
-                    }
-
-                    // check if trip is empty
-                    // 1 is empty || 0 is loaded
-                    if ($trip_d->trip_details_is_loaded == 0) {
-
-	                    if ($trip_d->trip_detail_freight != 0) {
-	                        $freight = $trip_d->trip_detail_freight;
-	                    }else {
-	              
-		                        $load_route_id = $this->trip_model->get_load_route_id($trip_d->load_id, $trip_d->route_id);
-		                        if (empty($load_route_id)) {
-		                        	$freight = '<span class="label label-danger">freight not available For this route</span>';
-		                        }else{
-
-		                        	$freight = getCurrentFreight($this, $load_route_id);
-		                        }
-	                    }
-                }else{
-                    	$freight = '<span class="label label-danger">empty</span>';
-                    }
-                    	
-                    // status 2 = running
-                    if ($trip_d->trip_detail_status == 2) {
-                        $status = "bg-success";
-                        $add_advance_btn = '<button id="fetch_advance" class="btn btn-info fa fa-plus text-white">advance</button>';
-                    } else {
-                        $status = "bg-danger";
-                        $add_advance_btn = "";
-                    }
-
-
-                    if ($trip_d->trip_stop_date == "0000-00-00") {
-                        $stop_date = "-- -- --";
-                    } else {
-                        $stop_date = $trip_d->trip_stop_date;
-                    }
-                    echo ' <td>' . $trip_d->trip_start_date . '</td>
-			            <td>' . $stop_date . '</td>
-			   <td>' . $trip_d->route_origin . ' to ' . $trip_d->route_destination . '</td>
-			   <td>' . $trip_d->driver_name . '</td>
-			   <td>' . $trip_d->route_distance . '</td>';
-                    echo '<td>' . $freight . '</td><td></td><td></td>';
-
-                    echo '<td t_id="' . $trip_d->trip_details_id . '" v_id="' . $trip_d->vehicle_id . '">
-                         <button id="update_trip" class="btn btn-success fa fa-edit text-primary"></button>';
-                    if ($trip_d->trip_detail_status == 2) {
-                        echo '<button id="stop_step_trip" class="btn btn-danger fa fa-stop text-danger"></button>';
-                    }
-
-                    echo $add_advance_btn.'
-		             </td>';
-                    if ($loop_count == 1) {
-                        echo '<td t_id="' . $trip_d->trip_id . '" style="vertical-align: middle;" rowspan="' . $row_span . '">' . $step_button . " " . $stop_button . '</td></tr>';
-                    } else {
-                        echo "</tr>";
-                    }
-                    // echo "\n2nd loop End".$loop_count;
-                    $loop_count++;
-                }
-                // echo "<-----/tr>";
-                // echo "\nloop end\n";
-                $loop_count = 0;
-            }
-        }
-    }
-    
     //Add step Trip
     public function add_trip_step()
     {
@@ -226,27 +114,22 @@ class Trip extends CI_Controller
         //check trip empty or loaded
         $post['trip_detail_status'] = 2;
         if ($this->input->post('load_id') == 0) {
-        	$post['trip_details_is_loaded'] = 1;
+            $post['trip_details_is_loaded'] = 1;
         }
-
-
-
-
-        
 
         if ($this->form_validation->run()) {
 
             if ($this->trip_model->add_trip_step($post)) {
 
-            	/*
-        check driver old or new 
-        	* if driver is new then update old driver status as free
-        	*/
+                /*
+                check driver old or new
+                 * if driver is new then update old driver status as free
+                 */
 
-        if ($this->input->post('driver_id') != $old_driver_id) {
-        	update_driver_status($this, ["driver_id"=>$old_driver_id,"driver_running_status"=>0]);
-        	update_driver_status($this, ["driver_id"=>$this->input->post('driver_id'),"driver_running_status"=>1]);
-        }
+                if ($this->input->post('driver_id') != $old_driver_id) {
+                    update_driver_status($this, ["driver_id" => $old_driver_id, "driver_running_status" => 0]);
+                    update_driver_status($this, ["driver_id" => $this->input->post('driver_id'), "driver_running_status" => 1]);
+                }
 
                 $resp['code'] = 1;
                 $resp["msg"] = "Step Added Successfully.!";
@@ -292,8 +175,9 @@ class Trip extends CI_Controller
                 //$step['trip_start_date'] = $date;
                 $this->trip_model->add_trip_step($step);
                 $this->trip_model->add_advance(['trip_id' => $trip_id, 'advance_amount' => $advance, 'advance_date' => $step['trip_start_date']]);
-                update_driver_status($this, ['driver_id' => $post['driver_id'], 'driver_running_status' => 2]);
-                update_vehicle_status($this, $this->input->post('vehicle_id'), 2);
+                
+                $this->common_model->driver_unavailable($post['driver_id']);
+                $this->common_model->vehicle_unavailable($this->input->post('vehicle_id'));
                 $resp['code'] = 1;
                 $resp["msg"] = "Trip Added Successfully.!";
             } else {
@@ -361,29 +245,25 @@ class Trip extends CI_Controller
         $post = $this->input->post();
         $config = array(
             array("field" => "trip_stop_date", "rules" => "required"),
-            array('field' => "trip_id", "rule" => "required" )
+            array('field' => "trip_id", "rule" => "required"),
         );
         // print_r($post);
         $this->load->library('form_validation', $config);
         if ($this->form_validation->run()) {
 
-        	//make sure trip not running
+            //make sure trip not running
             if (!empty($data = $this->trip_model->get_incomplet_trips($post['trip_id']))) {
-            	foreach ($data as $d) {
-            		$this->trip_model->stop_step(['trip_details_id'=>$d->trip_details_id,"trip_stop_date"=>$post['trip_stop_date']]);
-            	}
+                foreach ($data as $d) {
+                    $this->trip_model->stop_step(['trip_details_id' => $d->trip_details_id, "trip_stop_date" => $post['trip_stop_date']]);
+                }
             }
 
             if ($this->trip_model->stop_trip($post)) {
-            	$vehicle_id = $this->trip_model->get_vehicle($post['trip_id']);
-	            update_vehicle_status($this, $vehicle_id, 1);
-            	$resp['code'] = 1;
-            	$resp["msg"] = "trip Stoped";
+                $vehicle_id = $this->trip_model->get_vehicle($post['trip_id']);
+                update_vehicle_status($this, $vehicle_id, 1);
+                $resp['code'] = 1;
+                $resp["msg"] = "trip Stoped";
             }
-
-
-
-
 
         } else {
             $resp['code'] = 0;
@@ -448,12 +328,11 @@ class Trip extends CI_Controller
     }
     public function fetch_trip_step()
     {
-    	// $this->output->enable_profiler(TRUE);
+        // $this->output->enable_profiler(TRUE);
         $trip_id = $this->input->get('trip_id');
         $trip_details = $this->trip_model->fetch_trip_details($trip_id);
 
         // print_r($trip_details);
-        
 
         echo '<div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -491,17 +370,17 @@ class Trip extends CI_Controller
 	    </div>
 	</div>
 
-	<input type="hidden" name="trip_id" value="'.$trip_details->trip_id.'">
+	<input type="hidden" name="trip_id" value="' . $trip_details->trip_id . '">
 	<div class="col-md-4">
 	    <select name="load_id" id="trip_type" class="form-control" required="required">
 
 	        <option value="0">Empty Trip</option>
 	        ';
-	        
-	        foreach (fetch_load($this, $trip_details->consignor_id) as $v) {
-	        	echo '<option value="'.$v->load_id.'">'.$v->load_name.'</option>';
-	        }
-	    echo '</select>
+
+        foreach (fetch_load($this, $trip_details->consignor_id) as $v) {
+            echo '<option value="' . $v->load_id . '">' . $v->load_name . '</option>';
+        }
+        echo '</select>
 	</div>
 	</div>
 	<div class="row">
@@ -513,7 +392,7 @@ class Trip extends CI_Controller
 	    <div class="col-md-4">
 	        <div class="form-group">
 	            <select name="driver_id" id="driver_id" class="form-control" required="required">
-	            <option value="'.$trip_details->driver_id.'">continued as old</option>';
+	            <option value="' . $trip_details->driver_id . '">continued as old</option>';
         foreach (fetch_driver($this) as $val) {
             echo '<option value="' . $val->driver_id . '">' . $val->driver_name . '</option>';
         }
@@ -629,6 +508,18 @@ class Trip extends CI_Controller
     {
         parent::__construct();
         $this->load->model('trip_model');
+    }
+
+    public function get_routes()
+    {
+        $consignor_id = $this->input->get('consignor_id');
+        $data = $this->common_model->fetch_assigned_routes($consignor_id);
+        for ($i=0; $i < count($data); $i++) { 
+            ?>
+                <option value="<?php echo $data[$i]['route_id'] ?>"><?php echo $data[$i]['route_origin'].'-'.$data[$i]['route_destination']; ?></option>
+            <?php
+        }
+        
     }
 }
 

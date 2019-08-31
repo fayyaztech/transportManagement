@@ -6,32 +6,27 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Trip management</h1>
+                    
+                    <button type="button" class="btn btn-info  pull-right" id="add-trip">
+                    <i class="fa fa-plus-circle"></i> Add Trip
+                    </button>
+                    
+                <br/><br/>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <div role="tabpanel">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#trip_details" aria-controls="home" role="tab" data-toggle="tab">TRIP DETAILS</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#add_trips" aria-controls="tab" role="tab" data-toggle="tab">
-                        ADD TRIP</a>
-                    </li>
-                </ul>
-                <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="trip_details">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="tab1" class="table table-bordered table-hover">
+                            <table class="table table-bordered table-hover text-center" id="dataTable">
                                     <thead class="bg-primary">
                                         <tr>
                                             <th>Sr No</th>
                                             <th>Consignor Name</th>
                                             <th>Consignee Name</th>
                                             <th>Vehicle Number</th>
+                                            <th>Advance</th>
                                             <th>Trip Start Date</th>
                                             <th>Trip End Date</th>
                                             <th>Route</th>
@@ -44,225 +39,127 @@
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="trip_table">
+                                    <tbody>
+                                        <?php 
+                                            $count = 1;
+                                            $freight = "undefine";
+                                            $row_span = "";
+                                            foreach ($trip_info as $value) {
+                                                $consignor_name = $value->consignor_name;
+                                                $vehicle_number = $value->vehicle_number;
+                                                $consignee_name = $value->consignee_name;
+                                                unset($value->client_name);
+                                                unset($value->vehicle_number);
+                                                $trip_data[$value->trip_id]['client_details'] = ['consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name];
+                                                $trip_data[$value->trip_id]['trip_details'][] = $value;
+                                            }
+                                    
+                                            // var_dump($trip_info);
+                                            // print_r($trip_data);
+                                    
+                                            if (!empty($trip_data)) {
+                                                foreach ($trip_data as $k => $v) {
+                                                    $loop_count = 1;
+                                                    /*
+                                                    @ $k is a key of array
+                                                    @ $row_span used to arrange the display of table row
+                                                     */
+                                    
+                                                    $row_span = count($trip_data[$k]['trip_details']);
+                                                    // echo "<-----tr>";
+                                                    echo
+                                                    '<tr>
+                                                        <td  style="vertical-align: middle;" rowspan="' . $row_span . '">' . $count++ . '</td>
+                                                        <td  style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_data[$k]['client_details']['consignor_name'] . '</td>
+                                                        <td  style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_data[$k]['client_details']['consignee_name'] . '</td>
+                                                        <td  style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_data[$k]['client_details']['vehicle_number'] . '</td>
+                                                        <td  style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_data[$k]['client_details']['vehicle_number'] . '</td>';
+                                                    foreach ($trip_data[$k]['trip_details'] as $trip_d) {                                    
+                                                        if ($loop_count != 1) {
+                                                            echo "<tr>";}
+                                
+                                                        // print_r($trip_d);
+                                                        $per_km = "";
+                                    
+                                                        if ($trip_d->trip_status == 0) {
+                                    
+                                                            $stop_button = '<button id="stop_trip" class="btn btn-danger text-danger fa fa-stop "></button>';
+                                                            $step_button = '<button id="step_trip" class="btn btn-success text-danger fa fa-step-forward "></button>';
+                                                        } else {
+                                                            $stop_button = "";
+                                                            $step_button = "";
+                                                        }
+                                    
+                                                        // check if trip is empty
+                                                        // 1 is empty || 0 is loaded
+                                                        if ($trip_d->trip_details_is_loaded == 0) {
+                                    
+                                                            if ($trip_d->trip_detail_freight != 0) {
+                                                                $freight = $trip_d->trip_detail_freight;
+                                                            } else {
+                                                                $load_route_id = $this->trip_model->get_load_route_id($trip_d->load_id, $trip_d->route_id);
+                                                                if (empty($load_route_id)) {
+                                                                    $freight = '<span class="label label-danger">freight not available For this route</span>';
+                                                                } else {
+                                    
+                                                                    $freight = getCurrentFreight($this, $load_route_id);
+                                                                }
+                                                            }
+                                                        } else {
+                                                            $freight = '<span class="label label-danger">empty</span>';
+                                                        }
+                                                        // status 2 = running
+                                                        if ($trip_d->trip_detail_status == 2) {
+                                                            $status = "bg-success";
+                                                            $add_advance_btn = '<button id="fetch_advance" class="btn btn-info fa fa-plus text-white">advance</button>';
+                                                        } else {
+                                                            $status = "bg-danger";
+                                                            $add_advance_btn = "";
+                                                        }
+                                    
+                                                        if ($trip_d->trip_stop_date == "0000-00-00") {
+                                                            $stop_date = "-- -- --";
+                                                        } else {
+                                                            $stop_date = $trip_d->trip_stop_date;
+                                                        }
+                                                        echo ' <td>' . $trip_d->trip_start_date . '</td>
+                                                            <td>' . $stop_date . '</td>
+                                                   <td>' . $trip_d->route_origin . ' to ' . $trip_d->route_destination . '</td>
+                                                   <td>' . $trip_d->driver_name . '</td>
+                                                   <td>' . $trip_d->route_distance . '</td>';
+                                                        echo '<td>' . $freight . '</td><td></td><td></td>';
+                                    
+                                                        echo '<td t_id="' . $trip_d->trip_details_id . '" v_id="' . $trip_d->vehicle_id . '">
+                                                             <button id="update_trip" class="btn btn-success fa fa-edit text-primary"></button>';
+                                                        if ($trip_d->trip_detail_status == 2) {
+                                                            echo '<button id="stop_step_trip" class="btn btn-danger fa fa-stop text-danger"></button>';
+                                                        }
+                                    
+                                                        echo $add_advance_btn . '
+                                                         </td>';
+                                                        if ($loop_count == 1) {
+                                                            echo '<td t_id="' . $trip_d->trip_id . '" style="vertical-align: middle;" rowspan="' . $row_span . '">' . $step_button . " " . $stop_button . '</td></tr>';
+                                                        } else {
+                                                            echo "</tr>";
+                                                        }
+                                                        // echo "\n2nd loop End".$loop_count;
+                                                        $loop_count++;
+                                                    }
+                                                    // echo "<-----/tr>";
+                                                    // echo "\nloop end\n";
+                                                    $loop_count = 0;
+                                                }
+                                            }
                                         
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="add_trips">
-                        
-                        <form action="javascript:void();" method="post" id="add_trip" accept-charset="utf-8">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <h3 class="text-center">Add Trip</h3>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div class="row">
-                                            
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="select truck">Trip Date</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input type="date" name="trip_start_date" id="inputTrip_date" class="form-control" value="" required="required" title="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="select Route">Route<span class="text-danger">*</span></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <select name="route_id" id="routes" class="form-control" required="required">
-                                                    <option value="">Select Route</option>
-                                                    <?php
-                                                        foreach (fetch_route($this) as $v) {
-                                                            echo '<option value="'.$v->route_id.'">'.$v->route_origin.' to '.$v->route_destination.'</option>';
-                                                        }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" href='#modal-id' id="add_route"> <i class="fa fa-plus"></i> Route</button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="">Select Consignor</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <select name="consignor_id" id="select_consignor" class="form-control" required="required">
-                                                    <option value="">select consignor</option>
-                                                    <?php   foreach (fetch_consignor($this) as $value)
-                                                    {
-                                                    echo '<option value="'.$value->consignor_id.'">'.$value->consignor_name.'</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" href='#modal-id' id="add_consignor"> <i class="fa fa-plus"></i> Consignor</button>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="">Select consignee</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <select name="consignee_id" id="select_consignee" class="form-control" required="required">
-                                                    <option value="">select consignee</option>
-                                                    
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button type="button" class="btn btn-primary pull-right" data-toggle="modal" href='#modal-id' id="add_consignee"> <i class="fa fa-plus"></i> consignee</button>
-                                        </div>
-                                        
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="select truck">Select Truck <span class="text-danger">*</span></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <select name="vehicle_id" id="vehicle_id" class="form-control" required="required">
-
-                                                   <option value="">select truck</option>
-
-                                                    <?php   
-
-                                                    if(!empty(fetch_vehicle_list($this)))
-                                                    {
-                                                    foreach (fetch_vehicle_list($this) as $value)
-                                                        {
-                                                        echo ' 
-                                                        <option value="'.$value->vehicle_id.'">'.$value->vehicle_number.'</option>';
-                                                        }
-                                                    }else{
-                                                        echo'<option value="">Not Available</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="select driver">Select Driver<span class="text-danger">*</span></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <select name="driver_id" id="driver_id" class="form-control" required="required">
-                                                    <option value="">Select Driver</option>
-                                                    <?php
-                                                    // $data = fetch_driver($this,0);
-                                                    // print_r($data);
-                                                    foreach (fetch_driver($this,1) as $value)
-                                                    {
-                                                    echo '<option value="'.$value->driver_id.'">'.$value->driver_name.'</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        
-                                        
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="select Allowance"><span class="text-danger">*</span>Allowance Issued</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input type="text" name="allowance" class="form-control" placeholder="allowance"  autofocus="autofocus">
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="select Route">Add Advance</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <div class="form-group">
-                                                    <input type="text" name="advance" class="form-control" placeholder="advance"  autofocus="autofocus">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                 <div class="row">
-                                    <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="">Add Load<span class="text-danger">*</span></label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <select name="load_id" id="loads_by_consignor" class="form-control" >
-                                                    </select>
-                                                </div>
-                                            </div>
-                                       
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label for="select Allowance">
-                                                            <span class="text-danger">*</span>Freight</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                       <input type="text" name="trip_detail_freight" class="form-control" placeholder="freight"  autofocus="autofocus">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                       
-                                        <div class="row">
-                                            <div class="col-md-6"></div>
-                                            <div class="col-md-6">
-                                                <button type="button" class="btn btn-danger pull-right btn-lg" data-dismiss="modal">close</button>
-                                                <button type="submit" class="btn btn-success pull-right btn-lg" id="personal_information">Submit</button>
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                    </div>
-                                    
-                                </div>
-                                
-                            </div>
-                        </form>
-                        
-                    </div>
-                </div>
-            </div>
-            
+                        </div>            
             <div class="modal fade" id="modal-id">
-                <div class="modal-dialog">
-                    <div class="modal-content" id="add_route_info">
-                        <div class="modal-body" >
-                            
-                        </div>
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        
                     </div>
                 </div>
             </div>
