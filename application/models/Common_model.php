@@ -46,30 +46,57 @@ class Common_model extends CI_Model
 
     public function driver_unavailable($driver_id)
     {
-        /**driver busy */
+        /**make driver busy */
         $this->db->where('driver_id', $driver_id);
-        $this->db->update('driver', ['driver_status'=>2]);        
+        $this->db->update('driver', ['driver_status' => 2]);
     }
 
     public function driver_available($driver_id)
     {
-        /**driver free */
+        /**make driver free */
         $this->db->where('driver_id', $driver_id);
-        $this->db->update('driver', ['driver_status'=>1]);    
+        $this->db->update('driver', ['driver_status' => 1]);
     }
 
     public function vehicle_unavailable($vehicle_id)
     {
-        /**vehicle running */
+        /**set as vehicle running */
         $this->db->where('vehicle_id', $vehicle_id);
-        $this->db->update('vehicle', ['vehicle_status'=>2]);
+        $this->db->update('vehicle', ['vehicle_status' => 2]);
     }
 
     public function vehicle_available($vehicle_id)
     {
-        /**vehicle free */
+        /**set as vehicle free */
         $this->db->where('vehicle_id', $vehicle_id);
-        $this->db->update('vehicle', ['vehicle_status'=>1]);
+        $this->db->update('vehicle', ['vehicle_status' => 1]);
+    }
+
+    public function get_consignor_id($trip_id)
+    {
+        /**get consignor id by trip id */
+        $this->db->select('consignor_id');
+        $this->db->where('trip_id', $trip_id);
+        return $this->db->get('trip')->row_array()['consignor_id'];
+    }
+
+    public function get_drivers()
+    {
+        /**get active driver */
+        $this->db->select('driver_id,driver_name');        
+        $this->db->where('driver_status', 1);
+        $query = $this->db->get('driver');
+        return $query->result_array();
+    }
+
+    public function get_driver_name($driver_id)
+    {
+        $this->db->select('driver_name');
+        $this->db->where('driver_id', $driver_id);
+        return $this->db->get('driver')->row_array()['driver_name'];
+        
+        
+        
     }
 
 }
