@@ -89,7 +89,7 @@ function fetch_vehicle_list($ctx, $status = 1)
 
 function vehicle_data($ctx)
 {
-    // function used for get vahicle last trip and last maintainance
+    // function used for get vehicle last trip and last maintenance
     // and all details about vehicle
     // active vahicles
 
@@ -97,34 +97,6 @@ function vehicle_data($ctx)
     // $ctx->db->get('vehicle');
     // $ctx->db->join('trip', 'trip.vehicle_id = vehicle.vehicle_id', 'left');
     // $ctx->db->join('expense');
-}
-
-// Fetch All Trip Data In List For The Main Table
-// Added By Afroz Khan 28-02-2019
-
-function fetch_trip_list($ctx)
-{
-    // $ctx context of current object
-    // $staus if 1 active vehicle if 0 inactive vehicle
-    $ctx->db->select('trip.*,trip_details.*');
-    $ctx->db->select('route.route_id,route.route_origin,route.route_destination,route.route_distance');
-    $ctx->db->select('loads.load_name,consignee_name,trip_stop_date');
-    $ctx->db->select('driver.driver_name');
-    $ctx->db->select('consignors.consignor_name');
-    $ctx->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
-
-    $ctx->db->order_by('trip.trip_start_date', 'desc');
-
-    $ctx->db->join('trip_details', 'trip.trip_id = trip_details.trip_id', 'left');
-    $ctx->db->join('routes as route', 'trip_details.route_id = route.route_id', 'left');
-    $ctx->db->join('consignors', 'trip.consignor_id =consignors.consignor_id');
-    $ctx->db->join('vehicle', 'trip.vehicle_id= vehicle.vehicle_id', 'left');
-    $ctx->db->join("loads", 'trip_details.load_id = loads.load_id', 'left');
-    $ctx->db->join('driver', 'trip_details.driver_id = driver.driver_id');
-    $ctx->db->join('consignees', 'trip.consignee_id = consignees.consignee_id', 'left');
-    $ctx->db->from('trip');
-    $query = $ctx->db->get();
-    return $query->result();
 }
 
 // Added By Afroz Khan On 28-02-2019
