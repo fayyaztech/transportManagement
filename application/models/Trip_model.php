@@ -3,19 +3,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Trip_model extends CI_Model
 {
-
-    public function get_vehicle($trip_id)
-    {
-        $this->db->select('vehicle_id');
-        $this->db->where('trip_id', $trip_id);
-        return $this->db->get('trip')->row()->vehicle_id;
-    }
     public function fetch_step_details($step_id)
     {
+        $this->db->select('td.trip_details_id,td.trip_id,td.load_id,td.driver_id,td.route_id,td.trip_start_date,td.trip_detail_freight');
         $this->db->where('trip_details_id', $step_id);
-        return $this->db->get('trip_details')->row();
+        return $this->db->get('trip_details as td')->row_array();
     }
-    public function get_incomplet_trips($trip_id)
+    public function get_incomplete_trips($trip_id)
     {
         $this->db->select('trip_details_id,driver_id');
         $this->db->where('trip_id', $trip_id);
@@ -67,6 +61,32 @@ class Trip_model extends CI_Model
         $this->db->where(['load_id' => $load_id, "route_id" => $route_id]);
         return $this->db->get('load_routes')->row()->load_routes_id;
 
+    }
+
+    // Fetch All Trip Data In List For The Main Table
+    // Added By Afroz Khan 28-02-2019
+
+    public function fetch_trip_list()
+    {
+        // $ctx context of current object
+        // $status if 1 active vehicle if 0 inactive vehicle
+        $this->db->select('trip.*,trip_details.*');
+        $this->db->select('route.route_id,route.route_origin,route.route_destination,route.route_distance');
+        $this->db->select('loads.load_name,consignee_name,trip_stop_date');
+        $this->db->select('driver.driver_name');
+        $this->db->select('consignors.consignor_name');
+        $this->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
+        // $this->db->order_by('trip.trip_start_date', 'desc');
+        $this->db->join('trip_details', 'trip.trip_id = trip_details.trip_id', 'left');
+        $this->db->join('routes as route', 'trip_details.route_id = route.route_id', 'left');
+        $this->db->join('consignors', 'trip.consignor_id =consignors.consignor_id');
+        $this->db->join('vehicle', 'trip.vehicle_id= vehicle.vehicle_id', 'left');
+        $this->db->join("loads", 'trip_details.load_id = loads.load_id', 'left');
+        $this->db->join('driver', 'trip_details.driver_id = driver.driver_id');
+        $this->db->join('consignees', 'trip.consignee_id = consignees.consignee_id', 'left');
+        $this->db->from('trip');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
     public function add_trip_step($data)
@@ -141,6 +161,16 @@ class Trip_model extends CI_Model
 
         $query = $this->db->get();
         return $query->result();
+    }
+
+    public function update_step($data)
+    {
+        $resp = false;
+        $this->db->where('trip_details_id', $data['trip_details_id']);
+        if ($this->db->update('trip_details', $data)) {
+            $resp = true;
+        }
+        return $resp;
     }
 
 }

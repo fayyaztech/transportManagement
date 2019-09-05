@@ -93,10 +93,22 @@ class Common_model extends CI_Model
     {
         $this->db->select('driver_name');
         $this->db->where('driver_id', $driver_id);
-        return $this->db->get('driver')->row_array()['driver_name'];
-        
-        
-        
+        return $this->db->get('driver')->row_array()['driver_name']; 
+    }
+
+    public function get_active_driver_id($step_id)
+    {
+        # active driver on trip step
+        $this->db->select('driver_id');        
+        $this->db->where('trip_details_id', $step_id);
+        return $this->db->get('trip_details')->row_array()['driver_id']; 
+    }
+
+    public function get_active_vehicle_id($trip_id)
+    {
+        $this->db->select('vehicle_id');
+        $this->db->where('trip_id', $trip_id);
+        return $this->db->get('trip')->row()->vehicle_id;
     }
 
 }
