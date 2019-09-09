@@ -24,7 +24,7 @@ $('.trip_step_option').change(function (e) {
     }
     switch (slct) {
         case 'step_stop':
-            requestUrl = url + 'operations/complete_trip';
+            requestUrl = url + 'trip/end_step_form';
             step(requestUrl, data);
             break;
         case 'step_run':
@@ -205,6 +205,26 @@ $(document).on('submit', '#add_consignee_form', function (event) {
             }
             $("#loadingBlock").hide();
 
+        }
+    });
+});
+
+$(document).on('submit','#end_step_form', function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: url+"trip/end_step",
+        data: new FormData(this),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if(response == 1){
+                alert("trip step stop successfully ");
+                location.reload();
+            }else{
+                alert(response);
+            }
         }
     });
 });

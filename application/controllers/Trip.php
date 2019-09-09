@@ -2,12 +2,19 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 class Trip extends CI_Controller
 {
+    /**Constructor */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('trip_model');
+    }
     /**Views ***************************************************************************
      * index default view
      * add trip form
      * stop_step_form
      * advance_form
      * trip_step_form
+     * stop_setp
      */
     public function index()
     {
@@ -18,12 +25,6 @@ class Trip extends CI_Controller
     public function add_trip_from()
     {
         $this->load->view('trip/add_trip');
-    }
-
-    public function stop_step_form()
-    {
-        $data['trip_step_id'] = $this->input->get('trip_id');
-        $this->load->view('trip/stop_step_form', $data);
     }
 
     public function advance_form()
@@ -54,6 +55,14 @@ class Trip extends CI_Controller
         $data['drivers'] = $this->common_model->get_drivers();
         $data['driver']['driver_name'] = $this->common_model->get_driver_name($data['step_details']['driver_id']);
         $this->load->view('trip/update_step_form', $data);
+    }
+
+    public function end_step_form()
+    {
+        $data = [
+            'step_id' => $this->input->get('step_id'),
+        ];
+        $this->load->view('trip/end_step', $data);
     }
 
     /**form data receiver methods ******************************************************
@@ -111,7 +120,7 @@ class Trip extends CI_Controller
         $post = $this->input->post();
         $resp = 0; //error to update
         $act_driver_id = $this->common_model->get_active_driver_id($post["trip_details_id"]);
-        if($act_driver_id != $post['driver_id']){
+        if ($act_driver_id != $post['driver_id']) {
             $this->common_model->driver_available($act_driver_id);
             $this->common_model->driver_unavailable($post['driver_id']);
         }
@@ -122,23 +131,38 @@ class Trip extends CI_Controller
 
     }
 
-    public function stop_step()
+    public function end_step()
     {
-        $data = $this->trip_model->fetch_step_details($this->input->post('trip_step_id'));
-        if ($this->trip_model->stop_step($this->input->post())) {
-            update_driver_status($this, ['driver_id' => $data->driver_id, "driver_running_status" => 1]);
-            // update_vehicle_status($this, $, $status);
+        $response = 'default failed';
+        $post = $this->input->post();
+        /** Collect required information for finalize step and vehicle maintenance update*/
+        $step_id = $post['trip_details_id'];
+        $step_info = $this->trip_model->fetch_step_details($step_id);
+        $vehicle_id = $this->common_model->get_active_vehicle_id($step_info['trip_id']);
+        $km = $this->common_model->get_km_by_route($step_info['route_id']);
+        $active_maintenance = $this->common_model->get_active_maintenance($vehicle_id);
 
-            echo "trip Stoped";
-        } else {
-            echo "failed to stop ";
+        /**Hit final update query through the trip model */
+        for ($i = 0; $i < count($active_maintenance); $i++) {
+            $update_maintenance[] = ['mnt_id' => $active_maintenance[$i]['mnt_id'], 'mnt_run_km' => $km, 'trip_details_id' => $step_id];
         }
+        if ($this->trip_model->end_step($post)) {
+            if ($this->common_model->update_maintenance($update_maintenance)) {
+                $response = 1;
+            } else {
+                $response = 'Update maintenance failed';
+            }
+        } else {
+            $response = 'failed to update step';
+        }
+
+        echo $response;
     }
     public function get_consignee()
     {
-        $cosignor_id = $this->input->get('consignor_id');
+        $consignor_id = $this->input->get('consignor_id');
         echo '<option value="">Select</option>';
-        foreach (fetch_consignee($this, $cosignor_id) as $value) {
+        foreach (fetch_consignee($this, $consignor_id) as $value) {
             echo '<option value="' . $value->consignee_id . '">' . $value->consignee_name . '</option>';
         }
 
@@ -290,11 +314,6 @@ class Trip extends CI_Controller
         }
         echo json_encode($resp);
     }
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('trip_model');
-    }
 
     public function get_routes()
     {
@@ -307,6 +326,7 @@ class Trip extends CI_Controller
 }
 
     }
+
 }
 
 /* End of file Trip.php */

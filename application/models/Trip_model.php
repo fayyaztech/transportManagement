@@ -26,12 +26,17 @@ class Trip_model extends CI_Model
         return $this->db->get("trip_details as td")->row();
     }
 
-    public function stop_step($data)
+    public function end_step($data)
     {
-        $this->db->where('trip_details_id', $data['trip_step_id']);
-        if ($this->db->update('trip_details', ['trip_stop_date' => $data['trip_stop_date'], "trip_detail_status" => 3])) {
-            return true;
+        $r = false; //default false
+        $this->db->where('trip_details_id', $data['trip_details_id']);
+        $data['trip_detail_status'] = 3;
+        unset($data['trip_details_id']);
+        if ($this->db->update('trip_details',$data)) {
+            $r = true;
         }
+
+        return $r;
 
     }
     // Add Trip Function

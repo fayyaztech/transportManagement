@@ -108,7 +108,33 @@ class Common_model extends CI_Model
     {
         $this->db->select('vehicle_id');
         $this->db->where('trip_id', $trip_id);
-        return $this->db->get('trip')->row()->vehicle_id;
+        return $this->db->get('trip')->row_array()['vehicle_id'];
+    }
+
+    public function get_km_by_route($route_id)
+    {
+        $this->db->select('route_distance');
+        $this->db->where('route_id', $route_id);
+        return $this->db->get('routes')->row_array()['route_distance'];
+    }
+
+    public function get_active_maintenance($vehicle_id)
+    {
+        $this->db->select('mnt_id');
+        $this->db->where(['vehicle_id'=>$vehicle_id,'mnt_status'=>1]);
+        $this->db->where('mnt_type <> ',3);
+        return $this->db->get('maintenance')->result_array();
+    }
+
+    public function update_maintenance($update_maintenance)
+    {
+        $r = false; //default false
+        if ($this->db->insert_batch('maintenanance_run', $update_maintenance)) {
+            $r = true;
+        }
+
+        return $r;
+        
     }
 
 }

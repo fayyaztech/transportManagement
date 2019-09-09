@@ -87,15 +87,19 @@ if (!empty($trip)) {
              * $add_advance_btn
              */
 
+            // $trip_step_option['step_run'] = 'Run Again';
+            $trip_step_option['step_update'] = 'Update';
+            if ($d['trip_detail_status'] == 3) {
+                $trip_option['run_new_step'] = "Run New Step";
+            }else{
+                $trip_step_option['step_stop'] = 'End step';
+            }
             $trip_option['trip_update'] = 'Edit Trip Details';
             $trip_option['trip_advance'] = "Pay Advance";
             $trip_option['trip_received_payment'] = "Received Payment";
             $trip_option['trip_received_incentive'] = "Received Incentive";
             $trip_option['trip_stop'] = 'END Trip';
             $trip_option['trip_delete'] = 'DELETE TRIP';
-            $trip_step_option['step_update'] = 'Update';
-            $trip_step_option['step_run'] = 'Run Again';
-            $trip_step_option['step_stop'] = 'End step';
 
 
             /**if trip end date is empty */
