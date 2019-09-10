@@ -10,8 +10,8 @@
             <div class="form-group">
                 <label for="input" class="col-sm-2 control-label">Trip Start date:</label>
                 <div class="col-sm-10">
-                    <input type="date" name="trip_start_date" class="form-control"
-                        value="<?php echo $step_details['trip_start_date']; ?>" required="required" title="">
+                    <input type="date" name="step_start_date" class="form-control"
+                        value="<?php echo $step_details['step_start_date']; ?>" required="required" title="">
                 </div>
             </div>
 
