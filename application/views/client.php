@@ -54,11 +54,11 @@
                                                 echo '
                                                     <tr>
                                                         <td>'.$count++.'</td>
-                                                        <td>'.$value->consignor_name.'</td>
-                                                        <td>'.$value->consignor_address.'</td>
-                                                        <td>'.$value->consignor_contact.'</td>
-                                                        <td>'.$value->consignor_city.'</td>
-                                                        <td value='.$value->consignor_id.'>
+                                                        <td>'.$value['consignor_name'].'</td>
+                                                        <td>'.$value['consignor_address'].'</td>
+                                                        <td>'.$value['consignor_contact'].'</td>
+                                                        <td>'.$value['consignor_city'].'</td>
+                                                        <td value='.$value['consignor_id'].'>
                                                         <button class="btn btn-primary fa fa-eye view_consignor" ></button>
                                                           <button class="btn btn-info fa fa-edit update_consignor" ></button>
                                                           <button class="btn btn-danger fa fa-trash delete_consignor"></button>
