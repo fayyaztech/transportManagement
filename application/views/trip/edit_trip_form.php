@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                             
-                            <input type="hidden" name="old_vehicle" id="inputold_vehicle" class="form-control" value="<?php echo $trip_details->vehicle_id;?>">
+                            <input type="hidden" name="old_vehicle_id" id="inputold_vehicle" class="form-control" value="<?php echo $trip_details->vehicle_id;?>">
                             
 
                         </div>
