@@ -3,13 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Client_model extends CI_Model
 {
-
-    public function get_list()
-    {
-        $query = $this->db->get('consignors');
-        return $query->result();
-    }
-
     public function assign_routes($data)
     {
         $this->db->where('consignor_id', $data[0]['consignor_id']);
@@ -61,12 +54,6 @@ class Client_model extends CI_Model
         if ($this->db->delete('consignees')) {
             return true;
         }
-    }
-
-    public function fetch_consignee_list($consignor_id)
-    {
-        $this->db->where('consignor_id', $consignor_id);
-        return $this->db->get('consignees')->result_array();
     }
 
     public function fetch_client_info($client_id)
