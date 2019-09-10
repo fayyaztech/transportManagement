@@ -9,7 +9,7 @@ class Client extends CI_Controller
         /**Client home page
          * client list get from model
          */
-        $consinee_list = $this->client_model->get_list();
+        $consinee_list = $this->common_model->get_consignors();
         $data['consinee_list'] = $consinee_list;
         template($this, 'client', $data);
     }
@@ -153,7 +153,7 @@ class Client extends CI_Controller
     public function consinee_list()
     {
         $consinor_id = $this->input->get('consignor_id');
-        $data['consignees'] = $this->client_model->fetch_consignee_list($consinor_id);
+        $data['consignees'] = $this->common_model->get_consignees($consinor_id);
         $this->load->view('client/consignee_list', $data);
 
     }

@@ -42,6 +42,10 @@ class Trip extends CI_Controller
     public function edit_trip_form()
     {
         $data['trip_id'] = $this->input->get('trip_id');
+        $data['trip_details'] = $this->trip_model->fetch_trip_details($data['trip_id']);
+        $data['vehicle_name'] = $this->common_model->get_vehicle_number($data['trip_details']->vehicle_id);
+        $data['vehicles'] = $this->common_model->fetch_vehicle_list(1);
+        $data['consignors'] = $this->common_model->get_consignors();
         $this->load->view('trip/edit_trip_form', $data);
     }
 
@@ -260,27 +264,29 @@ class Trip extends CI_Controller
     }
     public function update_trip()
     {
+        $r = "update failed (main)";
         $post = $this->input->post();
         $config = array(
-            array("field" => "driver_id", "rules" => "required"),
-            array("field" => "route_id", "rules" => "required"),
+            array("field" => "consignor_id", "rules" => "required"),
+            array("field" => "consignee_id", "rules" => "required"),
             array("field" => "allowance", "rules" => "numeric"),
-            array("field" => "advance", "rules" => "numeric"),
         );
         $this->load->library('form_validation', $config);
         if ($this->form_validation->run()) {
+            if($post['old_vehicle_id'] !== $post['vehicle_id']){
+                $this->common_model->vehicle_available($post['old_vehicle_id']);
+                $this->common_model->vehicle_unavailable($post['vehicle_id']);
+            }
             if ($this->trip_model->update_trip_info($post)) {
-                $resp['code'] = 1;
-                $resp["msg"] = "Trip Update Successfully.!";
+                $r = 1;
             } else {
-                $resp['code'] = 0;
-                $resp["msg"] = "Failed to Update Trip.!";
+                $r = "update failed";
             }
         } else {
             $resp['code'] = 0;
             $resp["msg"] = validation_errors();
         }
-        echo json_encode($resp);
+        echo $r;
     }
     // Stop Trip Function
     public function stop_trip()
