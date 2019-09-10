@@ -8,6 +8,7 @@
                 <div class="panel-body">
 
                     <input type="hidden" name="trip_id" class="form-control" value="<?php echo $trip_id; ?>">
+                    <input type="hidden" name="driver_id" class="form-control" value="<?php echo $driver_id; ?>">
                     <div class="row">
 
                         <div class="col-md-2 col-md-offset-3">

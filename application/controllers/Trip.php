@@ -30,6 +30,11 @@ class Trip extends CI_Controller
     public function advance_form()
     {
         $data['trip_id'] = $this->input->get('trip_id');
+        $data['driver_id'] = $this->trip_model->get_driver_by_trip_id($data['trip_id']);
+        if ($data['driver_id'] === false) {
+            echo "Trip is not running ";
+            die();
+        }
         $this->load->view('trip/advance_form', $data);
     }
     public function trip_step_form()
@@ -241,6 +246,7 @@ class Trip extends CI_Controller
     // Update Trip Function
     public function add_advance()
     {
+        $r = "default Failed";
         $post = $this->input->post();
         $config = array(
             array("field" => "advance_amount", "rules" => "required"),
@@ -249,18 +255,13 @@ class Trip extends CI_Controller
         $this->load->library('form_validation', $config);
         if ($this->form_validation->run()) {
             if ($trip_id = $this->trip_model->add_advance($post)) {
-                $resp['code'] = 1;
-                $resp["msg"] = "advance Added Successfully.!";
-            } else {
-                $resp['code'] = 0;
-                $resp["msg"] = "Failed to Add advance.!";
-            }
-
-            echo json_encode($resp);
+                $r = 1;
+            }  
         } else {
-            $resp['code'] = 0;
-            $resp["msg"] = validation_errors();
+            $r = validation_errors();
         }
+
+        echo $r;
     }
     public function update_trip()
     {
@@ -277,6 +278,7 @@ class Trip extends CI_Controller
                 $this->common_model->vehicle_available($post['old_vehicle_id']);
                 $this->common_model->vehicle_unavailable($post['vehicle_id']);
             }
+            unset($post['old_vehicle_id']);
             if ($this->trip_model->update_trip_info($post)) {
                 $r = 1;
             } else {

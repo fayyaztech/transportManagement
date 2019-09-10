@@ -103,7 +103,7 @@ if (!empty($trip)) {
 
 
             /**if trip end date is empty */
-            $stp_date = $d["trip_end_date"];
+            $stp_date = $d["step_end_date"];
             if ($stp_date == "0000-00-00") {$stp_date = '--';}
 
             /**Freignt and its lables  */
@@ -123,7 +123,7 @@ if (!empty($trip)) {
             }
 
             if ($steps_count > 0) {echo "<tr>";}
-            echo '<td>' . $d["trip_start_date"] . '</td>';
+            echo '<td>' . $d["step_start_date"] . '</td>';
             echo '<td>' . $stp_date . '</td>';
             echo '<td>' . $d["route_origin"] . '-' . $d["route_destination"] . '</td>';
             echo '<td>' . $d["driver_name"] . '</td>';
@@ -141,7 +141,7 @@ if (!empty($trip)) {
             echo '</td>';
             if ($steps_count > 0) {echo "</tr>";}
             if ($steps_count == 0) {
-                echo '<td trip_id="' . $td['trip_id'] . '" style="vertical-align: middle;" rowspan="' . $row_span . '">';
+                echo '<td trip_id="' . $d['trip_id'] . '" style="vertical-align: middle;" rowspan="' . $row_span . '">';
                 echo '<select class="btn trip_option">';
                 echo '<option>select Option</option>';
                 foreach ($trip_option as $kk => $vl) {

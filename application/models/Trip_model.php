@@ -175,4 +175,17 @@ class Trip_model extends CI_Model
         return $resp;
     }
 
+    public function get_driver_by_trip_id($trip_id)
+    {
+        $r = false;
+        $this->db->select('driver_id');
+        $this->db->where('trip_id', $trip_id);
+        $this->db->where('trip_detail_status', 2);
+        $query = $this->db->get('trip_details');
+        if ($query->num_rows() != 0) {
+            $r = $query->row()->driver_id;
+        }
+        return $r;
+    }
+
 }

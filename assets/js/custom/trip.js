@@ -25,15 +25,15 @@ $('.trip_step_option').change(function (e) {
     switch (slct) {
         case 'step_stop':
             requestUrl = url + 'trip/end_step_form';
-            step(requestUrl, data);
+            load_url_data(requestUrl, data);
             break;
         case 'step_run':
             requestUrl = url + 'trip/fetch_trip_step';
-            step(requestUrl, data);
+            load_url_data(requestUrl, data);
             break;
         case 'step_update':
             requestUrl = url + 'trip/update_step_form';
-            step(requestUrl, data);
+            load_url_data(requestUrl, data);
             break;
     }
 });
@@ -41,12 +41,15 @@ $('.trip_step_option').change(function (e) {
 $('.trip_option').change(function () {
     var slct = $(this).val();
     var trip_id = $(this).parent().attr('trip_id');
+    var data = {'trip_id':trip_id};
     switch (slct) {
         case 'trip_update':
-            trip_update(trip_id);
+            requestUrl = url+"trip/edit_trip_form";
+            load_url_data(requestUrl,data);
             break;
         case 'trip_advance':
-            run_step($trip_id);
+            requestUrl = url+"trip/advance_form";
+            load_url_data(requestUrl,data);
             break;
         case 'trip_received_payment':
             step_update($trip_id);
@@ -391,15 +394,11 @@ $(document).on('submit', "#update_trip_form", function (event) {
         cache: false,
         processData: false,
         success: function (data) {
-            var resp = jQuery.parseJSON(data);
-            console.log(data);
-            if (resp.code == 1) {
-                alert(resp.msg);
-                load_trip_data();
-                $('#modal-id').modal('hide');
-                $('#modal-id').html("");
+            if (data == 1) {
+                alert("trip update successfully");
+                location.reload();
             } else {
-                alert(resp.msg);
+                alert(data);
             }
             $("#loadingBlock").hide();
         }
@@ -467,22 +466,17 @@ $(document).on('submit', "#add_advance", function (event) {
         cache: false,
         processData: false,
         success: function (data) {
-            var resp = jQuery.parseJSON(data);
-            console.log(data);
-            if (resp.code == 1) {
-                alert(resp.msg);
-                load_trip_data();
-                $('#modal-id').modal('hide');
-                $('#modal-id').html("");
+            if (data == 1) {
+                alert("advance successfully added");
+                location.reload();
             } else {
-                alert(resp.msg);
+                alert(data);
             }
-            $("#loadingBlock").hide();
         }
     })
 });
 
-function step(requestUrl, data) {
+function load_url_data(requestUrl, data) {
     $.get(requestUrl, data, function (response) {
         $('.modal-content').html(response);
         $('#modal-id').modal('show');
