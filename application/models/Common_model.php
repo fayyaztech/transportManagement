@@ -83,7 +83,7 @@ class Common_model extends CI_Model
     public function get_drivers()
     {
         /**get active driver */
-        $this->db->select('driver_id,driver_name');        
+        $this->db->select('driver_id,driver_name');
         $this->db->where('driver_status', 1);
         $query = $this->db->get('driver');
         return $query->result_array();
@@ -93,15 +93,15 @@ class Common_model extends CI_Model
     {
         $this->db->select('driver_name');
         $this->db->where('driver_id', $driver_id);
-        return $this->db->get('driver')->row_array()['driver_name']; 
+        return $this->db->get('driver')->row_array()['driver_name'];
     }
 
     public function get_active_driver_id($step_id)
     {
         # active driver on trip step
-        $this->db->select('driver_id');        
+        $this->db->select('driver_id');
         $this->db->where('trip_details_id', $step_id);
-        return $this->db->get('trip_details')->row_array()['driver_id']; 
+        return $this->db->get('trip_details')->row_array()['driver_id'];
     }
 
     public function get_active_vehicle_id($trip_id)
@@ -121,8 +121,8 @@ class Common_model extends CI_Model
     public function get_active_maintenance($vehicle_id)
     {
         $this->db->select('mnt_id');
-        $this->db->where(['vehicle_id'=>$vehicle_id,'mnt_status'=>1]);
-        $this->db->where('mnt_type <> ',3);
+        $this->db->where(['vehicle_id' => $vehicle_id, 'mnt_status' => 1]);
+        $this->db->where('mnt_type <> ', 3);
         return $this->db->get('maintenance')->result_array();
     }
 
@@ -132,9 +132,25 @@ class Common_model extends CI_Model
         if ($this->db->insert_batch('maintenanance_run', $update_maintenance)) {
             $r = true;
         }
-
         return $r;
-        
+    }
+    public function get_consignors()
+    {
+        $query = $this->db->get('consignors');
+        return $query->result_array();
+    }
+
+    public function get_consignees($consignor_id)
+    {
+        $this->db->where('consignor_id', $consignor_id);
+        return $this->db->get('consignees')->result_array();
+    }
+
+    public function get_vehicle_number($vehicle_id)
+    {
+        $this->db->select('vehicle_number');
+        $this->db->where('vehicle_id', $vehicle_id);
+        return $this->db->get('vehicle')->row_array()['vehicle_number'];
     }
 
 }
