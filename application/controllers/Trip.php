@@ -74,6 +74,15 @@ class Trip extends CI_Controller
         $this->load->view('trip/end_step', $data);
     }
 
+    public function received_payment_form()
+    {
+        $data['trip_id'] = $this->input->get('trip_id');
+        $data['request_type'] = $this->input->get('type');
+        $this->load->view('trip/received_payment', $data);
+        
+
+    }
+
     /**form data receiver methods ******************************************************
      * add trip
      */
@@ -256,9 +265,20 @@ class Trip extends CI_Controller
         if ($this->form_validation->run()) {
             if ($trip_id = $this->trip_model->add_advance($post)) {
                 $r = 1;
-            }  
+            }
         } else {
             $r = validation_errors();
+        }
+
+        echo $r;
+    }
+
+    public function receive_payment()
+    {
+        $r = "operation failed ";
+        $post = $this->input->post();
+        if($this->trip_model->receive_payment($post)){
+            $r = 1;
         }
 
         echo $r;
@@ -274,7 +294,7 @@ class Trip extends CI_Controller
         );
         $this->load->library('form_validation', $config);
         if ($this->form_validation->run()) {
-            if($post['old_vehicle_id'] !== $post['vehicle_id']){
+            if ($post['old_vehicle_id'] !== $post['vehicle_id']) {
                 $this->common_model->vehicle_available($post['old_vehicle_id']);
                 $this->common_model->vehicle_unavailable($post['vehicle_id']);
             }

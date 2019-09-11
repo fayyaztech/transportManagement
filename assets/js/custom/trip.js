@@ -41,21 +41,33 @@ $('.trip_step_option').change(function (e) {
 $('.trip_option').change(function () {
     var slct = $(this).val();
     var trip_id = $(this).parent().attr('trip_id');
-    var data = {'trip_id':trip_id};
+    var data = {
+        'trip_id': trip_id
+    };
     switch (slct) {
         case 'trip_update':
-            requestUrl = url+"trip/edit_trip_form";
-            load_url_data(requestUrl,data);
+            requestUrl = url + "trip/edit_trip_form";
+            load_url_data(requestUrl, data);
             break;
         case 'trip_advance':
-            requestUrl = url+"trip/advance_form";
-            load_url_data(requestUrl,data);
+            requestUrl = url + "trip/advance_form";
+            load_url_data(requestUrl, data);
             break;
         case 'trip_received_payment':
-            step_update($trip_id);
+            data = {
+                'type': 'Received Payment',
+                'trip_id':trip_id
+            }
+            requestUrl = url + "trip/received_payment_form";
+            load_url_data(requestUrl, data);
             break;
         case 'trip_received_incentive':
-            step_update($trip_id);
+            data = {
+                'type': 'Received Incentive',
+                'trip_id':trip_id
+            }
+            requestUrl = url + "trip/received_payment_form";
+            load_url_data(requestUrl, data);
             break;
         case 'trip_stop':
             step_update($trip_id);
@@ -98,10 +110,30 @@ $(document).on("submit", "#update_step", function (e) {
         contentType: false,
         processData: false,
         success: function (response) {
-            if(response == 1){
+            if (response == 1) {
                 alert("step successfully updated");
                 location.reload();
-            }else{
+            } else {
+                alert(response);
+            }
+        }
+    });
+});
+
+$(document).on("submit", "#received_payment_form", function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: url + "trip/receive_payment",
+        data: new FormData(this),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response == 1) {
+                alert("payment received");
+                location.reload();
+            } else {
                 alert(response);
             }
         }
@@ -212,20 +244,20 @@ $(document).on('submit', '#add_consignee_form', function (event) {
     });
 });
 
-$(document).on('submit','#end_step_form', function (e) {
+$(document).on('submit', '#end_step_form', function (e) {
     e.preventDefault();
     $.ajax({
         type: "POST",
-        url: url+"trip/end_step",
+        url: url + "trip/end_step",
         data: new FormData(this),
         cache: false,
         contentType: false,
         processData: false,
         success: function (response) {
-            if(response == 1){
+            if (response == 1) {
                 alert("trip step stop successfully ");
                 location.reload();
-            }else{
+            } else {
                 alert(response);
             }
         }

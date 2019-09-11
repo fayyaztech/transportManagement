@@ -188,4 +188,12 @@ class Trip_model extends CI_Model
         return $r;
     }
 
+    public function receive_payment($post)
+    {
+        if ($this->db->insert('payment_received', $post)) 
+        {
+            return true;
+        }
+    }
+
 }
