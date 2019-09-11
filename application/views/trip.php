@@ -27,14 +27,14 @@
                                         <th>Consignee Name</th>
                                         <th>Vehicle Number</th>
                                         <th>Advance</th>
+                                        <th>Payment Received</th>
+                                        <th>Incentive</th>
                                         <th>Trip Start Date</th>
                                         <th>Trip End Date</th>
                                         <th>Route</th>
                                         <th>Driver</th>
                                         <th>Distance</th>
-                                        <th>Expected Frieght</th>
-                                        <th>Payment Recieved</th>
-                                        <th>Incentive</th>
+                                        <th>Expected Freight</th>
                                         <th>Steps</th>
                                         <th>Actions</th>
                                     </tr>
@@ -42,15 +42,15 @@
                                 <tbody>
                                 <?php
 /**Trip Table start */
-/**defined veriables
- * $trip_data containce all data regarding to the trip,
+/**defined variables
+ * $trip_data contained all data regarding to the trip,
  * trip data have 2 arrays client details and trip step details
  * $trip_details contains trip step part from $trip_data
  * $client_details contains trip fixed and client details from $trip_data
  */
 
 // echo "<pre>";
-// seprating client details and trip details
+// separating client details and trip details
 foreach ($trip_data as $td) {
     $consignor_name = $td['consignor_name'];
     $vehicle_number = $td['vehicle_number'];
@@ -58,7 +58,7 @@ foreach ($trip_data as $td) {
     $trip_id = $td['trip_id'];
     unset($td['client_name']);
     unset($td['vehicle_number']);
-    $trip[$trip_id]['client_details'] = ['consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name];
+    $trip[$trip_id]['client_details'] = ['consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name,'trip_id'=>$trip_id];
     $trip[$trip_id]['trip_details'][] = $td;
 }
 
@@ -78,7 +78,10 @@ if (!empty($trip)) {
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignor_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignee_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['vehicle_number'] . '</td>
-            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . 1500 . '</td>';
+            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . 1500 . '</td>
+            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id'=>$trip_client['trip_id'],'payment_received_type'=>0]) . '</td>
+            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id'=>$trip_client['trip_id'],'payment_received_type'=>1]) . '</td>';
+            
 
         foreach($trip_details as $d) {
             /**OPtions
@@ -129,8 +132,6 @@ if (!empty($trip)) {
             echo '<td>' . $d["driver_name"] . '</td>';
             echo '<td>' . $d["route_distance"] . '</td>';
             echo '<td>' . $freight . '</td>';
-            echo '<td>' . $d["trip_detail_freight"] . '</td>';
-            echo '<td>' . $d["trip_detail_freight"] . '</td>';
             echo '<td trip_id="' . $d['trip_id'] . '" step_id="' . $d['trip_details_id'] . '" v_id="' . $d['vehicle_id'] . '">';
             echo '<select class="btn trip_step_option">';
             echo '<option> select Option</option>';

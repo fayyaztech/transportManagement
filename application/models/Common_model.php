@@ -153,6 +153,22 @@ class Common_model extends CI_Model
         return $this->db->get('vehicle')->row_array()['vehicle_number'];
     }
 
+    public function received_payments($data)
+    {
+        /**data is an array with two parameters
+         * trip id
+         * type
+         * return in sum
+         */
+        $this->db->select('sum(payment_received_amount)');
+        $this->db->where($data);
+        $d = $this->db->get('payment_received')->row_array();
+        foreach($d as $v){
+            return $v;
+        }
+
+    }
+
 }
 
 /* End of file common_model.php */
