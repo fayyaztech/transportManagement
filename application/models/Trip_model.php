@@ -60,14 +60,6 @@ class Trip_model extends CI_Model
             return false;
         }
     }
-
-    public function get_load_route_id($load_id, $route_id)
-    {
-        $this->db->where(['load_id' => $load_id, "route_id" => $route_id]);
-        return $this->db->get('load_routes')->row()->load_routes_id;
-
-    }
-
     // Fetch All Trip Data In List For The Main Table
     // Added By Afroz Khan 28-02-2019
 

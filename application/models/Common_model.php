@@ -129,7 +129,7 @@ class Common_model extends CI_Model
     public function update_maintenance($update_maintenance)
     {
         $r = false; //default false
-        if ($this->db->insert_batch('maintenanance_run', $update_maintenance)) {
+        if ($this->db->insert_batch('maintenance_run', $update_maintenance)) {
             $r = true;
         }
         return $r;
@@ -175,6 +175,16 @@ class Common_model extends CI_Model
         $this->db->where('trip_id', $trip_id);
         $this->db->order_by('step_end_date', 'desc');
         return $this->db->get('trip_details')->row_array()['driver_id'];
+    }
+
+    public function get_load_route_id($load_id, $route_id)
+    {
+        $this->db->where(['load_id' => $load_id, "route_id" => $route_id]);
+        $q = $this->db->get('load_routes');
+        if($q->num_rows() != 0){
+            return $q->row()->load_routes_id;
+        }
+
     }
 
 }

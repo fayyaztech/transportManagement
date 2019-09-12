@@ -58,7 +58,7 @@ foreach ($trip_data as $td) {
     $trip_id = $td['trip_id'];
     unset($td['client_name']);
     unset($td['vehicle_number']);
-    $trip[$trip_id]['client_details'] = ['consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name,'trip_id'=>$trip_id];
+    $trip[$trip_id]['client_details'] = ['consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name, 'trip_id' => $trip_id];
     $trip[$trip_id]['trip_details'][] = $td;
 }
 
@@ -79,31 +79,34 @@ if (!empty($trip)) {
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignee_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['vehicle_number'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . 1500 . '</td>
-            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id'=>$trip_client['trip_id'],'payment_received_type'=>0]) . '</td>
-            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id'=>$trip_client['trip_id'],'payment_received_type'=>1]) . '</td>';
-            
+            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id' => $trip_client['trip_id'], 'payment_received_type' => 0]) . '</td>
+            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id' => $trip_client['trip_id'], 'payment_received_type' => 1]) . '</td>';
 
-        foreach($trip_details as $d) {
+        // $trip_step_option['step_run'] = 'Run Again';
+        $trip_step_option['step_update'] = 'Update';
+
+        #trip option
+        $trip_option['run_new_step'] = "Run New Step";
+        $trip_option['trip_update'] = 'Edit Trip Details';
+        $trip_option['trip_advance'] = "Pay Advance";
+        $trip_option['trip_received_payment'] = "Received Payment";
+        $trip_option['trip_received_incentive'] = "Received Incentive";
+        $trip_option['trip_expenses'] = "Trip Expenses";
+        $trip_option['trip_stop'] = 'END Trip';
+        $trip_option['trip_delete'] = 'DELETE TRIP';
+
+        foreach ($trip_details as $d) {
             /**OPtions
              * $trip_step_stop
              * $trip_update_btn
              * $add_advance_btn
              */
 
-            // $trip_step_option['step_run'] = 'Run Again';
-            $trip_step_option['step_update'] = 'Update';
-            if ($d['trip_detail_status'] == 3) {
-                $trip_option['run_new_step'] = "Run New Step";
-            }else{
+            if ($d['trip_detail_status'] != 3) {
                 $trip_step_option['step_stop'] = 'End step';
+            } else {
+                unset($trip_step_option['step_stop']);
             }
-            $trip_option['trip_update'] = 'Edit Trip Details';
-            $trip_option['trip_advance'] = "Pay Advance";
-            $trip_option['trip_received_payment'] = "Received Payment";
-            $trip_option['trip_received_incentive'] = "Received Incentive";
-            $trip_option['trip_stop'] = 'END Trip';
-            $trip_option['trip_delete'] = 'DELETE TRIP';
-
 
             /**if trip end date is empty */
             $stp_date = $d["step_end_date"];
@@ -112,11 +115,11 @@ if (!empty($trip)) {
             ';}
 
             /**Freignt and its lables  */
-            if ($td['trip_details_is_loaded'] == 0) {
+            if ($d['trip_details_is_loaded'] == 0) {
                 if ($td['trip_detail_freight'] != 0) {
                     $freight = $td['trip_detail_freight'];
                 } else {
-                    $load_route_id = $this->trip_model->get_load_route_id($td['load_id'], $td['route_id']);
+                    $load_route_id = $this->common_model->get_load_route_id($d['load_id'], $d['route_id']);
                     if (empty($load_route_id)) {
                         $freight = '<span class="label label-danger">freight not available For this route</span>';
                     } else {

@@ -55,7 +55,7 @@ class Trip extends CI_Controller
         $data['trip_details'] = $this->trip_model->fetch_trip_details($data['trip_id']);
         $data['loads'] = $this->common_model->get_loads($data['consignor_id']);
         $data['drivers'] = $this->common_model->get_drivers();
-        
+
         //load view
         $this->load->view('trip/trip_step_form', $data);
     }
@@ -132,7 +132,6 @@ class Trip extends CI_Controller
                 //$step['trip_start_date'] = $date;
                 $this->trip_model->add_trip_step($step);
                 $this->trip_model->add_advance(['trip_id' => $trip_id, 'advance_amount' => $advance, 'advance_date' => $post['trip_start_date']]);
-
                 $this->common_model->driver_unavailable($post['driver_id']);
                 $this->common_model->vehicle_unavailable($this->input->post('vehicle_id'));
                 $resp['code'] = 1;
@@ -176,14 +175,19 @@ class Trip extends CI_Controller
         $active_maintenance = $this->common_model->get_active_maintenance($vehicle_id);
 
         /**Hit final update query through the trip model */
+        $update_maintenance = []; //predefine $update_maintenance blank array
         for ($i = 0; $i < count($active_maintenance); $i++) {
             $update_maintenance[] = ['mnt_id' => $active_maintenance[$i]['mnt_id'], 'mnt_run_km' => $km, 'trip_details_id' => $step_id];
         }
+
         if ($this->trip_model->end_step($post)) {
-            if ($this->common_model->update_maintenance($update_maintenance)) {
-                $response = 1;
-            } else {
-                $response = 'Update maintenance failed';
+            $response = 1;
+            if (count($update_maintenance) != 0) {
+                if ($this->common_model->update_maintenance($update_maintenance)) {
+                    $response = 1;
+                } else {
+                    $response = 'Update maintenance failed';
+                }
             }
         } else {
             $response = 'failed to update step';
