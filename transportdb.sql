@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 10, 2019 at 03:31 PM
+-- Generation Time: Sep 12, 2019 at 11:49 AM
 -- Server version: 5.7.27-0ubuntu0.16.04.1
 -- PHP Version: 7.3.9-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -235,6 +235,20 @@ CREATE TABLE `mnt_history` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment_received`
+--
+
+CREATE TABLE `payment_received` (
+  `payment_received_id` int(11) NOT NULL,
+  `trip_id` int(11) NOT NULL,
+  `payment_received_date` date NOT NULL,
+  `payment_received_type` int(11) NOT NULL COMMENT '0 ; payment 1: incentive',
+  `payment_received_amount` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `routes`
 --
 
@@ -420,6 +434,12 @@ ALTER TABLE `mnt_history`
   ADD PRIMARY KEY (`mnt_his_id`);
 
 --
+-- Indexes for table `payment_received`
+--
+ALTER TABLE `payment_received`
+  ADD PRIMARY KEY (`payment_received_id`);
+
+--
 -- Indexes for table `routes`
 --
 ALTER TABLE `routes`
@@ -463,7 +483,7 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `advances`
 --
 ALTER TABLE `advances`
-  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `assigned_routes`
 --
@@ -524,6 +544,11 @@ ALTER TABLE `maintenance_type`
 --
 ALTER TABLE `mnt_history`
   MODIFY `mnt_his_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `payment_received`
+--
+ALTER TABLE `payment_received`
+  MODIFY `payment_received_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `routes`
 --
