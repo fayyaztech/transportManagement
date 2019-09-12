@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 12, 2019 at 11:49 AM
+-- Generation Time: Sep 12, 2019 at 11:34 PM
 -- Server version: 5.7.27-0ubuntu0.16.04.1
 -- PHP Version: 7.3.9-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -160,19 +160,6 @@ CREATE TABLE `load_routes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `maintenanance_run`
---
-
-CREATE TABLE `maintenanance_run` (
-  `mnt_run_id` int(11) NOT NULL,
-  `mnt_id` int(11) NOT NULL,
-  `trip_details_id` int(11) NOT NULL,
-  `mnt_run_km` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `maintenance`
 --
 
@@ -192,6 +179,19 @@ CREATE TABLE `maintenance` (
   `mnt_total_ran` int(11) NOT NULL,
   `mnt_note` text NOT NULL COMMENT '1 tyre, 2stepny',
   `mnt_status` int(11) NOT NULL DEFAULT '1' COMMENT '1in used,2discarded,3workdone'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `maintenance_run`
+--
+
+CREATE TABLE `maintenance_run` (
+  `mnt_run_id` int(11) NOT NULL,
+  `mnt_id` int(11) NOT NULL,
+  `trip_details_id` int(11) NOT NULL,
+  `mnt_run_km` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -410,16 +410,16 @@ ALTER TABLE `load_routes`
   ADD PRIMARY KEY (`load_routes_id`);
 
 --
--- Indexes for table `maintenanance_run`
---
-ALTER TABLE `maintenanance_run`
-  ADD PRIMARY KEY (`mnt_run_id`);
-
---
 -- Indexes for table `maintenance`
 --
 ALTER TABLE `maintenance`
   ADD PRIMARY KEY (`mnt_id`);
+
+--
+-- Indexes for table `maintenance_run`
+--
+ALTER TABLE `maintenance_run`
+  ADD PRIMARY KEY (`mnt_run_id`);
 
 --
 -- Indexes for table `maintenance_type`
@@ -483,12 +483,12 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `advances`
 --
 ALTER TABLE `advances`
-  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `assigned_routes`
 --
 ALTER TABLE `assigned_routes`
-  MODIFY `assigned_routes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `assigned_routes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `cities`
 --
@@ -513,27 +513,27 @@ ALTER TABLE `driver`
 -- AUTO_INCREMENT for table `freights`
 --
 ALTER TABLE `freights`
-  MODIFY `freight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `freight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `loads`
 --
 ALTER TABLE `loads`
-  MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `load_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `load_routes`
 --
 ALTER TABLE `load_routes`
-  MODIFY `load_routes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `maintenanance_run`
---
-ALTER TABLE `maintenanance_run`
-  MODIFY `mnt_run_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `load_routes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `maintenance`
 --
 ALTER TABLE `maintenance`
   MODIFY `mnt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+--
+-- AUTO_INCREMENT for table `maintenance_run`
+--
+ALTER TABLE `maintenance_run`
+  MODIFY `mnt_run_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `maintenance_type`
 --
@@ -548,12 +548,12 @@ ALTER TABLE `mnt_history`
 -- AUTO_INCREMENT for table `payment_received`
 --
 ALTER TABLE `payment_received`
-  MODIFY `payment_received_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `payment_received_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `states`
 --
@@ -568,7 +568,7 @@ ALTER TABLE `trip`
 -- AUTO_INCREMENT for table `trip_details`
 --
 ALTER TABLE `trip_details`
-  MODIFY `trip_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `trip_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `trip_expenses`
 --
