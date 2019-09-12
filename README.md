@@ -26,4 +26,6 @@ this is transport management system
 	3. add new route through excel file
 
 	## Problems to fix
-	
+	1. trip expected fright error in table
+	2. trip table not sorted asc or desc
+	3. 
