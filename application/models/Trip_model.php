@@ -47,7 +47,7 @@ class Trip_model extends CI_Model
             $this->db->insert(
                 'trip',
                 [
-                    'step_start_date' => $data['step_start_date'],
+                    'trip_start_date' => $data['trip_start_date'],
                     'vehicle_id' => $data['vehicle_id'],
                     'consignor_id' => $data['consignor_id'],
                     'consignee_id' => $data['consignee_id'],
@@ -190,10 +190,19 @@ class Trip_model extends CI_Model
 
     public function receive_payment($post)
     {
-        if ($this->db->insert('payment_received', $post)) 
-        {
+        if ($this->db->insert('payment_received', $post)) {
             return true;
         }
+    }
+
+    public function is_any_active_step($trip_id)
+    {
+        $this->db->where('trip_id', $trip_id);
+        $this->db->where('trip_detail_status', 2);
+        if ($this->db->get('trip_details')->num_rows() == 0) {
+            return true;
+        }
+
     }
 
 }

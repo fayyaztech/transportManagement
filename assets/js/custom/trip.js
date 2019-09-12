@@ -56,7 +56,7 @@ $('.trip_option').change(function () {
         case 'trip_received_payment':
             data = {
                 'type': 'Received Payment',
-                'trip_id':trip_id
+                'trip_id': trip_id
             }
             requestUrl = url + "trip/received_payment_form";
             load_url_data(requestUrl, data);
@@ -64,11 +64,14 @@ $('.trip_option').change(function () {
         case 'trip_received_incentive':
             data = {
                 'type': 'Received Incentive',
-                'trip_id':trip_id
+                'trip_id': trip_id
             }
             requestUrl = url + "trip/received_payment_form";
             load_url_data(requestUrl, data);
             break;
+        case 'run_new_step':
+            requestUrl = url + "trip/trip_step_form";
+            load_url_data(requestUrl, data);
         case 'trip_stop':
             step_update($trip_id);
             break;
@@ -361,7 +364,7 @@ $(document).on('click', "#stop_step_trip", function () {
 
 // Saving Add Trip Step Form Data 
 
-$(document).on('submit', "#save_trip_step", function (event) {
+$(document).on('submit', "#add_trip_step", function (event) {
     event.preventDefault();
     $("#loadingBlock").show();
     $.ajax({
@@ -372,14 +375,11 @@ $(document).on('submit', "#save_trip_step", function (event) {
         cache: false,
         processData: false,
         success: function (data) {
-            var resp = jQuery.parseJSON(data);
-            console.log(data);
-            if (resp.code == 1) {
-                alert(resp.msg);
-                $('#modal-id').modal('hide');
-                load_trip_data();
+            if (data == 1) {
+                alert("step added successfully ");
+                location.reload();
             } else {
-                alert(resp.msg);
+                alert(data);
             }
             $("#loadingBlock").hide();
         }
