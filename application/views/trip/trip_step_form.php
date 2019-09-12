@@ -1,15 +1,15 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <form action="javascript:void();" method="post" id="save_trip_step" accept-charset="utf-8">
+        <form action="javascript:void();" method="post" id="add_trip_step" accept-charset="utf-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="text-center">Add Trip Step</h3>
                 </div>
                 <div class="panel-body">
 
-                    <input type="hidden" name="trip_id" class="form-control" value="' . $trip_id . '">
+                    <input type="hidden" name="trip_id" class="form-control" value="<?php echo $trip_id; ?>">
                     <input type="hidden" name="old_driver_id" class="form-control"
-                        value="' . $trip_details->driver_id . '">
+                        value="<?php echo $last_driver_id; ?>">
                     <div class="row">
 
                         <div class="col-md-2">
@@ -19,12 +19,12 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <select name="route_id" id="route_id" class="form-control" required="required">';
-                                    foreach (fetch_route($this) as $val) {
-                                    echo '<option value="' . $val->route_id . '">' . $val->route_origin . ' To ' .
-                                        $val->route_destination . '</option>';
-                                    }
-                                    echo '
+                                <select name="route_id" id="route_id" class="form-control" required="required">
+                                   <?php foreach ($routes as $val) { ?>
+                                   <?php  echo '<option value="' . $val['route_id'] . '">' . $val['route_origin'] . ' To ' .
+                                        $val['route_destination'] . '</option>';
+                                    } 
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -35,18 +35,14 @@
                                 </label>
                             </div>
                         </div>
-
-                        <input type="hidden" name="trip_id" value="' . $trip_details->trip_id . '">
                         <div class="col-md-4">
                             <select name="load_id" id="trip_type" class="form-control" required="required">
 
                                 <option value="0">Empty Trip</option>
-                                ';
-
-                                foreach (fetch_load($this, $trip_details->consignor_id) as $v) {
-                                echo '<option value="' . $v->load_id . '">' . $v->load_name . '</option>';
+                                <?php foreach ($loads as $v) {
+                                echo '<option value="' . $v['load_id'] . '">' . $v['load_name'] . '</option>';
                                 }
-                                echo '
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -59,11 +55,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <select name="driver_id" id="driver_id" class="form-control" required="required">
-                                    <option value="' . $trip_details->driver_id . '">continued as old</option>';
-                                    foreach (fetch_driver($this) as $val) {
-                                    echo '<option value="' . $val->driver_id . '">' . $val->driver_name . '</option>';
+                                    <option value="<?php echo $last_driver_id; ?>"><?php echo $driver_name; ?> (selected)</option>';
+                                    <?php foreach ($drivers as $val) {
+                                        echo '<option value="' . $val['driver_id'] . '">' . $val['driver_name'] . '</option>';
                                     }
-                                    echo '
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -74,7 +70,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input type="date" name="trip_start_date" id="inputTrip_date" class="form-control"
+                                <input type="date" name="step_start_date" id="inputTrip_date" class="form-control"
                                     value="" required="required" title="">
                             </div>
                         </div>

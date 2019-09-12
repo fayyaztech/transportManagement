@@ -163,10 +163,18 @@ class Common_model extends CI_Model
         $this->db->select('sum(payment_received_amount)');
         $this->db->where($data);
         $d = $this->db->get('payment_received')->row_array();
-        foreach($d as $v){
+        foreach ($d as $v) {
             return $v;
         }
 
+    }
+
+    public function last_active_driver_on_trip($trip_id)
+    {
+        $this->db->select('driver_id');
+        $this->db->where('trip_id', $trip_id);
+        $this->db->order_by('step_end_date', 'desc');
+        return $this->db->get('trip_details')->row_array()['driver_id'];
     }
 
 }

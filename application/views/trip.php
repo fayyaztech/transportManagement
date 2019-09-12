@@ -107,7 +107,9 @@ if (!empty($trip)) {
 
             /**if trip end date is empty */
             $stp_date = $d["step_end_date"];
-            if ($stp_date == "0000-00-00") {$stp_date = '--';}
+            if ($stp_date == "0000-00-00") {$stp_date = '
+            <span class="label label-success">Running...</span>
+            ';}
 
             /**Freignt and its lables  */
             if ($td['trip_details_is_loaded'] == 0) {
