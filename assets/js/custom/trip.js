@@ -74,7 +74,7 @@ $('.trip_option').change(function () {
             load_url_data(requestUrl, data);
             break;
         case 'trip_expenses':
-                requestUrl = url + "trip/trip_expenses_form";
+            requestUrl = url + "trip/trip_expenses_form";
             load_url_data(requestUrl, data);
         case 'trip_stop':
             step_update($trip_id);
@@ -109,186 +109,61 @@ $('#add-trip').click(function (e) {
 /**form action *************************************************************** */
 $(document).on("submit", "#update_step", function (e) {
     e.preventDefault();
-    $.ajax({
-        type: "POST",
-        url: url + "trip/update_step",
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            if (response == 1) {
-                alert("step successfully updated");
-                location.reload();
-            } else {
-                alert(response);
-            }
-        }
-    });
+    var rUrl = url + "trip/update_step";
+    var response = "step successfully updated ";
+    ajaxRequest(this, rUrl, response);
 });
 
 $(document).on("submit", "#received_payment_form", function (e) {
     e.preventDefault();
-    $.ajax({
-        type: "POST",
-        url: url + "trip/receive_payment",
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            if (response == 1) {
-                alert("payment received");
-                location.reload();
-            } else {
-                alert(response);
-            }
-        }
-    });
+    var rUrl = url + "trip/receive_payment";
+    var response = "payment received ";
+    ajaxRequest(this, rUrl, response);
 });
 
 $(document).on('submit', '#add_route_submit', function (event) {
-
     event.preventDefault();
-    $.ajax({
-        url: url + 'route/add_route',
-        type: 'POST',
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            var resp = jQuery.parseJSON(data);
-            console.log(data);
-            if (resp.code == 1) {
-                alert(resp.msg);
-                location.reload(true);
-                // $("#add_route_submit").trigger("reset");
-
-            } else {
-                alert(resp.msg);
-
-            }
-
-            $("#loadingBlock").hide();
-
-        }
-    })
+    var rUrl = url + 'route/add_route';
+    var response = "route added successfully ";
+    ajaxRequest(this, rUrl, response);
 });
 
 $(document).on('submit', '#add_consignor_form', function (event) {
     event.preventDefault();
-    // alert('clicked');
-    $.ajax({
-        url: url + 'client/add_consignor',
-        type: 'POST',
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            var resp = jQuery.parseJSON(data);
-            console.log(data);
-            if (resp.code == 1) {
-
-                $('#modal-id').modal('hide');
-
-            } else {
-                alert(resp.msg);
-
-            }
-            $("#loadingBlock").hide();
-
-        }
-    });
+    var rUrl = url + 'client/add_consignor';
+    var response = "Consignee added successfully ";
+    ajaxRequest(this, rUrl, response);
 });
-
-
 /*
     stop main trip submit data
 */
 $(document).on('submit', '#stop_trip_step_form', function (event) {
     event.preventDefault();
-    $.ajax({
-        url: url + 'trip/stop_step',
-        type: 'POST',
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            alert(data);
-            location.reload();
-        }
-    });
+    var rUrl = url + 'trip/stop_step';
+    var response = "Step Ended successfully ";
+    ajaxRequest(this, rUrl, response);
 });
 
 
 $(document).on('submit', '#add_consignee_form', function (event) {
     event.preventDefault();
-    // alert('clicked');
-    $.ajax({
-        url: url + 'client/add_consignee',
-        type: 'POST',
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            var resp = jQuery.parseJSON(data);
-            console.log(data);
-            if (resp.code == 1) {
-
-                $('#modal-id').modal('hide');
-
-            } else {
-                alert(resp.msg);
-
-            }
-            $("#loadingBlock").hide();
-
-        }
-    });
+    var rUrl = url + 'client/add_consignee';
+    var response = "consignee added successfully ";
+    ajaxRequest(this, rUrl, response);
 });
 
 $(document).on('submit', '#end_step_form', function (e) {
     e.preventDefault();
-    $.ajax({
-        type: "POST",
-        url: url + "trip/end_step",
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            if (response == 1) {
-                alert("trip step stop successfully ");
-                location.reload();
-            } else {
-                alert(response);
-            }
-        }
-    });
+    var rUrl = url + "trip/end_step";
+    var response = "trip step stop successfully ";
+    ajaxRequest(this, rUrl, response);
 });
 
 $(document).on('submit', '#trip_expense_form', function (e) {
     e.preventDefault();
-    $.ajax({
-        type: "POST",
-        url: url + "trip/end_step",
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            if (response == 1) {
-                alert("trip step stop successfully ");
-                location.reload();
-            } else {
-                alert(response);
-            }
-        }
-    });
+    var rUrl = url + "trip/end_step";
+    var response = "trip step stop successfully ";
+    ajaxRequest(this, rUrl, response);
 });
 
 
@@ -532,6 +407,25 @@ $(document).on('submit', "#add_advance", function (event) {
         }
     })
 });
+
+function ajaxRequest(obj, rUrl, msg) {
+    $.ajax({
+        type: "POST",
+        url: rUrl,
+        data: new FormData(obj),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response == 1) {
+                alert(msg);
+                location.reload();
+            } else {
+                alert(response);
+            }
+        }
+    });
+}
 
 function load_url_data(requestUrl, data) {
     $.get(requestUrl, data, function (response) {
