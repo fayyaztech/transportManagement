@@ -72,6 +72,10 @@ $('.trip_option').change(function () {
         case 'run_new_step':
             requestUrl = url + "trip/trip_step_form";
             load_url_data(requestUrl, data);
+            break;
+        case 'trip_expenses':
+                requestUrl = url + "trip/trip_expenses_form";
+            load_url_data(requestUrl, data);
         case 'trip_stop':
             step_update($trip_id);
             break;
@@ -266,6 +270,27 @@ $(document).on('submit', '#end_step_form', function (e) {
         }
     });
 });
+
+$(document).on('submit', '#trip_expense_form', function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: url + "trip/end_step",
+        data: new FormData(this),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response == 1) {
+                alert("trip step stop successfully ");
+                location.reload();
+            } else {
+                alert(response);
+            }
+        }
+    });
+});
+
 
 /** extra action ************************************************************* */
 // Add Trip Button Click
