@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 12, 2019 at 11:34 PM
+-- Generation Time: Sep 18, 2019 at 02:21 PM
 -- Server version: 5.7.27-0ubuntu0.16.04.1
 -- PHP Version: 7.3.9-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -281,6 +281,7 @@ CREATE TABLE `trip` (
   `vehicle_id` int(11) NOT NULL,
   `consignor_id` int(11) NOT NULL,
   `consignee_id` int(11) NOT NULL,
+  `driver_id` int(11) NOT NULL,
   `allowance` double NOT NULL,
   `trip_start_date` date NOT NULL,
   `trip_end_date` date NOT NULL,
@@ -297,7 +298,6 @@ CREATE TABLE `trip_details` (
   `trip_details_id` int(11) NOT NULL,
   `trip_id` int(11) NOT NULL,
   `load_id` int(11) NOT NULL,
-  `driver_id` int(11) NOT NULL,
   `route_id` int(11) NOT NULL,
   `trip_detail_status` int(11) NOT NULL COMMENT '2 = running 3= stop',
   `step_start_date` date NOT NULL,
@@ -317,6 +317,8 @@ CREATE TABLE `trip_expenses` (
   `trip_expense_id` int(11) NOT NULL,
   `trip_expense_name` varchar(50) NOT NULL,
   `trip_expense_amount` double NOT NULL,
+  `trip_expense_date` date NOT NULL,
+  `trip_expense_note` text NOT NULL,
   `trip_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -483,7 +485,7 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `advances`
 --
 ALTER TABLE `advances`
-  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `assigned_routes`
 --
@@ -528,12 +530,12 @@ ALTER TABLE `load_routes`
 -- AUTO_INCREMENT for table `maintenance`
 --
 ALTER TABLE `maintenance`
-  MODIFY `mnt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `mnt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `maintenance_run`
 --
 ALTER TABLE `maintenance_run`
-  MODIFY `mnt_run_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `mnt_run_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `maintenance_type`
 --
@@ -548,7 +550,7 @@ ALTER TABLE `mnt_history`
 -- AUTO_INCREMENT for table `payment_received`
 --
 ALTER TABLE `payment_received`
-  MODIFY `payment_received_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_received_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `routes`
 --
@@ -563,12 +565,12 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `trip`
 --
 ALTER TABLE `trip`
-  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `trip_details`
 --
 ALTER TABLE `trip_details`
-  MODIFY `trip_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `trip_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `trip_expenses`
 --
