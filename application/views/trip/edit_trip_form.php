@@ -80,10 +80,28 @@
                                 </div>
                             </div>
                             
-                            <input type="hidden" name="old_vehicle_id" id="inputold_vehicle" class="form-control" value="<?php echo $trip_details->vehicle_id;?>">
+                            <input type="hidden" name="old_vehicle_id" class="form-control" value="<?php echo $trip_details->vehicle_id;?>">
                             
 
                         </div>
+                        
+                        <div class="row">
+                        <div class="form-group">
+                <label for="load_id" class="col-sm-2 control-label"> select Driver:</label>
+                <div class="col-sm-10">
+                    <select name="driver_id" id="driver_id" class="form-control">
+                    <option value="<?php echo $trip_details->driver_id;?>"><?php echo $driver['driver_name']; ?></option>
+                        <?php
+                    for($i = 0; $i < count($drivers);$i++){?>
+                        <option value="<?php echo $drivers[$i]['driver_id'];?>">
+                            <?php echo $drivers[$i]['driver_name']; ?>
+                        </option>
+                            <?php } ?>
+                    </select>
+                </div>
+            </div>
+                        </div>
+                        
 
 
 

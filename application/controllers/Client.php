@@ -100,6 +100,7 @@ class Client extends CI_Controller
 
     public function add_consignee()
     {
+        $r = "Error Client-103";
         $post = $this->input->post();
         $validation = array(
             array('field' => "consignee_name", 'rules' => 'required'),
@@ -114,18 +115,15 @@ class Client extends CI_Controller
 
         if ($this->form_validation->run()) {
             if ($this->client_model->add_consignee($post)) {
-                $resp['code'] = 1;
-                $resp["msg"] = "client added successfully !";
+                $r = 1;
             } else {
-                $resp['code'] = 0;
-                $resp["msg"] = "Failed to add client !";
+                $r = "Failed to add client !";
             }
         } else {
-            $resp['code'] = 0;
-            $resp["msg"] = validation_errors();
+            $r = validation_errors();
         }
 
-        echo json_encode($resp);
+        echo $r;
     }
 
     public function delete_consignor()

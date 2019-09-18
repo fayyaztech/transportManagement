@@ -46,23 +46,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="select driver">Select Driver<span class="text-danger">*</span></label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select name="driver_id" id="driver_id" class="form-control" required="required">
-                                    <option value="<?php echo $last_driver_id; ?>"><?php echo $driver_name; ?> (selected)</option>';
-                                    <?php foreach ($drivers as $val) {
-                                        echo '<option value="' . $val['driver_id'] . '">' . $val['driver_name'] . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="select truck">Trip start Date</label>

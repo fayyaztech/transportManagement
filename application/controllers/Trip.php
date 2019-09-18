@@ -27,6 +27,13 @@ class Trip extends CI_Controller
         $this->load->view('trip/add_trip');
     }
 
+    public function trip_expenses_form()
+    {
+        $data['trip_id'] = $this->input->get('trip_id');
+        $this->load->view('trip/trip_expenses_form', $data);
+
+    }
+
     public function advance_form()
     {
         $data['trip_id'] = $this->input->get('trip_id');
@@ -40,24 +47,26 @@ class Trip extends CI_Controller
     public function trip_step_form()
     {
         $data['trip_id'] = $this->input->get('trip_id');
+
         #check wether trip step running or not
         $is_another_step_running = $this->trip_model->is_any_active_step($data['trip_id']);
         if (!$is_another_step_running) {
-            echo "please End Running step Before start new one ";
-            exit();
+            $data['msg'] = "please End Running step Before start new one ";
+            $this->load->view('error_msg', $data);
+        } else {
+
+            #collect required information for start new step
+            $data['consignor_id'] = $this->common_model->get_consignor_id($data['trip_id']);
+            $data['routes'] = $this->common_model->fetch_assigned_routes($data['consignor_id']);
+            $data['last_driver_id'] = $this->common_model->last_active_driver_on_trip($data['trip_id']);
+            $data['driver_name'] = $this->common_model->get_driver_name($data['last_driver_id']);
+            $data['trip_details'] = $this->trip_model->fetch_trip_details($data['trip_id']);
+            $data['loads'] = $this->common_model->get_loads($data['consignor_id']);
+            $data['drivers'] = $this->common_model->get_drivers();
+
+            //load view
+            $this->load->view('trip/trip_step_form', $data);
         }
-
-        #collect required information for start new step
-        $data['consignor_id'] = $this->common_model->get_consignor_id($data['trip_id']);
-        $data['routes'] = $this->common_model->fetch_assigned_routes($data['consignor_id']);
-        $data['last_driver_id'] = $this->common_model->last_active_driver_on_trip($data['trip_id']);
-        $data['driver_name'] = $this->common_model->get_driver_name($data['last_driver_id']);
-        $data['trip_details'] = $this->trip_model->fetch_trip_details($data['trip_id']);
-        $data['loads'] = $this->common_model->get_loads($data['consignor_id']);
-        $data['drivers'] = $this->common_model->get_drivers();
-
-        //load view
-        $this->load->view('trip/trip_step_form', $data);
     }
 
     public function edit_trip_form()
@@ -67,6 +76,8 @@ class Trip extends CI_Controller
         $data['vehicle_name'] = $this->common_model->get_vehicle_number($data['trip_details']->vehicle_id);
         $data['vehicles'] = $this->common_model->fetch_vehicle_list(1);
         $data['consignors'] = $this->common_model->get_consignors();
+        $data['drivers'] = $this->common_model->get_drivers();
+        $data['driver']['driver_name'] = $this->common_model->get_driver_name($data['trip_details']->driver_id);
         $this->load->view('trip/edit_trip_form', $data);
     }
 
@@ -77,16 +88,12 @@ class Trip extends CI_Controller
         $data['consignor_id'] = $this->common_model->get_consignor_id($data['step_details']['trip_id']);
         $data['routes'] = $this->common_model->fetch_assigned_routes($data['consignor_id']);
         $data['loads'] = $this->common_model->get_loads($data['consignor_id']);
-        $data['drivers'] = $this->common_model->get_drivers();
-        $data['driver']['driver_name'] = $this->common_model->get_driver_name($data['step_details']['driver_id']);
         $this->load->view('trip/update_step_form', $data);
     }
 
     public function end_step_form()
     {
-        $data = [
-            'step_id' => $this->input->get('step_id'),
-        ];
+        $data['step_id'] = $this->input->get('step_id');
         $this->load->view('trip/end_step', $data);
     }
 
@@ -117,19 +124,15 @@ class Trip extends CI_Controller
         $this->load->library('form_validation', $config);
         if ($this->form_validation->run()) {
             $advance = $this->input->post('advance');
-            $driver_id = $this->input->post('driver_id');
             unset($_POST['advance']);
-            $step['driver_id'] = $this->input->post('driver_id');
             $step['load_id'] = $this->input->post('load_id');
             $step['route_id'] = $this->input->post('route_id');
             $step['trip_detail_status'] = 2;
             $step['step_start_date'] = $this->input->post('trip_start_date');
             $step['trip_detail_freight'] = $this->input->post('trip_detail_freight');
-            unset($_POST['driver_id']);
             if ($trip_id = $this->trip_model->save_trip_info($post)) {
 
                 $step['trip_id'] = $trip_id;
-                //$step['trip_start_date'] = $date;
                 $this->trip_model->add_trip_step($step);
                 $this->trip_model->add_advance(['trip_id' => $trip_id, 'advance_amount' => $advance, 'advance_date' => $post['trip_start_date']]);
                 $this->common_model->driver_unavailable($post['driver_id']);
@@ -151,11 +154,6 @@ class Trip extends CI_Controller
     {
         $post = $this->input->post();
         $resp = 0; //error to update
-        $act_driver_id = $this->common_model->get_active_driver_id($post["trip_details_id"]);
-        if ($act_driver_id != $post['driver_id']) {
-            $this->common_model->driver_available($act_driver_id);
-            $this->common_model->driver_unavailable($post['driver_id']);
-        }
         if ($this->trip_model->update_step($post)) {
             $resp = 1;
         }
@@ -231,7 +229,6 @@ class Trip extends CI_Controller
         unset($_POST['old_driver_id']);
         $post = $this->input->post();
         $config = array(
-            array("field" => "driver_id", "rules" => "required"),
             array("field" => "route_id", "rules" => "required"),
             array("field" => "load_id", "rules" => "required"),
             array("field" => "step_start_date", "rules" => "required"),
@@ -317,6 +314,13 @@ class Trip extends CI_Controller
                 $this->common_model->vehicle_unavailable($post['vehicle_id']);
             }
             unset($post['old_vehicle_id']);
+            $act_driver_id = $this->common_model->get_active_driver_id($post["trip_id"]);
+
+            if ($act_driver_id != $post['driver_id']) {
+                $this->common_model->driver_available($act_driver_id);
+                $this->common_model->driver_unavailable($post['driver_id']);
+            }
+            
             if ($this->trip_model->update_trip_info($post)) {
                 $r = 1;
             } else {
@@ -371,6 +375,17 @@ class Trip extends CI_Controller
             <?php
 }
 
+    }
+
+    public function add_trip_expense()
+    {
+        $r = "failed to add expenses";
+        $post = $this->input->post();
+        if ($this->trip_model->add_trip_expenses($post)) {
+            $r = 1;
+        }
+
+        echo $r;
     }
 
 }

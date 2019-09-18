@@ -19,7 +19,7 @@ class Trip_model extends CI_Model
 
     public function fetch_trip_details($trip_id)
     {
-        $this->db->select('td.trip_id,td.route_id,td.driver_id,t.consignor_id,allowance,t.vehicle_id');
+        $this->db->select('td.trip_id,td.route_id,t.driver_id,t.consignor_id,allowance,t.vehicle_id,t.driver_id');
         $this->db->where('td.trip_id', $trip_id);
         $this->db->order_by('td.trip_details_id', 'desc');
         $this->db->join('trip as t', 't.trip_id = td.trip_id', 'left');
@@ -52,6 +52,7 @@ class Trip_model extends CI_Model
                     'consignor_id' => $data['consignor_id'],
                     'consignee_id' => $data['consignee_id'],
                     'allowance' => $data['allowance'],
+                    'driver_id'=>$data['driver_id']
                 ]
             )
         ) {
@@ -79,7 +80,7 @@ class Trip_model extends CI_Model
         $this->db->join('consignors', 'trip.consignor_id = consignors.consignor_id');
         $this->db->join('vehicle', 'trip.vehicle_id = vehicle.vehicle_id', 'left');
         $this->db->join("loads", 'trip_details.load_id = loads.load_id', 'left');
-        $this->db->join('driver', 'trip_details.driver_id = driver.driver_id');
+        $this->db->join('driver', 'trip.driver_id = driver.driver_id');
         $this->db->join('consignees', 'trip.consignee_id = consignees.consignee_id', 'left');
         $this->db->from('trip');
         $query = $this->db->get();
@@ -172,8 +173,7 @@ class Trip_model extends CI_Model
         $r = false;
         $this->db->select('driver_id');
         $this->db->where('trip_id', $trip_id);
-        $this->db->where('trip_detail_status', 2);
-        $query = $this->db->get('trip_details');
+        $query = $this->db->get('trip');
         if ($query->num_rows() != 0) {
             $r = $query->row()->driver_id;
         }
@@ -194,7 +194,16 @@ class Trip_model extends CI_Model
         if ($this->db->get('trip_details')->num_rows() == 0) {
             return true;
         }
+    }
 
+    public function add_trip_expenses($data)
+    {
+        $r = false;
+        if ($this->db->insert('trip_expenses', $data)) {
+            $r = true;
+        }
+
+        return $r;
     }
 
 }

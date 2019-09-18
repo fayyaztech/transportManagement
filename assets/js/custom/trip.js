@@ -14,7 +14,7 @@ jQuery(document).ready(function ($) {
 
 $('.trip_step_option').change(function (e) {
     e.preventDefault();
-    var requestUrl;
+    var requestUrl = null;
     var slct = $(this).val();
     // alert(slct);
     // var trip_id = $(this).parent().attr('trip_id');
@@ -25,16 +25,16 @@ $('.trip_step_option').change(function (e) {
     switch (slct) {
         case 'step_stop':
             requestUrl = url + 'trip/end_step_form';
-            load_url_data(requestUrl, data);
             break;
         case 'step_run':
             requestUrl = url + 'trip/fetch_trip_step';
-            load_url_data(requestUrl, data);
             break;
         case 'step_update':
             requestUrl = url + 'trip/update_step_form';
-            load_url_data(requestUrl, data);
             break;
+    }
+    if (slct !== "no_option") {
+        load_url_data(requestUrl, data);
     }
 });
 
@@ -161,8 +161,8 @@ $(document).on('submit', '#end_step_form', function (e) {
 
 $(document).on('submit', '#trip_expense_form', function (e) {
     e.preventDefault();
-    var rUrl = url + "trip/end_step";
-    var response = "trip step stop successfully ";
+    var rUrl = url + "trip/add_trip_expense";
+    var response = "new Expense added successfully ";
     ajaxRequest(this, rUrl, response);
 });
 

@@ -43,24 +43,7 @@
                             <?php } ?>
                     </select>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="load_id" class="col-sm-2 control-label"> select Driver:</label>
-                <div class="col-sm-10">
-                    <select name="driver_id" id="driver_id" class="form-control">
-                    <option value="<?php echo $step_details['driver_id'];?>"><?php echo $driver['driver_name']; ?></option>
-                        <?php
-                    for($i = 0; $i < count($drivers);$i++){?>
-                        <option value="<?php echo $drivers[$i]['driver_id'];?>">
-                            <?php echo $drivers[$i]['driver_name']; ?>
-                        </option>
-                            <?php } ?>
-                    </select>
-                </div>
-            </div>
-
-            
+            </div>            
             <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-2">
                     <button type="submit" class="btn btn-primary">Update</button>

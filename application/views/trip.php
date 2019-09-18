@@ -26,13 +26,13 @@
                                         <th>Consignor Name</th>
                                         <th>Consignee Name</th>
                                         <th>Vehicle Number</th>
+                                        <th>Driver</th>
                                         <th>Advance</th>
                                         <th>Payment Received</th>
                                         <th>Incentive</th>
                                         <th>Trip Start Date</th>
                                         <th>Trip End Date</th>
                                         <th>Route</th>
-                                        <th>Driver</th>
                                         <th>Distance</th>
                                         <th>Expected Freight</th>
                                         <th>Steps</th>
@@ -55,10 +55,11 @@ foreach ($trip_data as $td) {
     $consignor_name = $td['consignor_name'];
     $vehicle_number = $td['vehicle_number'];
     $consignee_name = $td['consignee_name'];
+    $driver_name = $td['driver_name'];
     $trip_id = $td['trip_id'];
     unset($td['client_name']);
     unset($td['vehicle_number']);
-    $trip[$trip_id]['client_details'] = ['consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name, 'trip_id' => $trip_id];
+    $trip[$trip_id]['client_details'] = ['driver_name'=>$driver_name,'consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name, 'trip_id' => $trip_id];
     $trip[$trip_id]['trip_details'][] = $td;
 }
 
@@ -78,13 +79,12 @@ if (!empty($trip)) {
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignor_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignee_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['vehicle_number'] . '</td>
+            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['driver_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . 1500 . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id' => $trip_client['trip_id'], 'payment_received_type' => 0]) . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id' => $trip_client['trip_id'], 'payment_received_type' => 1]) . '</td>';
 
-        // $trip_step_option['step_run'] = 'Run Again';
-        $trip_step_option['step_update'] = 'Update';
-
+        $trip_step_option = [];
         #trip option
         $trip_option['run_new_step'] = "Run New Step";
         $trip_option['trip_update'] = 'Edit Trip Details';
@@ -103,9 +103,13 @@ if (!empty($trip)) {
              */
 
             if ($d['trip_detail_status'] != 3) {
+                $trip_step_option['step_update'] = 'Update';
                 $trip_step_option['step_stop'] = 'End step';
+                unset($trip_step_option['no_option']);
             } else {
+                unset($trip_step_option['step_update']);
                 unset($trip_step_option['step_stop']);
+                $trip_step_option['no_option'] = 'no option available';
             }
 
             /**if trip end date is empty */
@@ -114,7 +118,7 @@ if (!empty($trip)) {
             <span class="label label-success">Running...</span>
             ';}
 
-            /**Freignt and its lables  */
+            /**Freight and its labels  */
             if ($d['trip_details_is_loaded'] == 0) {
                 if ($td['trip_detail_freight'] != 0) {
                     $freight = $td['trip_detail_freight'];
@@ -134,7 +138,7 @@ if (!empty($trip)) {
             echo '<td>' . $d["step_start_date"] . '</td>';
             echo '<td>' . $stp_date . '</td>';
             echo '<td>' . $d["route_origin"] . '-' . $d["route_destination"] . '</td>';
-            echo '<td>' . $d["driver_name"] . '</td>';
+            //echo '<td>' . $d["driver_name"] . '</td>';
             echo '<td>' . $d["route_distance"] . '</td>';
             echo '<td>' . $freight . '</td>';
             echo '<td trip_id="' . $d['trip_id'] . '" step_id="' . $d['trip_details_id'] . '" v_id="' . $d['vehicle_id'] . '">';
