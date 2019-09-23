@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 18, 2019 at 02:21 PM
+-- Generation Time: Sep 23, 2019 at 10:20 AM
 -- Server version: 5.7.27-0ubuntu0.16.04.1
 -- PHP Version: 7.3.9-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -31,6 +31,7 @@ CREATE TABLE `advances` (
   `driver_id` int(11) NOT NULL,
   `trip_id` int(11) NOT NULL,
   `advance_date` date NOT NULL,
+  `advance_place` text NOT NULL,
   `advance_amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -282,6 +283,12 @@ CREATE TABLE `trip` (
   `consignor_id` int(11) NOT NULL,
   `consignee_id` int(11) NOT NULL,
   `driver_id` int(11) NOT NULL,
+  `trip_opening_km` int(11) NOT NULL,
+  `trip_closing_km` int(11) NOT NULL,
+  `ok_delevery` int(11) NOT NULL,
+  `ok_delevery_remark` text NOT NULL,
+  `in_time_delevery` int(11) NOT NULL,
+  `in_time_delevery_remark` text NOT NULL,
   `allowance` double NOT NULL,
   `trip_start_date` date NOT NULL,
   `trip_end_date` date NOT NULL,
@@ -330,8 +337,8 @@ CREATE TABLE `trip_expenses` (
 
 CREATE TABLE `vehicle` (
   `vehicle_id` int(11) NOT NULL,
-  `vehicle_expected_average` int(11) NOT NULL DEFAULT '0',
   `vehicle_owner_name` varchar(50) NOT NULL,
+  `vehicle_expected_mileage` float NOT NULL,
   `vehicle_purchase_date` date DEFAULT NULL,
   `vehicle_engine_no` varchar(25) NOT NULL,
   `vehicle_class` varchar(20) NOT NULL,
@@ -485,7 +492,7 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `advances`
 --
 ALTER TABLE `advances`
-  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `advance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `assigned_routes`
 --
@@ -535,7 +542,7 @@ ALTER TABLE `maintenance`
 -- AUTO_INCREMENT for table `maintenance_run`
 --
 ALTER TABLE `maintenance_run`
-  MODIFY `mnt_run_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `mnt_run_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `maintenance_type`
 --
@@ -550,7 +557,7 @@ ALTER TABLE `mnt_history`
 -- AUTO_INCREMENT for table `payment_received`
 --
 ALTER TABLE `payment_received`
-  MODIFY `payment_received_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `payment_received_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `routes`
 --
@@ -565,12 +572,12 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `trip`
 --
 ALTER TABLE `trip`
-  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `trip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `trip_details`
 --
 ALTER TABLE `trip_details`
-  MODIFY `trip_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `trip_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `trip_expenses`
 --
@@ -580,7 +587,7 @@ ALTER TABLE `trip_expenses`
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `vehicle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
