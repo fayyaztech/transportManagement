@@ -173,8 +173,8 @@ class Common_model extends CI_Model
     {
         $this->db->select('driver_id');
         $this->db->where('trip_id', $trip_id);
-        $this->db->order_by('step_end_date', 'desc');
-        return $this->db->get('trip_details')->row_array()['driver_id'];
+        // $this->db->order_by('step_end_date', 'desc');
+        return $this->db->get('trip')->row_array()['driver_id'];
     }
 
     public function get_load_route_id($load_id, $route_id)

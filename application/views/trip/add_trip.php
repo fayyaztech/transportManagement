@@ -183,6 +183,35 @@ foreach (fetch_driver($this, 1) as $value) {
 				</div>
 
 				<div class="row">
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="">Vehicle Opening Km<span class="text-danger">*</span></label>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							
+							<input type="number" name="trip_opening_km" class="form-control" >
+							
+						</div>
+						</div>
+
+						<div class="col-md-2">
+						<div class="form-group">
+							<label for="">add Diesel<span class="text-danger"></span></label>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<input type="number" name="diesel" class="form-control" >
+							
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="row">
 					<div class="col-md-6"></div>
 					<div class="col-md-6">
 						<button type="button" class="btn btn-danger pull-right btn-lg"

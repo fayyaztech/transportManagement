@@ -37,8 +37,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="firstName">Purchase/Dilivery date</label>
-                                    <input type="date" id="purchase_date" name="vehicle_purchase_date" class="form-control" placeholder="Dilivery date" required="required" autofocus="autofocus"<?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_purchase_date'].'"';} if ($show_info){ echo 'disabled=""';}?>>
+                                    <label for="firstName">Purchase/Delivery date</label>
+                                    <input type="date" id="purchase_date" name="vehicle_purchase_date" class="form-control" placeholder="Delivery date" required="required" autofocus="autofocus"<?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_purchase_date'].'"';} if ($show_info){ echo 'disabled=""';}?>>
                                     
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="passing no">Expected Average</label>
-                                    <input type="number" id="vehicle_expected_average" name="vehicle_expected_average" class="form-control" placeholder="Expected Average" required="required" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_expected_average'].'"';} if ($show_info){ echo 'disabled=""';}?>>
+                                    <input type="text" id="vehicle_expected_average" name="vehicle_expected_mileage" class="form-control" placeholder="Expected Average" required="required" <?php if(isset($vehicle_data[0])) {echo 'value="'.$vehicle_data[0]['vehicle_expected_mileage'].'"';} if ($show_info){ echo 'disabled=""';}?>>
                                 </div>
                             </div>
                         </div>

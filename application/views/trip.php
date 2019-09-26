@@ -75,7 +75,7 @@ if (!empty($trip)) {
         $steps_count = 0;
         // var_dump($trip_details);
         echo '<tr>
-            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . 1 . '</td>
+            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['trip_id'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignor_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignee_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['vehicle_number'] . '</td>
@@ -89,6 +89,7 @@ if (!empty($trip)) {
         $trip_option['run_new_step'] = "Run New Step";
         $trip_option['trip_update'] = 'Edit Trip Details';
         $trip_option['trip_advance'] = "Pay Advance";
+        $trip_option['issue_diesel'] = "issue diesel";
         $trip_option['trip_received_payment'] = "Received Payment";
         $trip_option['trip_received_incentive'] = "Received Incentive";
         $trip_option['trip_expenses'] = "Trip Expenses";

@@ -3,7 +3,7 @@
         <form action="javascript:void();" method="post" id="add_advance" accept-charset="utf-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="text-center">Add Trip Step</h3>
+                    <h3 class="text-center">Pay Advance</h3>
                 </div>
                 <div class="panel-body">
 
@@ -23,6 +23,7 @@
                                     required="required">
                             </div>
                         </div>
+                        
 
                     </div>
                     <div class="row">
@@ -39,8 +40,29 @@
                                     required="required">
                             </div>
                         </div>
+                       
 
                     </div>
+                    
+                    <div class="row">
+
+                        <div class="col-md-2 col-md-offset-3">
+                            <div class="form-group">
+                                <label for="select origin">Place
+                                    <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="text" name="advance_place" class="form-control" value=""
+                                    required="required">
+                            </div>
+                        </div>
+                       
+
+                    </div>
+                    
+                    
                     <div class="row">
                         <div class="col-md-offset-5 col-md-4">
                             <input type="submit" class="btn btn-primary pull-right" />

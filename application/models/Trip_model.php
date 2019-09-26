@@ -5,7 +5,7 @@ class Trip_model extends CI_Model
 {
     public function fetch_step_details($step_id)
     {
-        $this->db->select('td.trip_details_id,td.trip_id,td.load_id,td.driver_id,td.route_id,td.step_start_date,td.trip_detail_freight');
+        $this->db->select('td.trip_details_id,td.trip_id,td.load_id,td.route_id,td.step_start_date,td.trip_detail_freight');
         $this->db->where('trip_details_id', $step_id);
         return $this->db->get('trip_details as td')->row_array();
     }
@@ -74,7 +74,7 @@ class Trip_model extends CI_Model
         $this->db->select('driver.driver_name');
         $this->db->select('consignors.consignor_name');
         $this->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
-        // $this->db->order_by('trip.step_start_date', 'desc');
+        $this->db->order_by('trip.trip_start_date', 'desc');
         $this->db->join('trip_details', 'trip.trip_id = trip_details.trip_id', 'left');
         $this->db->join('routes as route', 'trip_details.route_id = route.route_id', 'left');
         $this->db->join('consignors', 'trip.consignor_id = consignors.consignor_id');
