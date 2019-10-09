@@ -55,11 +55,12 @@ foreach ($trip_data as $td) {
     $consignor_name = $td['consignor_name'];
     $vehicle_number = $td['vehicle_number'];
     $consignee_name = $td['consignee_name'];
+    $trip_status = $td['trip_status'];
     $driver_name = $td['driver_name'];
     $trip_id = $td['trip_id'];
     unset($td['client_name']);
     unset($td['vehicle_number']);
-    $trip[$trip_id]['client_details'] = ['driver_name'=>$driver_name,'consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name, 'trip_id' => $trip_id];
+    $trip[$trip_id]['client_details'] = ['driver_name' => $driver_name, 'consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name, 'trip_id' => $trip_id, 'trip_status' => $trip_status];
     $trip[$trip_id]['trip_details'][] = $td;
 }
 
@@ -73,8 +74,22 @@ if (!empty($trip)) {
         $trip_client = $trip[$key]['client_details'];
         $row_span = count($trip_details);
         $steps_count = 0;
-        // var_dump($trip_details);
-        echo '<tr>
+        $bg_color = "";
+
+        /**
+         * hide and show option as per running status
+         * default stop false
+         */
+        $option_hide = false;
+        if ($trip_client['trip_status'] == 0) {
+            /**If trip is running
+             * row color danger
+             * hide some options true
+             */
+            $bg_color = "bg-danger";
+            $option_hide = true;
+        }
+        echo '<tr class="' . $bg_color . '">
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['trip_id'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignor_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignee_name'] . '</td>
@@ -85,16 +100,26 @@ if (!empty($trip)) {
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id' => $trip_client['trip_id'], 'payment_received_type' => 1]) . '</td>';
 
         $trip_step_option = [];
+        $trip_option = [];
         #trip option
-        $trip_option['run_new_step'] = "Run New Step";
-        $trip_option['trip_update'] = 'Edit Trip Details';
-        $trip_option['trip_advance'] = "Pay Advance";
-        $trip_option['issue_diesel'] = "issue diesel";
+        if ($option_hide) {
+            /**If trip is running
+             * show the following menus
+             * if not running hide them
+             */
+            $trip_option['run_new_step'] = "Run New Step";
+            $trip_option['trip_update'] = 'Edit Trip Details';
+            $trip_option['trip_advance'] = "Pay Advance";
+            $trip_option['issue_diesel'] = "issue diesel";
+        }
         $trip_option['trip_received_payment'] = "Received Payment";
         $trip_option['trip_received_incentive'] = "Received Incentive";
         $trip_option['trip_expenses'] = "Trip Expenses";
-        $trip_option['trip_stop'] = 'END Trip';
-        $trip_option['trip_delete'] = 'DELETE TRIP';
+        if ($option_hide) {
+            //hide options after trip stop
+            $trip_option['trip_stop'] = 'END Trip';
+            $trip_option['trip_delete'] = 'DELETE TRIP';
+        }
 
         foreach ($trip_details as $d) {
             /**OPtions
@@ -106,10 +131,7 @@ if (!empty($trip)) {
             if ($d['trip_detail_status'] != 3) {
                 $trip_step_option['step_update'] = 'Update';
                 $trip_step_option['step_stop'] = 'End step';
-                unset($trip_step_option['no_option']);
             } else {
-                unset($trip_step_option['step_update']);
-                unset($trip_step_option['step_stop']);
                 $trip_step_option['no_option'] = 'no option available';
             }
 
