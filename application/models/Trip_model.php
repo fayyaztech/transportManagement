@@ -52,7 +52,8 @@ class Trip_model extends CI_Model
                     'consignor_id' => $data['consignor_id'],
                     'consignee_id' => $data['consignee_id'],
                     'allowance' => $data['allowance'],
-                    'driver_id'=>$data['driver_id']
+                    'driver_id'=>$data['driver_id'],
+                    'opening_diesel'=>$data['opening_diesel']
                 ]
             )
         ) {
@@ -74,7 +75,7 @@ class Trip_model extends CI_Model
         $this->db->select('driver.driver_name');
         $this->db->select('consignors.consignor_name');
         $this->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
-        $this->db->order_by('trip.trip_start_date', 'desc');
+        $this->db->order_by('trip.trip_start_date', 'asc');
         $this->db->join('trip_details', 'trip.trip_id = trip_details.trip_id', 'left');
         $this->db->join('routes as route', 'trip_details.route_id = route.route_id', 'left');
         $this->db->join('consignors', 'trip.consignor_id = consignors.consignor_id');
@@ -127,37 +128,6 @@ class Trip_model extends CI_Model
             return true;
         }
     }
-
-// // Fetch Trip Data For Update
-
-    // public function fetch_trip_info($trip_id)
-    // {
-    //     $this->db->select('trip.*');
-    //     //
-    //     $this->db->select('routes.route_id,routes.route_origin,routes.route_destination,routes.route_distance');
-    //     $this->db->select('trip_details.route_id,trip_details.driver_id,trip_details.trip_id,trip_details.step_start_date,trip_details.trip_detail_status');
-
-    //     $this->db->select('trip.*');
-    //     //
-    //     $this->db->select('routes.route_id,routes.route_origin,routes.route_destination,routes.route_distance');
-    //     $this->db->select('load_type.load_name,trip_details.route_id,trip_details.trip_id,trip_details.step_start_date,trip_details.trip_detail_status');
-    //     $this->db->select('driver.driver_name');
-    //     $this->db->select('consignors.consignor_name');
-    //     $this->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
-    //     $this->db->join('trip_details', 'trip.trip_id = trip_details.trip_id', 'left');
-    //     $this->db->join('routes', 'trip_details.route_id = routes.route_id', 'left');
-    //     $this->db->join('consignors', 'trip.consignor_id = consignors.consignor_id');
-    //     $this->db->join('vehicle', 'trip.vehicle_id= vehicle.vehicle_id', 'left');
-    //     $this->db->join("load_type", 'trip_details.load_id = load_type.load_id', 'left');
-    //     $this->db->join('driver', 'trip_details.driver_id = driver.driver_id');
-    //     $this->db->from('trip');
-    //     $query = $this->db->get();
-    //     return $query->result();
-
-    //     $query = $this->db->get();
-    //     return $query->result();
-    // }
-
     public function update_step($data)
     {
         $resp = false;
@@ -221,6 +191,13 @@ class Trip_model extends CI_Model
             return true;
         }       
         
+    }
+
+    public function carry_forward_diesel($vehicle_id)
+    {
+        $this->db->where('vehicle_id', $vehicle_id);
+        $this->db->order_by('trip_end_date', 'desc');
+        return $this->db->get('trip')->result_array();
     }
 
 }

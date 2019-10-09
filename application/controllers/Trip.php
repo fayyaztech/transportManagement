@@ -131,7 +131,6 @@ class Trip extends CI_Controller
             $step['step_start_date'] = $this->input->post('trip_start_date');
             $step['trip_detail_freight'] = $this->input->post('trip_detail_freight');
             if ($trip_id = $this->trip_model->save_trip_info($post)) {
-
                 $step['trip_id'] = $trip_id;
                 $this->trip_model->add_trip_step($step);
                 $this->trip_model->add_advance(['trip_id' => $trip_id, 'advance_amount' => $advance, 'advance_date' => $post['trip_start_date']]);
@@ -425,6 +424,9 @@ class Trip extends CI_Controller
         if ($resp) {
             $r = 1;
             $driver_id = $this->common_model->get_driver_id($post['trip_id']);
+            $vehicle_id = $this->common_model->get_active_vehicle_id($post['trip_id']);
+            $this->common_model->driver_available($driver_id);
+            $this->common_model->vehicle_available($vehicle_id);
             $this->common_model->give_incentive_driver(
                 [
                     'trip_id' => $post['trip_id'],
@@ -436,6 +438,13 @@ class Trip extends CI_Controller
 
         echo $r;
 
+    }
+    public function carry_forward_diesel()
+    {
+        $vehicle_id = $this->input->get('vehicle_id');
+        $data = $this->trip_model->carry_forward_diesel($vehicle_id);
+        var_dump($data);
+        
     }
 
 }

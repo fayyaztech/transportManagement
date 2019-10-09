@@ -86,21 +86,21 @@
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<select name="vehicle_id" id="vehicle_id" class="form-control" required="required">
+							<select name="vehicle_id" id="vehicle_id" class="form-control select_vehicle" required="required">
 
 								<option value="">select truck</option>
 
 								<?php
 
-if (!empty(fetch_vehicle_list($this))) {
-    foreach (fetch_vehicle_list($this) as $value) {
-        echo '
-                                                        <option value="' . $value->vehicle_id . '">' . $value->vehicle_number . '</option>';
-    }
-} else {
-    echo '<option value="">Not Available</option>';
-}
-?>
+										if (!empty(fetch_vehicle_list($this))) {
+											foreach (fetch_vehicle_list($this) as $value) {
+												echo '
+												<option value="' . $value->vehicle_id . '">' . $value->vehicle_number . '</option>';
+											}
+										} else {
+											echo '<option value="">Not Available</option>';
+										}
+										?>
 							</select>
 						</div>
 					</div>
@@ -198,18 +198,16 @@ foreach (fetch_driver($this, 1) as $value) {
 
 						<div class="col-md-2">
 						<div class="form-group">
-							<label for="">add Diesel<span class="text-danger"></span></label>
+							<label for="">Opening Diesel<span class="text-danger"></span></label>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="number" name="diesel" class="form-control" >
+							<input type="number" id="opening_diesel" name="opening_diesel" class="form-control" >
 							
 						</div>
 					</div>
 				</div>
-
-
 
 				<div class="row">
 					<div class="col-md-6"></div>
