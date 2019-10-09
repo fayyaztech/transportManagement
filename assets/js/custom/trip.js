@@ -38,6 +38,7 @@ $('.trip_step_option').change(function (e) {
     }
 });
 
+
 $('.trip_option').change(function () {
     var slct = $(this).val();
     var trip_id = $(this).parent().attr('trip_id');
@@ -76,12 +77,19 @@ $('.trip_option').change(function () {
         case 'trip_expenses':
             requestUrl = url + "trip/trip_expenses_form";
             load_url_data(requestUrl, data);
+            break;
+        case 'issue_diesel':
+            requestUrl = url + "trip/issue_diesel_form";
+            load_url_data(requestUrl, data);
+            break;
         case 'trip_stop':
-            step_update($trip_id);
+            requestUrl = url + "trip/end_trip_form";
+            load_url_data(requestUrl, data);
             break;
         case 'trip_delete':
             step_update($trip_id);
             break;
+
     }
 });
 
@@ -163,6 +171,20 @@ $(document).on('submit', '#trip_expense_form', function (e) {
     e.preventDefault();
     var rUrl = url + "trip/add_trip_expense";
     var response = "new Expense added successfully ";
+    ajaxRequest(this, rUrl, response);
+});
+
+$(document).on('submit', '#issue_diesel', function (e) {
+    e.preventDefault();
+    var rUrl = url + "trip/add_diesel";
+    var response = "new diesel added";
+    ajaxRequest(this, rUrl, response);
+});
+
+$(document).on('submit', '#end_trip_form', function (e) {
+    e.preventDefault();
+    var rUrl = url + "trip/end_trip";
+    var response = "Trip Ends";
     ajaxRequest(this, rUrl, response);
 });
 

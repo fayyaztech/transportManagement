@@ -6,7 +6,7 @@
 		<form action="javaScript(void(0));" method="POST" role="form" id="end_trip_form">
 			<legend>End Trip</legend>
 
-			<input type="hidden" name="trip_details_id" class="form-control" value="<?php //echo $step_id; ?>">
+			<input type="hidden" name="trip_id" class="form-control" value="<?php echo $trip_id; ?>">
 
 			<div class="row">
 				<div class="form-group col-md-6">
@@ -26,7 +26,7 @@
 
 				<div class="form-group col-md-4">
 					<label for="">OK Delivery</label>
-					<input type="checkbox" class="form-control col-md-6" name="ok_delivery">
+					<input type="checkbox" class="form-control col-md-6" name="ok_delivery" value="1">
 				</div>
 
 				<div class="form-group col-md-8">
@@ -39,7 +39,7 @@
 
 				<div class="form-group col-md-4">
 					<label for="">Delivery In Time</label>
-					<input type="checkbox" class="form-control col-md-6" name="in_time_delivery">
+					<input type="checkbox" class="form-control col-md-6" name="in_time_delivery" value="1">
 				</div>
 
 				<div class="form-group col-md-8">

@@ -206,4 +206,21 @@ class Trip_model extends CI_Model
         return $r;
     }
 
+    public function add_diesel($object)
+    {
+        if($this->db->insert('diesel', $object)){
+            return true;
+        }
+    }
+
+    public function end_trip($post)
+    {
+        $post['trip_status'] = 1;
+        $this->db->where('trip_id', $post['trip_id']);
+        if($this->db->update('trip', $post)){
+            return true;
+        }       
+        
+    }
+
 }

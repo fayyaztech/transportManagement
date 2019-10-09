@@ -320,7 +320,7 @@ class Trip extends CI_Controller
                 $this->common_model->driver_available($act_driver_id);
                 $this->common_model->driver_unavailable($post['driver_id']);
             }
-            
+
             if ($this->trip_model->update_trip_info($post)) {
                 $r = 1;
             } else {
@@ -386,6 +386,56 @@ class Trip extends CI_Controller
         }
 
         echo $r;
+    }
+
+    public function issue_diesel_form()
+    {
+        $data['trip_id'] = $this->input->get('trip_id');
+        $data['driver_id'] = $this->common_model->get_driver_id($data['trip_id']);
+        $data['vehicle_id'] = $this->common_model->get_vehicle_id($data['trip_id']);
+        $this->load->view('trip/issue_diesel', $data);
+    }
+
+    public function add_diesel()
+    {
+        $r = "failed to add diesel";
+        $post = $this->input->post();
+        if ($this->trip_model->add_diesel($post)) {
+            $r = 1;
+        }
+
+        echo $r;
+
+    }
+
+    public function end_trip_form()
+    {
+        $data['trip_id'] = $this->input->get('trip_id');
+        $this->load->view('trip/end_trip', $data);
+
+    }
+
+    public function end_trip()
+    {
+        $r = "failed to stop trip";
+        $post = $this->input->post();
+        $driver_incentive = $post['driver_incentive'];
+        unset($post["driver_incentive"]);
+        $resp = $this->trip_model->end_trip($post);
+        if ($resp) {
+            $r = 1;
+            $driver_id = $this->common_model->get_driver_id($post['trip_id']);
+            $this->common_model->give_incentive_driver(
+                [
+                    'trip_id' => $post['trip_id'],
+                    'driver_id' => $driver_id,
+                    "driver_incentive_amount" => $driver_incentive,
+                ]
+            );
+        }
+
+        echo $r;
+
     }
 
 }

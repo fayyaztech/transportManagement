@@ -181,10 +181,31 @@ class Common_model extends CI_Model
     {
         $this->db->where(['load_id' => $load_id, "route_id" => $route_id]);
         $q = $this->db->get('load_routes');
-        if($q->num_rows() != 0){
+        if ($q->num_rows() != 0) {
             return $q->row()->load_routes_id;
         }
 
+    }
+
+    public function get_driver_id($trip_id)
+    {
+        $this->db->select("driver_id");
+        $this->db->where('trip_id', $trip_id);
+        return $this->db->get('trip')->row_array()['driver_id'];
+
+    }
+
+    public function get_vehicle_id($trip_id)
+    {
+        $this->db->select("vehicle_id");
+        $this->db->where('trip_id', $trip_id);
+        return $this->db->get('trip')->row_array()['vehicle_id'];
+
+    }
+
+    public function give_incentive_driver($data)
+    {
+        $this->db->insert('driver_incentive', $data);
     }
 
 }
