@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 23, 2019 at 10:20 AM
+-- Generation Time: Oct 09, 2019 at 10:47 AM
 -- Server version: 5.7.27-0ubuntu0.16.04.1
 -- PHP Version: 7.3.9-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -95,6 +95,22 @@ CREATE TABLE `consignors` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `diesel`
+--
+
+CREATE TABLE `diesel` (
+  `diesel_id` int(11) NOT NULL,
+  `trip_id` int(11) NOT NULL,
+  `vehicle_id` int(11) NOT NULL,
+  `driver_id` int(11) NOT NULL,
+  `diesel_date` date NOT NULL,
+  `diesel_quantity` int(11) NOT NULL,
+  `diesel_price` float NOT NULL COMMENT 'per li'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `driver`
 --
 
@@ -118,6 +134,19 @@ CREATE TABLE `driver` (
   `driver_refer_id` text NOT NULL,
   `driver_permanent_address` text NOT NULL,
   `driver_status` int(11) NOT NULL DEFAULT '1' COMMENT '0 deactive, 1 active, 2 running'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `driver_incentive`
+--
+
+CREATE TABLE `driver_incentive` (
+  `driver_incentive_id` int(11) NOT NULL,
+  `trip_id` int(11) NOT NULL,
+  `driver_id` int(11) NOT NULL,
+  `driver_incentive_amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -285,13 +314,16 @@ CREATE TABLE `trip` (
   `driver_id` int(11) NOT NULL,
   `trip_opening_km` int(11) NOT NULL,
   `trip_closing_km` int(11) NOT NULL,
-  `ok_delevery` int(11) NOT NULL,
-  `ok_delevery_remark` text NOT NULL,
-  `in_time_delevery` int(11) NOT NULL,
-  `in_time_delevery_remark` text NOT NULL,
+  `ok_delivery` int(11) NOT NULL,
+  `ok_delivery_remark` text NOT NULL,
+  `in_time_delivery` int(11) NOT NULL,
+  `in_time_delivery_remark` text NOT NULL,
+  `opening_diesel` float NOT NULL,
+  `closing_diesel` float NOT NULL,
   `allowance` double NOT NULL,
   `trip_start_date` date NOT NULL,
   `trip_end_date` date NOT NULL,
+  `trip_details_note` text NOT NULL,
   `trip_status` int(11) NOT NULL COMMENT '0 = active 1= stop'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -395,10 +427,22 @@ ALTER TABLE `consignors`
   ADD PRIMARY KEY (`consignor_id`);
 
 --
+-- Indexes for table `diesel`
+--
+ALTER TABLE `diesel`
+  ADD PRIMARY KEY (`diesel_id`);
+
+--
 -- Indexes for table `driver`
 --
 ALTER TABLE `driver`
   ADD PRIMARY KEY (`driver_id`);
+
+--
+-- Indexes for table `driver_incentive`
+--
+ALTER TABLE `driver_incentive`
+  ADD PRIMARY KEY (`driver_incentive_id`);
 
 --
 -- Indexes for table `freights`
@@ -514,10 +558,20 @@ ALTER TABLE `consignees`
 ALTER TABLE `consignors`
   MODIFY `consignor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
+-- AUTO_INCREMENT for table `diesel`
+--
+ALTER TABLE `diesel`
+  MODIFY `diesel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
   MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `driver_incentive`
+--
+ALTER TABLE `driver_incentive`
+  MODIFY `driver_incentive_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `freights`
 --
@@ -557,7 +611,7 @@ ALTER TABLE `mnt_history`
 -- AUTO_INCREMENT for table `payment_received`
 --
 ALTER TABLE `payment_received`
-  MODIFY `payment_received_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `payment_received_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `routes`
 --
@@ -582,7 +636,7 @@ ALTER TABLE `trip_details`
 -- AUTO_INCREMENT for table `trip_expenses`
 --
 ALTER TABLE `trip_expenses`
-  MODIFY `trip_expense_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `trip_expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `vehicle`
 --
