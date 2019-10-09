@@ -6,7 +6,7 @@ class Report extends CI_Controller {
 
     public function index()
     {
-        echo "page not found";
+        echo anchor(base_url('report/trip?month=10&year=2019'), 'month Name 10 and year 2019');
     }
 
     public function driver()
