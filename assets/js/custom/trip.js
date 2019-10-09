@@ -3,7 +3,7 @@ var url = $("#url").val();
 /**ready method  */
 jQuery(document).ready(function ($) {
     $("#loadingBlock").hide();
-    // $("#dataTable").dataTable();
+    $("#dataTable").dataTable();
     $('#freight_div').hide();
 });
 
@@ -206,6 +206,15 @@ $(document).on('change', "#select_consignor", function () {
         $("#select-routes").html(data);
     });
 
+});
+
+//Looking for carry forward diesel available or not 
+$(document).on('change','#vehicle_id',function(){
+    var vehicle_id = $("#vehicle_id").val();
+    var data = { 'vehicle_id': vehicle_id }
+    $.get(url+"trip/carry_forward_diesel",data,function(response){
+        alert(response);
+    });
 });
 $("#add_consignor").click(function () {
     $.ajax({
