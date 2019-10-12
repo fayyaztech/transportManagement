@@ -208,6 +208,19 @@ foreach (fetch_driver($this, 1) as $value) {
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="">Opening Balance<span class="text-danger">*</span></label>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<input type="number" name="opening_bal" id="opening_bal" class="form-control" >
+						</div>
+						</div>
+
+				</div>
 
 				<div class="row">
 					<div class="col-md-6"></div>

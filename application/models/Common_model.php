@@ -208,6 +208,47 @@ class Common_model extends CI_Model
         $this->db->insert('driver_incentive', $data);
     }
 
+    public function total_given_amt($trip_id)
+    {
+        /**amount paid to driver
+         * allowance
+         * opening balance
+         */
+        $this->db->select('opening_bal,allowance');
+        $this->db->where('trip_id', $trip_id);
+        $data = $this->db->get('trip')->row_array();
+        $d = 0;
+        foreach ($data as $v) {
+            $d += $v;
+        }
+        return $d;
+
+    }
+    public function total_paid_advance($trip_id)
+    {
+        $this->db->select('advance_amount');
+        $this->db->where('trip_id', $trip_id);
+        $data = $this->db->get('advances')->result_array();
+        $t = 0;
+       for ($i=0; $i < count($data); $i++) { 
+           $t += $data[$i]['advance_amount'];
+       }
+       return $t;
+    }
+
+    public function expenses($trip_id)
+    {
+        $this->db->select('trip_expense_amount');
+        $this->db->where('trip_id', $trip_id);
+        $data = $this->db->get('trip_expenses')->result_array();
+        $t = 0;
+       for ($i=0; $i < count($data); $i++) { 
+           $t += $data[$i]['trip_expense_amount'];
+       }
+       return $t;
+        
+    }
+
 }
 
 /* End of file common_model.php */

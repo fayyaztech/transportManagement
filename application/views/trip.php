@@ -58,9 +58,18 @@ foreach ($trip_data as $td) {
     $trip_status = $td['trip_status'];
     $driver_name = $td['driver_name'];
     $trip_id = $td['trip_id'];
+    $allowance = $td['allowance'];
     unset($td['client_name']);
     unset($td['vehicle_number']);
-    $trip[$trip_id]['client_details'] = ['driver_name' => $driver_name, 'consignor_name' => $consignor_name, 'vehicle_number' => $vehicle_number, 'consignee_name' => $consignee_name, 'trip_id' => $trip_id, 'trip_status' => $trip_status];
+    $trip[$trip_id]['client_details'] = [
+        'driver_name' => $driver_name,
+        'consignor_name' => $consignor_name,
+        'vehicle_number' => $vehicle_number,
+        'consignee_name' => $consignee_name,
+        'trip_id' => $trip_id,
+        'trip_status' => $trip_status,
+        'allowance'=>$allowance
+    ];
     $trip[$trip_id]['trip_details'][] = $td;
 }
 
@@ -95,7 +104,7 @@ if (!empty($trip)) {
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['consignee_name'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['vehicle_number'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['driver_name'] . '</td>
-            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . 1500 . '</td>
+            <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $trip_client['allowance'] . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id' => $trip_client['trip_id'], 'payment_received_type' => 0]) . '</td>
             <td style="vertical-align: middle;" rowspan="' . $row_span . '">' . $this->common_model->received_payments(['trip_id' => $trip_client['trip_id'], 'payment_received_type' => 1]) . '</td>';
 
@@ -158,8 +167,8 @@ if (!empty($trip)) {
             }
 
             if ($steps_count > 0) {echo "<tr>";}
-            echo '<td>' . $d["step_start_date"] . '</td>';
-            echo '<td>' . $stp_date . '</td>';
+            echo '<td>' . format_date($d["step_start_date"]) . '</td>';
+            echo '<td>' . format_date($stp_date) . '</td>';
             echo '<td>' . $d["route_origin"] . '-' . $d["route_destination"] . '</td>';
             //echo '<td>' . $d["driver_name"] . '</td>';
             echo '<td>' . $d["route_distance"] . '</td>';

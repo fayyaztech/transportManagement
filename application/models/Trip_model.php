@@ -53,7 +53,8 @@ class Trip_model extends CI_Model
                     'consignee_id' => $data['consignee_id'],
                     'allowance' => $data['allowance'],
                     'driver_id'=>$data['driver_id'],
-                    'opening_diesel'=>$data['opening_diesel']
+                    'opening_diesel'=>$data['opening_diesel'],
+                    'trip_opening_km'=>$data['trip_opening_km']
                 ]
             )
         ) {
@@ -75,7 +76,7 @@ class Trip_model extends CI_Model
         $this->db->select('driver.driver_name');
         $this->db->select('consignors.consignor_name');
         $this->db->select('vehicle.vehicle_id,vehicle.vehicle_number');
-        $this->db->order_by('trip.trip_start_date', 'asc');
+        $this->db->order_by('trip.trip_start_date', 'desc');
         $this->db->join('trip_details', 'trip.trip_id = trip_details.trip_id', 'left');
         $this->db->join('routes as route', 'trip_details.route_id = route.route_id', 'left');
         $this->db->join('consignors', 'trip.consignor_id = consignors.consignor_id');
@@ -195,9 +196,18 @@ class Trip_model extends CI_Model
 
     public function carry_forward_diesel($vehicle_id)
     {
+        // $this->db->select('closing_diesel');        
         $this->db->where('vehicle_id', $vehicle_id);
         $this->db->order_by('trip_end_date', 'desc');
-        return $this->db->get('trip')->result_array();
+        return $this->db->get('trip')->row_array()['closing_diesel'];
+    }
+
+    public function closing_bal($vehicle_id)
+    {
+        // $this->db->select('closing_bal');        
+        $this->db->where('vehicle_id', $vehicle_id);
+        $this->db->order_by('trip_end_date', 'desc');
+        return $this->db->get('trip')->row_array()['closing_bal'];
     }
 
 }

@@ -58,6 +58,13 @@
 					<input type="number" class="form-control col-md-6" name="driver_incentive">
 				</div>
 			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label for="">Closing balance</label>
+					<input type="text" class="form-control col-md-6" value="<?php echo $closing_balance; ?>" disabled="true">
+				</div>
+					<input type="hidden" class="form-control col-md-6" name="closing_bal" value="<?php echo $closing_balance; ?>">
+			</div>
 
 			<div class="row">
 				<div class="form-group col-md-12">

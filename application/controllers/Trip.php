@@ -133,7 +133,7 @@ class Trip extends CI_Controller
             if ($trip_id = $this->trip_model->save_trip_info($post)) {
                 $step['trip_id'] = $trip_id;
                 $this->trip_model->add_trip_step($step);
-                $this->trip_model->add_advance(['trip_id' => $trip_id, 'advance_amount' => $advance, 'advance_date' => $post['trip_start_date']]);
+                // $this->trip_model->add_advance(['trip_id' => $trip_id, 'advance_amount' => $advance, 'advance_date' => $post['trip_start_date']]);
                 $this->common_model->driver_unavailable($post['driver_id']);
                 $this->common_model->vehicle_unavailable($this->input->post('vehicle_id'));
                 $resp['code'] = 1;
@@ -410,6 +410,11 @@ class Trip extends CI_Controller
     public function end_trip_form()
     {
         $data['trip_id'] = $this->input->get('trip_id');
+        $total_opnbal = $this->common_model->total_given_amt($data['trip_id']);
+        $total_advance = $this->common_model->total_paid_advance($data['trip_id']);
+        $total_paid =  $total_opnbal + $total_advance;
+        $expenses = $this->common_model->expenses($data['trip_id']);
+        $data['closing_balance'] = $total_paid - $expenses;
         $this->load->view('trip/end_trip', $data);
 
     }
@@ -439,12 +444,16 @@ class Trip extends CI_Controller
         echo $r;
 
     }
-    public function carry_forward_diesel()
+    public function last_closings()
     {
+        /**Closing diesel
+         * closing balance
+         */
         $vehicle_id = $this->input->get('vehicle_id');
-        $data = $this->trip_model->carry_forward_diesel($vehicle_id);
-        var_dump($data);
-        
+        $data['diesel'] = $this->trip_model->carry_forward_diesel($vehicle_id);
+        $data['closing_bal'] = $this->trip_model->closing_bal($vehicle_id);
+        echo json_encode($data);
+
     }
 
 }

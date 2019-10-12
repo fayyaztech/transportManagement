@@ -212,8 +212,24 @@ $(document).on('change', "#select_consignor", function () {
 $(document).on('change','#vehicle_id',function(){
     var vehicle_id = $("#vehicle_id").val();
     var data = { 'vehicle_id': vehicle_id }
-    $.get(url+"trip/carry_forward_diesel",data,function(response){
-        alert(response);
+    $.get(url+"trip/last_closings",data,function(response){
+        var j = $.parseJSON(response);
+        if(j.diesel !== null){
+            $("#opening_diesel").val(j.diesel);
+            $("#opening_diesel").attr('disabled','true');
+        }else{
+            $("#opening_diesel").val('');
+            $("#opening_diesel").removeAttr('disabled');
+        }
+
+        if(j.closing_bal !== null){
+            $("#opening_bal").val(j.closing_bal);
+            $("#opening_bal").attr('disabled','true');
+        }else{
+            $("#opening_bal").val('');
+            $("#opening_bal").removeAttr('disabled');
+        }
+
     });
 });
 $("#add_consignor").click(function () {
@@ -322,6 +338,8 @@ $(document).on('submit', "#add_trip_step", function (event) {
 $(document).on('submit', "#add_trip", function (event) {
     event.preventDefault();
     $("#loadingBlock").show();
+    $("#opening_diesel").removeAttr('disabled');
+    $("#opening_bal").removeAttr('disabled');
     $.ajax({
         url: url + "trip/add_trip",
         method: "post",
